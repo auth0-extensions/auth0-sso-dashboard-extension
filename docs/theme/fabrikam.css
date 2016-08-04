@@ -1,0 +1,13 @@
+header.dashboard-header {
+  background-color: #cee7ff !important;
+  border-bottom-color: #00519e !important;
+}
+
+.navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover {
+  color: #000 !important;
+}
+
+header.dashboard-header nav #header {
+  background-size: 50px 40px !important;
+  background-image: url("https://rawgit.com/auth0-extensions/auth0-delegated-administration-extension/master/docs/theme/fabrikam.svg") !important;
+}
