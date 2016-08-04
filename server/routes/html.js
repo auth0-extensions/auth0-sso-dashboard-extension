@@ -43,7 +43,7 @@ export default () => {
     if (!basePath.startsWith('/')) basePath = `/${basePath}`;
     if (!basePath.endsWith('/')) basePath = `${basePath}/`;
     return basePath;
-  }
+  };
 
   return (req, res, next) => {
     if (req.url.indexOf('/api') === 0) {

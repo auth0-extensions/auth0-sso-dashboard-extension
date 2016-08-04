@@ -13,7 +13,6 @@ import users from './users';
 export default () => {
   const api = Router();
   api.use(middlewares.managementClient);
-  api.use(middlewares.parseUser);
   api.use(jwt({
     secret: expressJwtSecret({
       cache: true,

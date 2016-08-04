@@ -1,10 +1,9 @@
 let _lock = null;
 
 function getLock() {
-  if (window.config.EXTENSION_CLIENT_ID && !_lock) {
-    _lock = new Auth0Lock(window.config.EXTENSION_CLIENT_ID, window.config.AUTH0_DOMAIN);
+  if (window.config.AUTH0_CLIENT_ID && !_lock) {
+    _lock = new Auth0Lock(window.config.AUTH0_CLIENT_ID, window.config.AUTH0_DOMAIN);
   }
-
   return _lock;
 }
 
@@ -40,6 +39,6 @@ export function show(returnUrl) {
     authParams: {
       state: returnUrl
     },
-    connections: ['my-connection', 'google-oauth2']
+    connections: ['my-connection']
   });
 }
