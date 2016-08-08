@@ -27,7 +27,9 @@ export default class ApplicationForm extends Component {
     }
     const application = this.props.application.toJS();
     const options = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
-
+    const appLogo = application.client_metadata&&application.client_metadata['sso-dashboard-logo']?application.client_metadata['sso-dashboard-logo']:'';
+    const appType = application.client_metadata&&application.client_metadata['sso-dashboard-type']?application.client_metadata['sso-dashboard-type']:'';
+    const appEnabled = application.client_metadata&&application.client_metadata['sso-dashboard-enabled']?application.client_metadata['sso-dashboard-enabled']:false;
     return <div>
       <form className="appForm" onSubmit={(e) => {
         e.preventDefault();
@@ -42,17 +44,19 @@ export default class ApplicationForm extends Component {
           <select className="form-control" name="sso-dashboard-type" required>
             <option value=""></option>
             {options.map((option, index) => {
-              return <option key={index} value={option.value}>{option.text}</option>;
+              return <option key={index}
+                             selected={appType == option.value}
+                             value={option.value}>{option.text}</option>;
             })}
           </select>
       </div>
       <div>
         <label>Logo</label> <input name="sso-dashboard-logo" className="form-control" type="text"
-                                   defaultValue={(application.client_metadata&&application.client_metadata['sso-dashboard-logo'])?application.client_metadata['sso-dashboard-logo']:""}
+                                   defaultValue={appLogo}
                                    required />
       </div>
       <div>
-        <label>Enabled?</label> <input name="sso-dashboard-enabled" type="checkbox" value={1} style={{'margin-left':'10px'}} />
+        <label>Enabled?</label> <input name="sso-dashboard-enabled" type="checkbox" value={1} style={{'margin-left':'10px'}} defaultChecked ={appEnabled} />
       </div>
       <br />
       <button className="btn btn-success">Update</button>
