@@ -6,7 +6,8 @@ import createReducer from '../utils/createReducer';
 const initialState = {
   loading: false,
   error: null,
-  records: []
+  records: [],
+  total: 0
 };
 
 export const applications = createReducer(fromJS(initialState), {
