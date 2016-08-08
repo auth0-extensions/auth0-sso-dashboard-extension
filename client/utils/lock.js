@@ -33,7 +33,7 @@ export function show(returnUrl) {
 
   lock.show({
     closable: false,
-    allowSignUp: false,
+    disableSignupAction: true,
     responseType: 'token',
     callbackURL: `${window.config.BASE_URL}/login`,
     callbackOnLocationHash: true,
