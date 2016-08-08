@@ -18,15 +18,37 @@ export default class ApplicationsTable extends Component {
     return (
       <Table>
         <TableHeader>
-          <TableColumn width="100%">Name</TableColumn>
+          <TableColumn width="15%">Logo</TableColumn>
+          <TableColumn width="50%">Name</TableColumn>
+          <TableColumn width="20">SSO-Type</TableColumn>
+          <TableColumn width="15">Status</TableColumn>
         </TableHeader>
         <TableBody>
         {applications.map((application, index) => {
-          return (
-              <TableRow key={index}>
-                <TableRouteCell route={`/applications/${application.client_id}`}>{ application.name || application.client_id }</TableRouteCell>
-              </TableRow>
-            );
+            if(application.client_metadata) {
+                return (
+                    <TableRow key={index}>
+                        <TableCell>
+                            <img className="img-circle" src={ application.client_metadata['sso-dashboard-logo'] } alt={ application.name || application.client_id} width="32" />
+                        </TableCell>
+                        <TableRouteCell route={`/applications/${application.client_id}`}>{ application.name || application.client_id }</TableRouteCell>
+                        <TableTextCell>{ application.client_metadata['sso-dashboard-type'] }</TableTextCell>
+                        <TableTextCell>{ application.client_metadata['sso-dashboard-enabled']=='1'?'Yes':'No' }</TableTextCell>
+                    </TableRow>
+                );
+            } else {
+                return (
+                    <TableRow key={index}>
+                        <TableCell>
+                            <img className="img-circle" src="https://rawgit.com/auth0-extensions/auth0-delegated-administration-extension/master/docs/theme/fabrikam.svg" alt={ application.name || application.client_id} width="32" />
+                        </TableCell>
+                        <TableRouteCell route={`/applications/${application.client_id}`}>{ application.name || application.client_id }</TableRouteCell>
+                        <TableTextCell>None</TableTextCell>
+                        <TableTextCell>None</TableTextCell>
+                    </TableRow>
+                );
+            }
+
         })}
         </TableBody>
       </Table>

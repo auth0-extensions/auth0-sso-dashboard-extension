@@ -1,5 +1,9 @@
 import React, { PropTypes, Component } from 'react';
 import { Error, Json, LoadingPanel, InputCombo, InputText } from '../Dashboard';
+import Alert from 'react-s-alert';
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/slide.css';
+
 
 export default class ApplicationForm extends Component {
   static propTypes = {
@@ -11,10 +15,6 @@ export default class ApplicationForm extends Component {
 
   shouldComponentUpdate(nextProps) {
     return nextProps.application !== this.props.application || nextProps.loading !== this.props.loading;
-  }
-
-  getInitialState() {
-    return {value: 'Hello!'};
   }
 
   handleChange(event) {
@@ -29,15 +29,23 @@ export default class ApplicationForm extends Component {
     const options = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
     const appLogo = application.client_metadata&&application.client_metadata['sso-dashboard-logo']?application.client_metadata['sso-dashboard-logo']:'';
     const appType = application.client_metadata&&application.client_metadata['sso-dashboard-type']?application.client_metadata['sso-dashboard-type']:'';
-    const appEnabled = application.client_metadata&&application.client_metadata['sso-dashboard-enabled']?application.client_metadata['sso-dashboard-enabled']:false;
+    const appEnabled = application.client_metadata&&application.client_metadata['sso-dashboard-enabled']?application.client_metadata['sso-dashboard-enabled']=='1':false;
     return <div>
+      <Alert stack={{limit: 3}} position='top' />
       <form className="appForm" onSubmit={(e) => {
         e.preventDefault();
         var arr = $('.appForm').serializeArray(), obj = {};
         $.each(arr, function(indx, el){
            obj[el.name] = el.value;
         });
-        return this.props.updateApplication(application.client_id,obj);
+        if(!obj['sso-dashboard-enabled'])
+          obj['sso-dashboard-enabled']='0';
+        return this.props.updateApplication(application.client_id,obj, function(callback) {
+          Alert.info('Application meta-data was successfully saved.',{
+            effect: 'slide',
+            onClose: callback
+          });
+        });
       }}>
       <div>
           <label>Type</label>
@@ -51,12 +59,12 @@ export default class ApplicationForm extends Component {
           </select>
       </div>
       <div>
-        <label>Logo</label> <input name="sso-dashboard-logo" className="form-control" type="text"
+        <label>Logo</label> <input name="sso-dashboard-logo" className="form-control" type="url"
                                    defaultValue={appLogo}
                                    required />
       </div>
       <div>
-        <label>Enabled?</label> <input name="sso-dashboard-enabled" type="checkbox" value={1} style={{'margin-left':'10px'}} defaultChecked ={appEnabled} />
+        <label>Enabled?</label> <input name="sso-dashboard-enabled" type="checkbox" value={1} style={{'margin-left':'10px'}} defaultChecked={appEnabled} />
       </div>
       <br />
       <button className="btn btn-success">Update</button>

@@ -52,6 +52,7 @@
     "morgan": "^1.7.0",
     "ms": "^0.7.1",
     "nconf": "^0.8.4",
+    "react-s-alert": "^1.1.4",
     "request": "^2.34.0",
     "request-promise": "^2.0.1",
     "semver": "^5.1.0",

@@ -55,7 +55,9 @@ export function updateApplication(appId, data, onSuccess) {
       meta: {
         appId,
         onSuccess: () => {
-        dispatch(fetchApplication(appId));
+        onSuccess(function() {
+          dispatch(fetchApplication(appId));
+        });
   }
   },
     payload: {
