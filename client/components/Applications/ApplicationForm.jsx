@@ -13,12 +13,21 @@ export default class ApplicationForm extends Component {
     return nextProps.application !== this.props.application || nextProps.loading !== this.props.loading;
   }
 
+  getInitialState() {
+    return (this.props.application.client_metadata&&this.props.application.client_metadata['sso-dashboard-logo'])?this.props.application.client_metadata['sso-dashboard-logo']:""
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
   render() {
     if (this.props.loading || this.props.error) {
       return <div></div>;
     }
     const application = this.props.application.toJS();
     const options = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
+
     return <div>
       <form className="appForm" onSubmit={(e) => {
         e.preventDefault();
@@ -38,7 +47,10 @@ export default class ApplicationForm extends Component {
           </select>
       </div>
       <div>
-        <label>Logo</label> <input name="sso-dashboard-logo" className="form-control" type="text" value={(application.client_metadata&&application.client_metadata['sso-dashboard-logo'])?application.client_metadata['sso-dashboard-logo']:""} required />
+        <label>Logo</label> <input name="sso-dashboard-logo" className="form-control" type="text"  required
+                                   value={this.state.value}
+                                   onChange={this.handleChange}
+        />
       </div>
       <div>
         <label>Enabled?</label> <input name="sso-dashboard-enabled" type="checkbox" value={1} style={{'margin-left':'10px'}} />
