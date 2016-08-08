@@ -18,6 +18,7 @@ export default class ApplicationForm extends Component {
       return <div></div>;
     }
     const application = this.props.application.toJS();
+    const options = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
     return <div>
       <form className="appForm" onSubmit={(e) => {
         e.preventDefault();
@@ -29,18 +30,16 @@ export default class ApplicationForm extends Component {
       }}>
       <div>
           <label>Type</label>
-          <select className="form-control" name="sso-dashboard-type">
-            <option value="">Select...</option>;
-            <option value="saml">saml</option>;
-            <option value="openid">openid</option>;
-            <option value="ws-fed">ws-fed</option>;
+          <select className="form-control" name="sso-dashboard-type" required>
+            <option value=""></option>
+            {options.map((option, index) => {
+              return <option key={index} value={option.value}>{option.text}</option>;
+            })}
           </select>
       </div>
-        <br />
       <div>
-        <label>Logo</label> <input name="sso-dashboard-logo" className="form-control" type="text" value="1" />
+        <label>Logo</label> <input name="sso-dashboard-logo" className="form-control" type="text" default={application.client_metadata&&app.client_metadata['sso-dashboard-logo']?app.client_metadata['sso-dashboard-logo']:"test"} required />
       </div>
-        <br />
       <div>
         <label>Enabled?</label> <input name="sso-dashboard-enabled" type="checkbox" value={1} style={{'margin-left':'10px'}} />
       </div>
