@@ -59,7 +59,7 @@ export function updateApplication(appId, data, onSuccess) {
   }
   },
     payload: {
-      promise: axios.patch(`/api/applications/${appId}`, data , {
+      promise: axios.put(`/api/applications/${appId}`, data , {
         responseType: 'json'
       })
     }

@@ -4,5 +4,7 @@ export Logs from './Logs';
 export RequireAuthentication from './RequireAuthentication';
 export User from './Users/User';
 export Users from './Users/Users';
+export Applications from './Applications/Applications';
+export Application from './Applications/Application';
 export PasswordResetDialog from './Users/PasswordResetDialog';
 export PasswordChangeDialog from './Users/PasswordChangeDialog';

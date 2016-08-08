@@ -20,7 +20,7 @@ export default () => {
    */
   api.get('/', (req, res, next) => {
     req.auth0.clients.getAll()
-      .then(clients => _.filter(clients, (client) => (client.client_metadata && client.client_metadata['sso-dashboard-enabled'])))
+     // .then(clients => _.filter(clients, (client) => (client.client_metadata && client.client_metadata['sso-dashboard-enabled'])))
       .then(clients => res.json(clients))
       .catch(next);
   });
@@ -29,19 +29,18 @@ export default () => {
    * Get application.
    */
   api.get('/:id', (req, res, next) => {
-    req.auth0.clients.getAll({ client_id: req.params.id })
-      .then(clients => res.json(clients))
-      .catch(next);
+    req.auth0.clients.get({ client_id: req.params.id })
+    .then(application => res.json({ application }))
+    .catch(next);
   });
-
   /*
    * Update applications metadata.
    */
   api.put('/:id', (req, res, next) => {
     const data = { client_metadata: {
-      'sso-dashboard-enabled': req.body.enabled,
-      'sso-dashboard-type': req.body.type,
-      'sso-dashboard-logo': req.body.logo
+      'sso-dashboard-enabled': req.body.sso-dashboard-enabled,
+      'sso-dashboard-type': req.body.sso-dashboard-type,
+      'sso-dashboard-logo': req.body.sso-dashboard-logo
     }};
     const params = { client_id: req.params.id };
 
