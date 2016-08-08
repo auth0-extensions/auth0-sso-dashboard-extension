@@ -10,6 +10,8 @@ export default (history) =>
       <Route path="logs" component={containers.Logs} />
       <Route path="users" component={containers.Users} />
       <Route path="users/:id" component={containers.User} />
+      <Route path="applications" component={containers.Applications} />
+      <Route path="applications/:id" component={containers.Application} />
     </Route>
     <Route path="/login" component={containers.Login} />
   </Router>;

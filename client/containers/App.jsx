@@ -31,6 +31,7 @@ class App extends Component {
                   <ul className="nav nav-tabs">
                     <NavigationLink title="Users" route="/users" />
                     <NavigationLink title="Logs" route="/logs" />
+                    <NavigationLink title="Applications" route="/applications" />
                   </ul>
                 </div>
                 <div id="content-area" className="tab-content">
