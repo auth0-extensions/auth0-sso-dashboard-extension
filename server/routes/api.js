@@ -26,6 +26,7 @@ export default () => {
     issuer: `https://${config('AUTH0_DOMAIN')}/`,
     algorithms: [ 'RS256' ]
   }));
+  api.use(middlewares.getUser);
   api.use('/applications', applications());
   api.use('/connections', connections());
   api.use('/users', middlewares.isAdmin, users());
