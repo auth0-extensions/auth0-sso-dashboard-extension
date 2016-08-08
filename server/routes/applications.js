@@ -38,9 +38,9 @@ export default () => {
    */
   api.put('/:id', (req, res, next) => {
     const data = { client_metadata: {
-      'sso-dashboard-enabled': req.body.sso-dashboard-enabled,
-      'sso-dashboard-type': req.body.sso-dashboard-type,
-      'sso-dashboard-logo': req.body.sso-dashboard-logo
+      'sso-dashboard-enabled': req.body['sso-dashboard-enabled'],
+      'sso-dashboard-type': req.body['sso-dashboard-type'],
+      'sso-dashboard-logo': req.body['sso-dashboard-logo']
     }};
     const params = { client_id: req.params.id };
 
