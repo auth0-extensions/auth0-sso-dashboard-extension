@@ -30,11 +30,6 @@ export default () => {
    */
   api.get('/:id', (req, res, next) => {
     req.auth0.clients.getAll({ client_id: req.params.id })
-      .then(clients => _.chain(clients)
-        .filter({ client_metadata: false })
-        .sortBy((client) => client.name.toLowerCase())
-        .value()
-      )
       .then(clients => res.json(clients))
       .catch(next);
   });

@@ -33,12 +33,12 @@ export function show(returnUrl) {
 
   lock.show({
     closable: false,
+    allowSignUp: false,
     responseType: 'token',
     callbackURL: `${window.config.BASE_URL}/login`,
     callbackOnLocationHash: true,
     authParams: {
       state: returnUrl
-    },
-    connections: ['my-connection']
+    }
   });
 }
