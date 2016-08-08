@@ -14,7 +14,7 @@ export default class ApplicationForm extends Component {
   }
 
   getInitialState() {
-    return (this.props.application.client_metadata&&this.props.application.client_metadata['sso-dashboard-logo'])?this.props.application.client_metadata['sso-dashboard-logo']:""
+    return {value: 'Hello!'};
   }
 
   handleChange(event) {
@@ -47,10 +47,9 @@ export default class ApplicationForm extends Component {
           </select>
       </div>
       <div>
-        <label>Logo</label> <input name="sso-dashboard-logo" className="form-control" type="text"  required
-                                   value={this.state.value}
-                                   onChange={this.handleChange}
-        />
+        <label>Logo</label> <input name="sso-dashboard-logo" className="form-control" type="text"
+                                   defaultValue={(application.client_metadata&&application.client_metadata['sso-dashboard-logo'])?application.client_metadata['sso-dashboard-logo']:""}
+                                   required />
       </div>
       <div>
         <label>Enabled?</label> <input name="sso-dashboard-enabled" type="checkbox" value={1} style={{'margin-left':'10px'}} />
