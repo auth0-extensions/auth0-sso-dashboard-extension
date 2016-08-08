@@ -38,7 +38,7 @@ export default class ApplicationForm extends Component {
           </select>
       </div>
       <div>
-        <label>Logo</label> <input name="sso-dashboard-logo" className="form-control" type="text" default={application.client_metadata&&app.client_metadata['sso-dashboard-logo']?app.client_metadata['sso-dashboard-logo']:"test"} required />
+        <label>Logo</label> <input name="sso-dashboard-logo" className="form-control" type="text" value={(application.client_metadata&&application.client_metadata['sso-dashboard-logo'])?application.client_metadata['sso-dashboard-logo']:""} required />
       </div>
       <div>
         <label>Enabled?</label> <input name="sso-dashboard-enabled" type="checkbox" value={1} style={{'margin-left':'10px'}} />
