@@ -40,7 +40,8 @@ export default () => {
     const data = { client_metadata: {
       'sso-dashboard-enabled': req.body['sso-dashboard-enabled'],
       'sso-dashboard-type': req.body['sso-dashboard-type'],
-      'sso-dashboard-logo': req.body['sso-dashboard-logo']
+      'sso-dashboard-logo': req.body['sso-dashboard-logo'],
+      'sso-dashboard-callback': req.body['sso-dashboard-callback']
     }};
     const params = { client_id: req.params.id };
 
