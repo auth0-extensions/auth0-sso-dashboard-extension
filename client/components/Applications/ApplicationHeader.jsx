@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import React, {Component, PropTypes} from 'react';
+import {Link} from 'react-router';
 
 export default class ApplicationHeader extends Component {
   static propTypes = {
@@ -18,7 +18,7 @@ export default class ApplicationHeader extends Component {
         <h4>
                   <span className="name user-head-nickname">
                     { application.name } -
-                    <Link to="/applications"> back </Link>
+                    <Link to="/applications/settings"> back </Link>
                   </span>
         </h4>
       </div>
