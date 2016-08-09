@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { logout } from '../actions/auth';
-import { applicationActions, connectionActions } from '../actions';
+import { applicationActions, connectionActions, statusActions } from '../actions';
 
 import Header from '../components/Header';
 import { NavigationLink } from '../components/Dashboard';
@@ -15,14 +15,13 @@ class App extends Component {
   };
 
   componentWillMount() {
-    this.props.fetchApplications(true);
-    this.props.fetchConnections();
+    this.props.fetchStatus();
   }
 
   render() {
     return (
       <div>
-        <Header user={this.props.user} issuer={this.props.issuer} onLogout={this.props.logout} />
+        <Header user={this.props.user} issuer={this.props.issuer} onLogout={this.props.logout} isAdmin={this.props.isAdmin} />
         <div className="container">
           <div className="row">
             <section className="content-page current">
@@ -43,8 +42,9 @@ function select(state) {
   return {
     issuer: state.auth.get('issuer'),
     user: state.auth.get('user'),
-    ruleStatus: state.ruleStatus
+    ruleStatus: state.ruleStatus,
+    isAdmin:state.status.get('isAdmin')
   };
 }
 
-export default connect(select, { logout, ...applicationActions, ...connectionActions })(App);
+export default connect(select, { logout, ...applicationActions, ...connectionActions, ...statusActions })(App);

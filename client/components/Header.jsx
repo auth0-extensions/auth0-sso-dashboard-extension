@@ -6,6 +6,7 @@ export default class Header extends Component {
   static propTypes = {
     user: React.PropTypes.object,
     issuer: React.PropTypes.string,
+    isAdmin: React.PropTypes.bool,
     onLogout: React.PropTypes.func.isRequired
   }
 
@@ -22,7 +23,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const { user, issuer, onLogout } = this.props;
+    const { user, issuer, onLogout, isAdmin } = this.props;
     return (
       <header className="dashboard-header">
         <nav role="navigation" className="navbar navbar-default">
@@ -46,11 +47,13 @@ export default class Header extends Component {
                         Applications
                       </Link>
                     </li>
+                    { isAdmin ?
                     <li role="presentation">
                       <Link role="menuitem" tabIndex="0" to="/applications/settings">
                         Settings
                       </Link>
                     </li>
+                     :''}
                     <li role="presentation">
                       <a href="#" role="menuitem" tabIndex="-1" onClick={onLogout}>
                         Logout
