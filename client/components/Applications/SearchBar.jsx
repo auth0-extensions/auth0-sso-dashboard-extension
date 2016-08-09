@@ -25,7 +25,7 @@ export default class SearchBar extends Component {
           <div className="advanced-search-control">
             <span className="search-area">
               <i className="icon-budicon-489"></i>
-              <input className="user-input" type="text" ref="search" placeholder="Search for apps using the Lucene syntax"
+              <input className="user-input" type="text" ref="search" placeholder="Search for apps"
                 spellCheck="false" style={{ marginLeft: '10px' }} onKeyPress={this.onKeyPress}
               />
             </span>
@@ -40,7 +40,6 @@ export default class SearchBar extends Component {
         <div className="col-xs-12">
           <div className="help-block">
             To perform your search, press <span className="keyboard-button">enter</span>.
-            You can also search for specific fields, eg: <strong>name:"slack"</strong>.
           </div>
         </div>
       </div>

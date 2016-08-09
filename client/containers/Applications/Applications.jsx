@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import _ from 'lodash';
 import * as actions from '../../actions/application';
-
 import { ApplicationOverview } from '../../components/Applications';
 
 import './Applications.css';
@@ -14,15 +13,22 @@ class Applications extends Component {
   }
 
   onSearch = (query) => {
-    this.props.fetchApplications(query);
+    if(query) {
+      let apps = _.filter(this.props.applications, (app) =>  app.name.toLowerCase().indexOf(query) > -1);
+      this.props.apps = apps;
+      this.setState({apps:apps});
+    } else {
+      this.onReset();
+    }
   }
 
   onReset = () => {
-    this.props.fetchApplications('', true);
+    this.props.fetchApplications();
   }
 
   render() {
-    const { loading, error, applications, total } = this.props;
+    const { loading, error, apps, total } = this.props;
+
     return (
       <div className="users">
         <div className="row content-header">
@@ -30,8 +36,8 @@ class Applications extends Component {
             <h2>Applications</h2>
           </div>
         </div>
-        <ApplicationOverview onReset={this.onReset} onSearch={this.onSearch}
-          error={error} applications={applications} total={total} loading={loading}
+        <ApplicationOverview onReset={this.onReset.bind(this)} onSearch={this.onSearch.bind(this)}
+          error={error} applications={apps} total={total} loading={loading}
         />
       </div>
     );
@@ -43,6 +49,7 @@ function mapStateToProps(state) {
     error: state.applications.get('error'),
     loading: state.applications.get('loading'),
     applications: state.applications.get('records').toJS(),
+    apps: state.applications.get('records').toJS(),
     total: state.applications.get('total'),
     nextPage: state.applications.get('nextPage')
   };
