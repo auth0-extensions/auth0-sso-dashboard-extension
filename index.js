@@ -24,7 +24,7 @@ nconf
     NODE_ENV: 'development',
     HOSTING_ENV: 'default',
     PORT: 3000,
-    TITLE: 'User Management'
+    TITLE: 'SSO Dashboard'
   });
 
 // Start the server.

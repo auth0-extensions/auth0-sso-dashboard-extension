@@ -49,11 +49,10 @@ export default class ApplicationForm extends Component {
       }}>
       <div>
           <label>Type</label>
-          <select className="form-control" name="sso-dashboard-type" required>
+          <select className="form-control" name="sso-dashboard-type" defaultValue={appType} required>
             <option value=""></option>
             {options.map((option, index) => {
               return <option key={index}
-                             selected={appType == option.value}
                              value={option.value}>{option.text}</option>;
             })}
           </select>
@@ -64,7 +63,7 @@ export default class ApplicationForm extends Component {
                                    required />
       </div>
       <div>
-        <label>Enabled?</label> <input name="sso-dashboard-enabled" type="checkbox" value={1} style={{'margin-left':'10px'}} defaultChecked={appEnabled} />
+        <label>Enabled?</label> <input name="sso-dashboard-enabled" type="checkbox" value={1} style={{'marginLeft':'10px'}} defaultChecked={appEnabled} />
       </div>
       <br />
       <button className="btn btn-success">Update</button>

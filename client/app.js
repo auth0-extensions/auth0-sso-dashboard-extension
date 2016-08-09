@@ -32,7 +32,7 @@ ReactDOM.render(
   document.getElementById('app')
 );
 
-store.dispatch(push('/users'));
+store.dispatch(push('/applications'));
 
 // Show the developer tools.
 if (process.env.NODE_ENV !== 'production') {

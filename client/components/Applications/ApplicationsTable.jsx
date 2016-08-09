@@ -16,8 +16,7 @@ import {
 export default class ApplicationsTable extends Component {
   static propTypes = {
     applications: React.PropTypes.array.isRequired,
-    loading: React.PropTypes.bool.isRequired,
-    renderActions: React.PropTypes.func.isRequired
+    loading: React.PropTypes.bool.isRequired
   }
 
   shouldComponentUpdate(nextProps) {
@@ -27,7 +26,7 @@ export default class ApplicationsTable extends Component {
   render() {
     const {applications, renderActions} = this.props;
     return (
-      <div id="cards-component" class="tab-pane">
+      <div id="cards-component" className="tab-pane">
         {applications.map((application, index) => {
           const logo = (application.client_metadata) ? application.client_metadata['sso-dashboard-logo'] : 'https://rawgit.com/auth0-extensions/auth0-delegated-administration-extension/master/docs/theme/fabrikam.svg';
           const type = (application.client_metadata) ? application.client_metadata['sso-dashboard-type'] : 'None';

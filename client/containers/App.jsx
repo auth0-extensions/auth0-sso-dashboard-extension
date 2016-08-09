@@ -27,13 +27,6 @@ class App extends Component {
           <div className="row">
             <section className="content-page current">
               <div className="col-xs-12">
-                <div className="widget-title title-with-nav-bars">
-                  <ul className="nav nav-tabs">
-                    <NavigationLink title="Users" route="/users" />
-                    <NavigationLink title="Logs" route="/logs" />
-                    <NavigationLink title="Applications" route="/applications" />
-                  </ul>
-                </div>
                 <div id="content-area" className="tab-content">
                   { this.props.children }
                 </div>

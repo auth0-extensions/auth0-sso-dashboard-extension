@@ -40,7 +40,7 @@ Customers can choose to implement their custom style, to do so the following set
 
 ```json
 {
-  "TITLE": "Fabrikam User Management",
+  "TITLE": "Fabrikam SSO Dashboard",
   "CUSTOM_CSS": "https://rawgithub.com/auth0-extensions/auth0-delegated-administration-extension/master/docs/theme/style.css"
 }
 ```

@@ -14,11 +14,6 @@ export default connectContainer(class extends Component {
     ...applicationActions
   }
 
-  static propTypes = {
-    config: PropTypes.object.isRequired,
-    fetchConfiguration: PropTypes.func.isRequired
-  }
-
   componentWillMount() {
     this.props.fetchApplication(this.props.params.id);
   }
@@ -41,12 +36,12 @@ export default connectContainer(class extends Component {
         </div>
         <div className="row user-tabs">
           <div className="col-xs-12">
-            <Tabs defaultActiveKey={1} animation={false}>
-              <Tab eventKey={1} title="Info">
-                <ApplicationInfo loading={application.get('loading')} application={application.get('record')} error={application.get('error')} />
-              </Tab>
-              <Tab eventKey={2} title="Update">
+            <Tabs id="sso-app-tabs" defaultActiveKey={1} animation={false}>
+              <Tab eventKey={1} title="Settings">
                 <ApplicationForm updateApplication={this.props.updateApplication} loading={application.get('loading')} application={application.get('record')} error={application.get('error')} />
+              </Tab>
+              <Tab eventKey={2} title="Info">
+                <ApplicationInfo loading={application.get('loading')} application={application.get('record')} error={application.get('error')} />
               </Tab>
             </Tabs>
           </div>
