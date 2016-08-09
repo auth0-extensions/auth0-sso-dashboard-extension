@@ -15,7 +15,7 @@ class App extends Component {
   };
 
   componentWillMount() {
-    this.props.fetchApplications();
+    this.props.fetchApplications(true);
     this.props.fetchConnections();
   }
 

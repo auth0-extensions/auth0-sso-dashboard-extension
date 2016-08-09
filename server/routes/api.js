@@ -27,5 +27,8 @@ export default () => {
   api.use(middlewares.getUser);
   api.use('/applications', applications());
   api.use('/connections', connections());
+  api.get('/status', (req, res) => {
+    res.json({isAdmin: req.user.isAdmin});
+  });
   return api;
 };

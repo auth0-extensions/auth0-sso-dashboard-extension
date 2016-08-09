@@ -25,8 +25,3 @@ header.dashboard-header nav #header {
   top: 2px;
   position: relative;
 }
-
-article.card-docs {
-  min-height: 256px;
-  margin-bottom: 15px;
-}

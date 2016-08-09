@@ -5,3 +5,23 @@
 .users .content-header .h2 {
   margin-top: 0px;
 }
+
+article.card-docs {
+  min-height: 256px;
+  margin-bottom: 15px;
+}
+
+.user-app {
+  width: 15%;
+  float: left;
+  margin-bottom: 20px;
+  margin-right: 25px;
+}
+
+.user-app .img-circle {
+  width: 100%;
+}
+
+.user-app h4 {
+  text-align: center;
+}

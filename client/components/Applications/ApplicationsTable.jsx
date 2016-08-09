@@ -1,18 +1,6 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router';
 
-import {
-  TableActionCell,
-  Table,
-  TableCell,
-  TableRouteCell,
-  TableBody,
-  TableTextCell,
-  TableHeader,
-  TableColumn,
-  TableRow
-} from '../Dashboard';
-
 export default class ApplicationsTable extends Component {
   static propTypes = {
     applications: React.PropTypes.array.isRequired,
