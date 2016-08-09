@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 
 export default class ApplicationHeader extends Component {
   static propTypes = {
@@ -16,7 +17,8 @@ export default class ApplicationHeader extends Component {
       <div className="user-header">
         <h4>
                   <span className="name user-head-nickname">
-                    { application.name }
+                    { application.name } -
+                    <Link to="/applications"> back </Link>
                   </span>
         </h4>
       </div>

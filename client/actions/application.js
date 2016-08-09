@@ -5,21 +5,16 @@ import * as constants from '../constants';
 /*
  * Load all applications in an Auth0 account.
  */
-export function fetchApplications(search = '', reset = false, page = 0) {
+export function fetchApplications(enabledOnly) {
+  const all = (enabledOnly) ? '' : '/all';
+
   return (dispatch) => {
     dispatch({
       type: constants.FETCH_APPLICATIONS,
       payload: {
-        promise: axios.get('/api/applications', {
-          params: {
-            search,
-            page
-          },
+        promise: axios.get(`/api/applications${all}`, {
           responseType: 'json'
         })
-      },
-      meta: {
-        page
       }
     });
   };

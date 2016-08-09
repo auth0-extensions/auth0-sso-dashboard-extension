@@ -20,7 +20,7 @@ export default () => {
    */
   api.get('/', (req, res, next) => {
     req.auth0.clients.getAll()
-     // .then(clients => _.filter(clients, (client) => (client.client_metadata && client.client_metadata['sso-dashboard-enabled'])))
+      .then(clients => _.filter(clients, (client) => (client.client_metadata && client.client_metadata['sso-dashboard-enabled'])))
       .then(clients => res.json(clients))
       .catch(next);
   });

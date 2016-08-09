@@ -7,8 +7,6 @@ import * as middlewares from '../lib/middlewares';
 
 import applications from './applications';
 import connections from './connections';
-import logs from './logs';
-import users from './users';
 
 export default () => {
   const api = Router();
@@ -29,7 +27,5 @@ export default () => {
   api.use(middlewares.getUser);
   api.use('/applications', applications());
   api.use('/connections', connections());
-  api.use('/users', middlewares.isAdmin, users());
-  api.use('/logs', logs());
   return api;
 };

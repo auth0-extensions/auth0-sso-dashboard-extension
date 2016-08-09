@@ -11,8 +11,7 @@ export default class ApplicationOverview extends React.Component {
     error: React.PropTypes.object,
     applications: React.PropTypes.array.isRequired,
     total: React.PropTypes.number.isRequired,
-    loading: React.PropTypes.bool.isRequired,
-    renderActions: React.PropTypes.func.isRequired
+    loading: React.PropTypes.bool.isRequired
   }
 
   onKeyPress = (e) => {
@@ -22,7 +21,7 @@ export default class ApplicationOverview extends React.Component {
   }
 
   render() {
-    const { loading, error, applications, total, renderActions } = this.props;
+    const { loading, error, applications, total } = this.props;
 
     return (
       <div>
@@ -32,10 +31,10 @@ export default class ApplicationOverview extends React.Component {
               <Error message={ error } />
             </div>
           </div>
-          <SearchBar onReset={this.props.onReset} onSearch={this.props.onSearch} enabled={!loading} />
+          <SearchBar onReset={this.props.onReset} onSearch={this.props.onSearch} enabled={ () => !loading } />
           <div className="row">
             <div className="col-xs-12">
-                <ApplicationsTable loading={loading} applications={applications} renderActions={renderActions} />
+                <ApplicationsTable loading={loading} applications={applications} />
             </div>
           </div>
           <div className="row">

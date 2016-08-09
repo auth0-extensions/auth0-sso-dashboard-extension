@@ -6,10 +6,7 @@ import * as containers from './containers';
 export default (history) =>
   <Router history={history}>
     <Route path="/" component={containers.RequireAuthentication(containers.App)}>
-      <IndexRedirect to="/users" />
-      <Route path="logs" component={containers.Logs} />
-      <Route path="users" component={containers.Users} />
-      <Route path="users/:id" component={containers.User} />
+      <IndexRedirect to="/applications" />
       <Route path="applications" component={containers.Applications} />
       <Route path="applications/:id" component={containers.Application} />
     </Route>
