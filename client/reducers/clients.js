@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 import * as constants from '../constants';
 import createReducer from '../utils/createReducer';
@@ -6,7 +6,7 @@ import createReducer from '../utils/createReducer';
 const initialState = {
     loading: false,
     error: null,
-    clients: []
+    records: []
 };
 
 export const clients = createReducer(fromJS(initialState), {

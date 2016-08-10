@@ -10,7 +10,8 @@ export default class ApplicationForm extends Component {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     application: PropTypes.object.isRequired,
-    updateApplication: PropTypes.func.isRequired
+    updateApplication: PropTypes.func.isRequired,
+    clients: React.PropTypes.array.isRequired,
   }
 
   shouldComponentUpdate(nextProps) {
@@ -26,8 +27,11 @@ export default class ApplicationForm extends Component {
       return <div></div>;
     }
     const application = this.props.application.toJS();
+    const name = application.name||application.client_id;
+    const clientId = application.client_id;
     const options = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
     const callbacks = application.callbacks?application.callbacks:[];
+    const clients = this.props.clients;
     const appLogo = application.client_metadata&&application.client_metadata['sso-dashboard-logo']?application.client_metadata['sso-dashboard-logo']:'';
     const appType = application.client_metadata&&application.client_metadata['sso-dashboard-type']?application.client_metadata['sso-dashboard-type']:'';
     const callback = application.client_metadata&&application.client_metadata['sso-dashboard-callback']?application.client_metadata['sso-dashboard-callback']:'';
@@ -49,7 +53,20 @@ export default class ApplicationForm extends Component {
           });
         });
       }}>
-      <div>
+        <div>
+          <label>Name</label> <input name="name" className="form-control" type="text" defaultValue={name} required />
+        </div>
+        <div>
+          <label>Client</label>
+          <select className="form-control" name="client" defaultValue={clientId} required>
+            <option value=""></option>
+            {clients.map((client, index) => {
+              return <option key={index}
+                             value={option.client_id}>{option.name||option.client_id}</option>;
+            })}
+          </select>
+        </div>
+        <div>
           <label>Type</label>
           <select className="form-control" name="sso-dashboard-type" defaultValue={appType} required>
             <option value=""></option>
@@ -60,22 +77,20 @@ export default class ApplicationForm extends Component {
           </select>
       </div>
       <div>
-        <label>Logo</label> <input name="sso-dashboard-logo" className="form-control" type="url"
+        <label>Logo</label> <input name="logo" className="form-control" type="url"
                                    defaultValue={appLogo}
                                    required />
-      </div>
-
+        </div>
         <div>
           <label>Callback</label>
-          <select className="form-control" name="sso-dashboard-callback" defaultValue={callback} required>
+            <select className="form-control" name="callback" defaultValue={callback} required>
             <option value=""></option>
-            {callbacks.map((option, index) => {
+            {callbacks.map((callback, index) => {
               return <option key={index}
                              value={option}>{option}</option>;
             })}
           </select>
         </div>
-
         <div>
         <label>Enabled?</label> <input name="sso-dashboard-enabled" type="checkbox" value={1} style={{'marginLeft':'10px'}} defaultChecked={appEnabled} />
       </div>

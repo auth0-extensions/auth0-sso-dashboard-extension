@@ -4,7 +4,7 @@ import { routerReducer } from 'react-router-redux';
 
 import { auth } from './auth';
 import { applications } from './applications';
-import { clients } from './clietns';
+import { clients } from './clients';
 import { application } from './application';
 import { status } from './status';
 import { connections } from './connections';

@@ -7,7 +7,10 @@ import { ApplicationHeader, ApplicationInfo, ApplicationForm } from '../../compo
 
 export default connectContainer(class extends Component {
   static stateToProps = (state) => ({
-    application: state.application
+    application: state.application.get('record'),
+    clients: state.clients.get('records').toJS(),
+    error: state.application.get('error')||state.clients.get('error'),
+    loading: state.application.get('loading')||state.clients.get('loading')
   })
 
   static actionsToProps = {
@@ -16,10 +19,11 @@ export default connectContainer(class extends Component {
 
   componentWillMount() {
     this.props.fetchApplication(this.props.params.id);
+    this.props.fetchClients();
   }
 
   render() {
-    const { application } = this.props;
+    const { application, loading, error, clients } = this.props;
     return (
       <div className="user">
         <div className="row content-header">
@@ -31,17 +35,17 @@ export default connectContainer(class extends Component {
         </div>
         <div className="row">
           <div className="col-xs-12">
-            <ApplicationHeader loading={application.get('loading')} application={application.get('record')} error={application.get('error')} />
+            <ApplicationHeader loading={loading} application={application} error={error} />
           </div>
         </div>
         <div className="row user-tabs">
           <div className="col-xs-12">
             <Tabs id="sso-app-tabs" defaultActiveKey={1} animation={false}>
               <Tab eventKey={1} title="Settings">
-                <ApplicationForm updateApplication={this.props.updateApplication} loading={application.get('loading')} application={application.get('record')} error={application.get('error')} />
+                <ApplicationForm updateApplication={this.props.updateApplication} loading={loading} application={application} error={error} clients={clients} />
               </Tab>
               <Tab eventKey={2} title="Info">
-                <ApplicationInfo loading={application.get('loading')} application={application.get('record')} error={application.get('error')} />
+                <ApplicationInfo loading={loading} application={application} error={error} />
               </Tab>
             </Tabs>
           </div>

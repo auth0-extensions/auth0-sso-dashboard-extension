@@ -9,7 +9,8 @@ export default class CreateApplicationForm extends Component {
   static propTypes = {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
-    createApplication: PropTypes.func.isRequired
+    createApplication: PropTypes.func.isRequired,
+    clients: React.PropTypes.array.isRequired
   }
 
   render() {
@@ -17,7 +18,10 @@ export default class CreateApplicationForm extends Component {
       return <div></div>;
     }
 
-    const clients = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
+    const types = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
+    const callbacks = ['http://localhost:3000'];
+    const clients = this.props.clients;
+
     return <div>
       <Alert stack={{limit: 3}} position='top' />
       <form className="appForm" onSubmit={(e) => {
@@ -40,9 +44,9 @@ export default class CreateApplicationForm extends Component {
           <label>Client</label>
           <select className="form-control" name="client" required>
             <option value=""></option>
-            {clients.map((option, index) => {
+            {clients.map((client, index) => {
               return <option key={index}
-                             value={option.value}>{option.text}</option>;
+                             value={client.client_id}>{client.name||client.client_id}</option>;
             })}
           </select>
       </div>
@@ -50,27 +54,30 @@ export default class CreateApplicationForm extends Component {
           <label>Type</label>
           <select className="form-control" name="type" required>
             <option value=""></option>
-            {clients.map((option, index) => {
+            {types.map((type, index) => {
               return <option key={index}
-                             value={option.value}>{option.text}</option>;
+                             value={type.value}>{type.text}</option>;
             })}
           </select>
       </div>
       <div>
-        <label>Name</label> <input name="logo" className="form-control" type="url"  required />
+        <label>Logo</label> <input name="logo" className="form-control" type="url"  required />
       </div>
         <div>
           <label>Callback</label>
           <select className="form-control" name="callback" required>
             <option value=""></option>
-            {clients.map((option, index) => {
+            {callbacks.map((callback, index) => {
               return <option key={index}
-                             value={option.value}>{option.text}</option>;
+                             value={callback}>{callback}</option>;
             })}
           </select>
         </div>
-      <br />
-      <button className="btn btn-success">Create</button>
+        <div>
+          <label>Enabled?</label> <input name="enabled" type="checkbox" value={1} style={{'marginLeft':'10px'}} />
+        </div>
+        <br />
+        <button className="btn btn-success">Update</button>
       </form>
     </div>
   }

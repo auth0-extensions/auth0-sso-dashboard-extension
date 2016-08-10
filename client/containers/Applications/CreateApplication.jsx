@@ -8,10 +8,17 @@ import { Link } from 'react-router';
 
 export default connectContainer(class extends Component {
   static stateToProps = (state) => ({
+      clients: state.clients.get('records').toJS(),
+      error: state.clients.get('error'),
+      loading: state.clients.get('loading')
   })
 
   static actionsToProps = {
     ...applicationActions
+  }
+
+  componentWillMount() {
+     this.props.fetchClients();
   }
 
   render() {
@@ -36,7 +43,7 @@ export default connectContainer(class extends Component {
                 </div>
             </div>
           </div>
-            <CreateApplicationForm loading={false} createApplication={this.props.createApplication} error={null} />
+            <CreateApplicationForm loading={false} createApplication={this.props.createApplication} error={null} clients={this.props.clients} />
         </div>
     );
   }

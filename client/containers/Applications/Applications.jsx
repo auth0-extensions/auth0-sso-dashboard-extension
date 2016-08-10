@@ -8,10 +8,8 @@ import './Applications.css';
 
 class Applications extends Component {
 
-
   componentWillMount = () => {
     this.props.fetchApplications();
-    this.props.fetchClients();
   }
 
   onChangeSearch = (query) => {
@@ -53,7 +51,6 @@ function mapStateToProps(state) {
     loading: state.applications.get('loading'),
     applications: state.applications.get('records').toJS(),
     apps: state.applications.get('records').toJS(),
-    clients: state.clients.get('clients').toJS(),
     total: state.applications.get('total'),
     nextPage: state.applications.get('nextPage')
   };

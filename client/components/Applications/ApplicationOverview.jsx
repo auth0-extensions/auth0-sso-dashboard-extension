@@ -11,6 +11,7 @@ export default class ApplicationOverview extends React.Component {
     onChangeSearch: React.PropTypes.func.isRequired,
     error: React.PropTypes.object,
     applications: React.PropTypes.array.isRequired,
+    clients: React.PropTypes.array.isRequired,
     total: React.PropTypes.number.isRequired,
     loading: React.PropTypes.bool.isRequired
   }
