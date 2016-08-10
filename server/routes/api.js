@@ -8,7 +8,7 @@ import * as middlewares from '../lib/middlewares';
 import applications from './applications';
 import connections from './connections';
 
-export default () => {
+export default (app, storage) => {
   const api = Router();
   api.use(middlewares.managementClient);
   api.use(jwt({
@@ -25,7 +25,7 @@ export default () => {
     algorithms: [ 'RS256' ]
   }));
   api.use(middlewares.getUser);
-  api.use('/applications', applications());
+  api.use('/applications', applications(storage));
   api.use('/connections', connections());
   api.get('/status', (req, res) => {
     res.json({isAdmin: req.user.isAdmin});
