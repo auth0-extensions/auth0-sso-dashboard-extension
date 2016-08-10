@@ -4,6 +4,7 @@ import { routerReducer } from 'react-router-redux';
 
 import { auth } from './auth';
 import { applications } from './applications';
+import { clients } from './clietns';
 import { application } from './application';
 import { status } from './status';
 import { connections } from './connections';
@@ -13,6 +14,7 @@ export default combineReducers({
   routing: routerReducer,
   applications,
   application,
+  clients,
   status,
   connections,
   auth,

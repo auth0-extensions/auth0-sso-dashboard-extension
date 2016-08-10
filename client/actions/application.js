@@ -19,6 +19,23 @@ export function fetchApplications(enabledOnly) {
     });
   };
 }
+/**
+ * clients
+ * @param enabledOnly
+ */
+export function fetchClients() {
+
+  return (dispatch) => {
+    dispatch({
+      type: constants.FETCH_CLIENTS,
+      payload: {
+        promise: axios.get(`/api/applications/clients`, {
+          responseType: 'json'
+        })
+      }
+    });
+  };
+}
 /*
  * Fetch the app details.
  */
@@ -57,6 +74,29 @@ export function updateApplication(appId, data, onSuccess) {
   },
     payload: {
       promise: axios.put(`/api/applications/${appId}`, data , {
+        responseType: 'json'
+      })
+    }
+  });
+  };
+}
+/*
+ * Update the app details.
+ */
+export function createApplication(data, onSuccess) {
+  return (dispatch) =>
+  {
+    dispatch({
+      type: constants.CREATE_APPLICATION,
+      meta: {
+        onSuccess: () => {
+        onSuccess(function() {
+          dispatch(fetchApplications());
+        });
+  }
+  },
+    payload: {
+      promise: axios.post(`/api/applications`, data , {
         responseType: 'json'
       })
     }

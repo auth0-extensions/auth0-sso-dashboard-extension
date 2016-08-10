@@ -25,3 +25,15 @@ article.card-docs {
 .user-app h4 {
   text-align: center;
 }
+.logoBlockImage{
+  width: 14%;
+  float: left;
+}
+.logoBlockImage img{
+   width: 90%;
+}
+.logoBlockInfo{
+  width: 86%;
+  float: left;
+  padding-left: 10px;
+}

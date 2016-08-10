@@ -110,3 +110,9 @@
   position: relative;
   bottom: 5px;
 }
+.createAppButton{
+  float: right;
+  margin-bottom: 20px;
+  margin-top: -72px;
+  width: 125px;
+}

@@ -5,17 +5,15 @@ export default class SearchBar extends Component {
   static propTypes = {
     enabled: PropTypes.func.isRequired,
     onReset: PropTypes.func.isRequired,
-    onSearch: PropTypes.func.isRequired
+    onChangeSearch: PropTypes.func.isRequired
   }
 
   defaultProps: {
     enabled: true
   }
 
-  onKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      this.props.onSearch(findDOMNode(this.refs.search).value);
-    }
+  onChangeSearch = (e) => {
+    this.props.onChangeSearch(findDOMNode(this.refs.search).value);
   }
 
   render() {
@@ -25,8 +23,8 @@ export default class SearchBar extends Component {
           <div className="advanced-search-control">
             <span className="search-area">
               <i className="icon-budicon-489"></i>
-              <input className="user-input" type="text" ref="search" placeholder="Search for apps"
-                spellCheck="false" style={{ marginLeft: '10px' }} onKeyPress={this.onKeyPress}
+              <input className="user-input search-input-apps" type="text" ref="search" placeholder="Search for apps"
+                spellCheck="false" style={{ marginLeft: '10px' }} onChange={this.onChangeSearch}
               />
             </span>
 
@@ -37,11 +35,8 @@ export default class SearchBar extends Component {
             </span>
           </div>
         </div>
-        <div className="col-xs-12">
-          <div className="help-block">
-            To perform your search, press <span className="keyboard-button">enter</span>.
-          </div>
-        </div>
+        <br></br>
+        <br></br>
       </div>
     );
   }

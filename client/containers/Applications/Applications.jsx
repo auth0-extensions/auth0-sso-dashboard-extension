@@ -8,11 +8,13 @@ import './Applications.css';
 
 class Applications extends Component {
 
+
   componentWillMount = () => {
     this.props.fetchApplications();
+    this.props.fetchClients();
   }
 
-  onSearch = (query) => {
+  onChangeSearch = (query) => {
     if(query) {
       let apps = _.filter(this.props.applications, (app) =>  app.name.toLowerCase().indexOf(query) > -1);
       this.props.apps = apps;
@@ -23,6 +25,7 @@ class Applications extends Component {
   }
 
   onReset = () => {
+    $('.search-input-apps').val('');
     this.props.fetchApplications();
   }
 
@@ -36,7 +39,7 @@ class Applications extends Component {
             <h2>Applications</h2>
           </div>
         </div>
-        <ApplicationOverview onReset={this.onReset.bind(this)} onSearch={this.onSearch.bind(this)}
+        <ApplicationOverview onReset={this.onReset.bind(this)} onChangeSearch={this.onChangeSearch.bind(this)}
           error={error} applications={apps} total={total} loading={loading}
         />
       </div>
@@ -50,6 +53,7 @@ function mapStateToProps(state) {
     loading: state.applications.get('loading'),
     applications: state.applications.get('records').toJS(),
     apps: state.applications.get('records').toJS(),
+    clients: state.clients.get('clients').toJS(),
     total: state.applications.get('total'),
     nextPage: state.applications.get('nextPage')
   };

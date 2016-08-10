@@ -3,21 +3,20 @@ import { findDOMNode } from 'react-dom';
 
 import { SearchBar, ApplicationsTable } from './';
 import { Error, LoadingPanel, TableTotals } from '../Dashboard';
+import { Link } from 'react-router';
 
 export default class ApplicationOverview extends React.Component {
   static propTypes = {
     onReset: React.PropTypes.func.isRequired,
-    onSearch: React.PropTypes.func.isRequired,
+    onChangeSearch: React.PropTypes.func.isRequired,
     error: React.PropTypes.object,
     applications: React.PropTypes.array.isRequired,
     total: React.PropTypes.number.isRequired,
     loading: React.PropTypes.bool.isRequired
   }
 
-  onKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      this.props.onSearch(findDOMNode(this.refs.search).value);
-    }
+  onChangeSearch = (e) => {
+      this.props.onChangeSearch(findDOMNode(this.refs.search).value);
   }
 
   render() {
@@ -25,13 +24,20 @@ export default class ApplicationOverview extends React.Component {
 
     return (
       <div>
+        <div className="createAppButton">
+        <Link to="/applications/create">
+          <button className="btn btn-success">
+              + Create App
+          </button>
+        </Link>
+        </div>
         <LoadingPanel show={ loading }>
           <div className="row">
             <div className="col-xs-12 wrapper">
               <Error message={ error } />
             </div>
           </div>
-          <SearchBar onReset={this.props.onReset} onSearch={this.props.onSearch} enabled={ () => !loading } />
+          <SearchBar onReset={this.props.onReset} onChangeSearch={this.props.onChangeSearch} enabled={ () => !loading } />
           <div className="row">
             <div className="col-xs-12">
                 <ApplicationsTable loading={loading} applications={applications} />
