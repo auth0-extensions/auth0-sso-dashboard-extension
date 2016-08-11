@@ -78,7 +78,7 @@ export default (storage) => {
    */
   api.get('/', (req, res, next) => {
     readStorage(storage)
-      .then(apps => _.filter(apps, (app) => !!app))
+      .then(apps => _.pickBy(apps, (app) => !!app))
       .then(apps => res.json(apps))
       .catch(next);
   });
