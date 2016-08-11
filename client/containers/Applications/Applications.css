@@ -20,6 +20,8 @@ article.card-docs {
 
 .user-app .img-circle {
   width: 100%;
+  padding: 5%;
+  border-radius: 0;
 }
 
 .user-app h4 {

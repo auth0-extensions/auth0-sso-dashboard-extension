@@ -78,6 +78,7 @@ export default (storage) => {
    */
   api.get('/', (req, res, next) => {
     readStorage(storage)
+      .then(apps => _.filter(apps, (app) => !!app))
       .then(apps => res.json(apps))
       .catch(next);
   });
@@ -108,6 +109,17 @@ export default (storage) => {
 
     saveApplication(id, req.body, storage)
       .then(res.status(201).send)
+      .catch(next);
+  });
+
+  /*
+   * Delete application.
+   */
+  api.delete('/:id', isAdmin, (req, res, next) => {
+    const data = { [req.params.id]: null };
+
+    writeStorage(storage, data)
+      .then(res.status(200).send)
       .catch(next);
   });
 
