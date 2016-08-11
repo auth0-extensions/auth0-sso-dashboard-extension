@@ -24,28 +24,28 @@ export default class ApplicationsTable extends Component {
             <TableColumn width="20">Actions</TableColumn>
           </TableHeader>
           <TableBody>
-            {applications.map((application, index) => {
+              {Object.keys(applications).map((key) => {
+                const application = applications[key];
                 const logo = application.logo;
                 const type = application.type;
                 const callback = application.callback;
                 const enabled = application.enabled;
                 const name = application.name || application.client;
-                const appId = application.client;
               return (
-                  <TableRow key={index}>
+                  <TableRow key={key}>
                     <TableCell>
                         <div className="logoBlockImage">
                         <img className="img-circle" src={ logo } alt={ name } />
                         </div>
                         <div className="logoBlockInfo">
-                        <Link to={`/applications/${appId}`}>
+                        <Link to={`/applications/${key}`}>
                             {name}
                         </Link>
                             <br />
                         {type}
                         </div>
                     </TableCell>
-                    <TableCell>{application.client_id}</TableCell>
+                    <TableCell>{key}</TableCell>
                     <TableCell className="actions">
                         <ul className="list-inline">
                             <li title="" data-toggle="tooltip" data-original-title="Quickstart">

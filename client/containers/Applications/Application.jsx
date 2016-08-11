@@ -42,7 +42,7 @@ export default connectContainer(class extends Component {
           <div className="col-xs-12">
             <Tabs id="sso-app-tabs" defaultActiveKey={1} animation={false}>
               <Tab eventKey={1} title="Settings">
-                <ApplicationForm updateApplication={this.props.updateApplication} loading={loading} application={application} error={error} clients={clients} />
+                <ApplicationForm appId={this.props.params.id} updateApplication={this.props.updateApplication} loading={loading} application={application} error={error} clients={clients} />
               </Tab>
               <Tab eventKey={2} title="Info">
                 <ApplicationInfo loading={loading} application={application} error={error} />

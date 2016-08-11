@@ -15,8 +15,7 @@ export default class CreateApplicationForm extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {currentClient: null};
-    this.onClientChange = this.onClientChange.bind(this);
+    this.state = {currentClient: null}
   }
 
   getClientById(id) {
@@ -37,7 +36,6 @@ export default class CreateApplicationForm extends Component {
     } else {
       return [];
     }
-
   }
 
   render() {
@@ -57,6 +55,9 @@ export default class CreateApplicationForm extends Component {
         $.each(arr, function(indx, el){
            obj[el.name] = el.value;
         });
+        if(typeof obj['enabled']=='undefined'){
+          obj['enabled'] = false;
+        }
         return this.props.createApplication(obj, function(callback) {
           Alert.info('Application was successfully saved.',{
             effect: 'slide',
@@ -101,7 +102,7 @@ export default class CreateApplicationForm extends Component {
           </select>
         </div>
         <div>
-          <label>Enabled?</label> <input name="enabled" type="checkbox" value={1} style={{'marginLeft':'10px'}} />
+          <label>Enabled?</label> <input name="enabled" type="checkbox" value={true} style={{'marginLeft':'10px'}} />
         </div>
         <br />
         <button className="btn btn-success">Update</button>

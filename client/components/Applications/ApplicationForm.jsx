@@ -3,7 +3,7 @@ import { Error, Json, LoadingPanel, InputCombo, InputText } from '../Dashboard';
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
-
+import _ from 'lodash';
 
 export default class ApplicationForm extends Component {
   static propTypes = {
@@ -12,12 +12,12 @@ export default class ApplicationForm extends Component {
     application: PropTypes.object.isRequired,
     updateApplication: PropTypes.func.isRequired,
     clients: React.PropTypes.array.isRequired,
+    appId: PropTypes.string.isRequired
   }
 
   constructor(props) {
     super(props);
-    this.state = {currentClient: this.getClientById(this.props.application.client_id)};
-    this.onClientChange = this.onClientChange.bind(this);
+    this.state = {currentClient: null}
   }
 
   getClientById(id) {
@@ -38,27 +38,23 @@ export default class ApplicationForm extends Component {
     } else {
       return [];
     }
-
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return nextProps.application !== this.props.application || nextProps.loading !== this.props.loading;
   }
 
   render() {
     if (this.props.loading || this.props.error) {
       return <div></div>;
     }
-    const application = this.props.application.toJS();
-    const name = application.name||application.client_id;
-    const clientId = application.client;
     const types = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
-    const callbacks = application.callbacks?application.callbacks:[];
+    const callbacks = this.getCallbacks();
     const clients = this.props.clients;
+    const application = this.props.application.toJS();
+    const name = application.name||application.client;
+    const clientId = application.client;
     const appLogo = application.logo;
     const appType = application.type;
-    const callback = application.callback;
+    const appCallback = application.callback;
     const appEnabled = application.enabled;
+    const appId = this.props.appId;
     return <div>
       <Alert stack={{limit: 3}} position='top' />
       <form className="appForm" onSubmit={(e) => {
@@ -67,9 +63,10 @@ export default class ApplicationForm extends Component {
         $.each(arr, function(indx, el){
            obj[el.name] = el.value;
         });
-        if(!obj['sso-dashboard-enabled'])
-          obj['sso-dashboard-enabled']='0';
-        return this.props.updateApplication(application.client_id,obj, function(callback) {
+        if(typeof obj['enabled']=='undefined'){
+          obj['enabled'] = false;
+        }
+        return this.props.updateApplication(appId,obj, function(callback) {
           Alert.info('Application meta-data was successfully saved.',{
             effect: 'slide',
             onClose: callback
@@ -81,7 +78,7 @@ export default class ApplicationForm extends Component {
         </div>
         <div>
           <label>Client</label>
-          <select className="form-control" name="client" defaultValue={clientId} required>
+          <select onChange={this.onClientChange.bind(this)} className="form-control" name="client" defaultValue={clientId} required>
             <option value=""></option>
             {clients.map((client, index) => {
               return <option key={index}
@@ -106,16 +103,16 @@ export default class ApplicationForm extends Component {
         </div>
         <div>
           <label>Callback</label>
-            <select className="form-control" name="callback" defaultValue={callback} required>
+            <select className="form-control" name="callback" defaultValue={appCallback} required>
             <option value=""></option>
-            {callbacks.map((callback, index) => {
-              return <option key={index}
-                             value={callback}>{callback}</option>;
-            })}
+              {callbacks.map((callback, index) => {
+                return <option key={index}
+                               value={callback}>{callback}</option>;
+              })}
           </select>
         </div>
         <div>
-        <label>Enabled?</label> <input name="enabled" type="checkbox" value={1} style={{'marginLeft':'10px'}} defaultChecked={appEnabled} />
+        <label>Enabled?</label> <input name="enabled" type="checkbox" value={true} style={{'marginLeft':'10px'}} defaultChecked={appEnabled} />
       </div>
       <br />
       <button className="btn btn-success">Update</button>

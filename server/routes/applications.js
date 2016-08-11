@@ -88,7 +88,7 @@ export default (storage) => {
    */
   api.get('/:id', (req, res, next) => {
     readStorage(storage)
-      .then(apps => res.json(apps[req.params.id]))
+      .then(apps => res.json({application:apps[req.params.id]}))
       .catch(next);
   });
 
