@@ -13,6 +13,10 @@ export default class CreateApplicationForm extends Component {
     clients: React.PropTypes.array.isRequired
   }
 
+  onClientChange = (e)=>{
+
+  }
+
   render() {
     if (this.props.loading || this.props.error) {
       return <div></div>;
@@ -42,7 +46,7 @@ export default class CreateApplicationForm extends Component {
       </div>
       <div>
           <label>Client</label>
-          <select className="form-control" name="client" required>
+          <select onChange={this.onClientChange} className="form-control" name="client" required>
             <option value=""></option>
             {clients.map((client, index) => {
               return <option key={index}
