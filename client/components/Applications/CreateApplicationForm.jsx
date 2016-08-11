@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import { Router } from 'react-router'
 import { Error, Json, LoadingPanel, InputCombo, InputText } from '../Dashboard';
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
@@ -64,7 +63,7 @@ export default class CreateApplicationForm extends Component {
             effect: 'slide',
             timeout: 2500,
             onClose: function(){
-              this.context.router.push('applications/settings');
+              history.back();
             }.bind(this)
           });
         }.bind(this));
