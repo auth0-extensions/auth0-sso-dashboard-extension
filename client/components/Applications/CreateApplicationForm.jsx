@@ -3,7 +3,7 @@ import { Error, Json, LoadingPanel, InputCombo, InputText } from '../Dashboard';
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
-
+import _ from 'lodash';
 
 export default class CreateApplicationForm extends Component {
   static propTypes = {
@@ -13,7 +13,30 @@ export default class CreateApplicationForm extends Component {
     clients: React.PropTypes.array.isRequired
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {currentClient: null};
+    this.onClientChange = this.onClientChange.bind(this);
+  }
+
+  getClientById(id) {
+    return  _.find(this.props.clients, function(client){ return client.client_id == id })
+  }
+
   onClientChange = (e)=>{
+    if(e.target.value) {
+      this.setState({currentClient:this.getClientById(e.target.value)});
+    } else {
+      this.setState({currentClient:null});
+    }
+  }
+
+  getCallbacks(){
+    if(this.state.currentClient){
+      return this.state.currentClient.callbacks?(typeof this.state.currentClient.callbacks=='string'?[this.state.currentClient.callbacks]:this.state.currentClient.callbacks):[]
+    } else {
+      return [];
+    }
 
   }
 
@@ -23,7 +46,7 @@ export default class CreateApplicationForm extends Component {
     }
 
     const types = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
-    const callbacks = ['http://localhost:3000'];
+    const callbacks = this.getCallbacks();
     const clients = this.props.clients;
 
     return <div>
@@ -46,7 +69,7 @@ export default class CreateApplicationForm extends Component {
       </div>
       <div>
           <label>Client</label>
-          <select onChange={this.onClientChange} className="form-control" name="client" required>
+          <select onChange={this.onClientChange.bind(this)} className="form-control" name="client" required>
             <option value=""></option>
             {clients.map((client, index) => {
               return <option key={index}

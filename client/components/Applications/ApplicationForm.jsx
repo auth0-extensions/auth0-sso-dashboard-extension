@@ -14,12 +14,35 @@ export default class ApplicationForm extends Component {
     clients: React.PropTypes.array.isRequired,
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.application !== this.props.application || nextProps.loading !== this.props.loading;
+  constructor(props) {
+    super(props);
+    this.state = {currentClient: this.getClientById(this.props.application.client_id)};
+    this.onClientChange = this.onClientChange.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  getClientById(id) {
+    return  _.find(this.props.clients, function(client){ return client.client_id == id })
+  }
+
+  onClientChange = (e)=>{
+    if(e.target.value) {
+      this.setState({currentClient:this.getClientById(e.target.value)});
+    } else {
+      this.setState({currentClient:null});
+    }
+  }
+
+  getCallbacks(){
+    if(this.state.currentClient){
+      return this.state.currentClient.callbacks?(typeof this.state.currentClient.callbacks=='string'?[this.state.currentClient.callbacks]:this.state.currentClient.callbacks):[]
+    } else {
+      return [];
+    }
+
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.application !== this.props.application || nextProps.loading !== this.props.loading;
   }
 
   render() {
@@ -28,14 +51,14 @@ export default class ApplicationForm extends Component {
     }
     const application = this.props.application.toJS();
     const name = application.name||application.client_id;
-    const clientId = application.client_id;
-    const options = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
+    const clientId = application.client;
+    const types = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
     const callbacks = application.callbacks?application.callbacks:[];
     const clients = this.props.clients;
-    const appLogo = application.client_metadata&&application.client_metadata['sso-dashboard-logo']?application.client_metadata['sso-dashboard-logo']:'';
-    const appType = application.client_metadata&&application.client_metadata['sso-dashboard-type']?application.client_metadata['sso-dashboard-type']:'';
-    const callback = application.client_metadata&&application.client_metadata['sso-dashboard-callback']?application.client_metadata['sso-dashboard-callback']:'';
-    const appEnabled = application.client_metadata&&application.client_metadata['sso-dashboard-enabled']?application.client_metadata['sso-dashboard-enabled']=='1':false;
+    const appLogo = application.logo;
+    const appType = application.type;
+    const callback = application.callback;
+    const appEnabled = application.enabled;
     return <div>
       <Alert stack={{limit: 3}} position='top' />
       <form className="appForm" onSubmit={(e) => {
@@ -62,7 +85,7 @@ export default class ApplicationForm extends Component {
             <option value=""></option>
             {clients.map((client, index) => {
               return <option key={index}
-                             value={option.client_id}>{option.name||option.client_id}</option>;
+                             value={client.client_id}>{client.name||client.client_id}</option>;
             })}
           </select>
         </div>
@@ -70,9 +93,9 @@ export default class ApplicationForm extends Component {
           <label>Type</label>
           <select className="form-control" name="type" defaultValue={appType} required>
             <option value=""></option>
-            {options.map((option, index) => {
+            {types.map((type, index) => {
               return <option key={index}
-                             value={option.value}>{option.text}</option>;
+                             value={type.value}>{type.text}</option>;
             })}
           </select>
       </div>
@@ -87,7 +110,7 @@ export default class ApplicationForm extends Component {
             <option value=""></option>
             {callbacks.map((callback, index) => {
               return <option key={index}
-                             value={option}>{option}</option>;
+                             value={callback}>{callback}</option>;
             })}
           </select>
         </div>

@@ -25,11 +25,12 @@ export default class ApplicationsTable extends Component {
           </TableHeader>
           <TableBody>
             {applications.map((application, index) => {
-              const logo = (application.client_metadata) ? application.client_metadata['sso-dashboard-logo'] : 'https://rawgit.com/auth0-extensions/auth0-delegated-administration-extension/master/docs/theme/fabrikam.svg';
-              const type = (application.client_metadata) ? application.client_metadata['sso-dashboard-type'] : 'None';
-              const callback = (application.client_metadata) ? application.client_metadata['sso-dashboard-callback'] : 'None';
-              const enabled = (application.client_metadata && application.client_metadata['sso-dashboard-enabled'] == '1') ? 'Enabled' : 'Disabled';
-              const name = application.name || application.client_id;
+                const logo = application.logo;
+                const type = application.type;
+                const callback = application.callback;
+                const enabled = application.enabled;
+                const name = application.name || application.client;
+                const appId = application.client;
               return (
                   <TableRow key={index}>
                     <TableCell>
@@ -37,7 +38,7 @@ export default class ApplicationsTable extends Component {
                         <img className="img-circle" src={ logo } alt={ name } />
                         </div>
                         <div className="logoBlockInfo">
-                        <Link to={`/applications/${application.client_id}`}>
+                        <Link to={`/applications/${appId}`}>
                             {name}
                         </Link>
                             <br />
