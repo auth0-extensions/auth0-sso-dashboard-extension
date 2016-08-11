@@ -38,7 +38,7 @@ class Applications extends Component {
           </div>
         </div>
         <ApplicationOverview onReset={this.onReset.bind(this)} onChangeSearch={this.onChangeSearch.bind(this)}
-          error={error} applications={apps} total={total} loading={loading}
+          error={error} applications={apps} total={total} loading={loading} deleteApplication={this.props.deleteApplication}
         />
       </div>
     );

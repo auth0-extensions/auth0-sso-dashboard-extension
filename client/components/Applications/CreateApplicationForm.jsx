@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import { Router } from 'react-router'
 import { Error, Json, LoadingPanel, InputCombo, InputText } from '../Dashboard';
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
@@ -46,11 +47,11 @@ export default class CreateApplicationForm extends Component {
     const types = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
     const callbacks = this.getCallbacks();
     const clients = this.props.clients;
-
     return <div>
       <Alert stack={{limit: 3}} position='top' />
       <form className="appForm" onSubmit={(e) => {
         e.preventDefault();
+        $('.appFormSubmit').remove();
         var arr = $('.appForm').serializeArray(), obj = {};
         $.each(arr, function(indx, el){
            obj[el.name] = el.value;
@@ -58,12 +59,15 @@ export default class CreateApplicationForm extends Component {
         if(typeof obj['enabled']=='undefined'){
           obj['enabled'] = false;
         }
-        return this.props.createApplication(obj, function(callback) {
+        return this.props.createApplication(obj, function() {
           Alert.info('Application was successfully saved.',{
             effect: 'slide',
-            onClose: callback
+            timeout: 2500,
+            onClose: function(){
+              this.context.router.push('applications/settings');
+            }.bind(this)
           });
-        });
+        }.bind(this));
       }}>
       <div>
           <label>Name</label> <input name="name" className="form-control" type="text"  required />
@@ -105,7 +109,7 @@ export default class CreateApplicationForm extends Component {
           <label>Enabled?</label> <input name="enabled" type="checkbox" value={true} style={{'marginLeft':'10px'}} />
         </div>
         <br />
-        <button className="btn btn-success">Update</button>
+        <button className="btn btn-success appFormSubmit">Update</button>
       </form>
     </div>
   }

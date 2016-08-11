@@ -88,13 +88,33 @@ export function createApplication(data, onSuccess) {
       type: constants.CREATE_APPLICATION,
       meta: {
         onSuccess: () => {
-        onSuccess(function() {
-          dispatch(fetchApplications());
-        });
+        onSuccess();
   }
   },
     payload: {
       promise: axios.post(`/api/applications`, data , {
+        responseType: 'json'
+      })
+    }
+  });
+  };
+}
+
+/*
+ * Remove the application.
+ */
+export function deleteApplication(appId, onSuccess) {
+  return (dispatch) =>
+  {
+    dispatch({
+      type: constants.REMOVE_APPLICATION,
+      meta: {
+        onSuccess: () => {
+        dispatch(fetchApplications());
+  }
+  },
+    payload: {
+      promise: axios.delete(`/api/applications/${appId}`,  {
         responseType: 'json'
       })
     }

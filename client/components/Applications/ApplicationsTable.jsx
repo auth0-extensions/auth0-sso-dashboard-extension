@@ -14,6 +14,7 @@ export default class ApplicationsTable extends Component {
     return nextProps.applications !== this.props.applications;
   }
 
+
   render() {
     const { applications, renderActions } = this.props;
     return (
@@ -48,9 +49,17 @@ export default class ApplicationsTable extends Component {
                     <TableCell>{key}</TableCell>
                     <TableCell className="actions">
                         <ul className="list-inline">
-                            <li title="" data-toggle="tooltip" data-original-title="Quickstart">
-                                <a className="action-tutorial" href="#/applications/MqEQlRekHCYC4UTK8Xv9IVqFJrJE9Muq/quickstart">
-                                    <i className="icon-budicon-359"></i>
+                            <li title="Edit" data-toggle="tooltip">
+                                <Link to={`/applications/${key}`}>
+                                    <i className="icon-budicon-274"></i>
+                                </Link>
+                             </li>
+                            <li title="Remove" data-toggle="tooltip">
+                                <a href="#" onClick={ function(e){
+                                    e.preventDefault();
+                                    this.props.deleteApplication(key);
+                                }.bind(this)} className="remove-rule">
+                                    <i className="icon-budicon-471"></i>
                                 </a>
                             </li>
                         </ul>
