@@ -97,7 +97,7 @@ export default (storage) => {
    */
   api.put('/:id', isAdmin, (req, res, next) => {
     saveApplication(req.params.id, req.body, storage)
-      .then(res.status(200).send)
+      .then(() => res.status(200).send())
       .catch(next);
   });
 
@@ -108,7 +108,7 @@ export default (storage) => {
     const id = new Date().getTime().toString();
 
     saveApplication(id, req.body, storage)
-      .then(res.status(201).send)
+      .then(() => res.status(201).send())
       .catch(next);
   });
 
@@ -119,7 +119,7 @@ export default (storage) => {
     const data = { [req.params.id]: null };
 
     writeStorage(storage, data)
-      .then(res.status(200).send)
+      .then(() => res.status(200).send())
       .catch(next);
   });
 
