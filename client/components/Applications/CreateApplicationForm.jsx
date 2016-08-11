@@ -89,7 +89,7 @@ export default class CreateApplicationForm extends Component {
           </select>
       </div>
       <div>
-        <label>Logo</label> <input name="logo" className="form-control" type="url"  required />
+        <label>Logo</label> <input name="logo" className="form-control" type="url" />
       </div>
         <div>
           <label>Callback</label>

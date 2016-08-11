@@ -32,11 +32,17 @@ export default class ApplicationForm extends Component {
     }
   }
 
-  getCallbacks(){
+  getCallbacks(app){
+
     if(this.state.currentClient){
       return this.state.currentClient.callbacks?(typeof this.state.currentClient.callbacks=='string'?[this.state.currentClient.callbacks]:this.state.currentClient.callbacks):[]
     } else {
-      return [];
+      let client = this.getClientById(app.client);
+      if(client) {
+        return client.callbacks?(typeof client.callbacks=='string'?[client.callbacks]:client.callbacks):[]
+      } else {
+        return [];
+      }
     }
   }
 
@@ -45,9 +51,9 @@ export default class ApplicationForm extends Component {
       return <div></div>;
     }
     const types = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
-    const callbacks = this.getCallbacks();
     const clients = this.props.clients;
     const application = this.props.application.toJS();
+    const callbacks = this.getCallbacks(application);
     const name = application.name||application.client;
     const clientId = application.client;
     const appLogo = application.logo;
@@ -97,9 +103,7 @@ export default class ApplicationForm extends Component {
           </select>
       </div>
       <div>
-        <label>Logo</label> <input name="logo" className="form-control" type="url"
-                                   defaultValue={appLogo}
-                                   required />
+        <label>Logo</label> <input name="logo" className="form-control" type="url"  defaultValue={appLogo} />
         </div>
         <div>
           <label>Callback</label>
