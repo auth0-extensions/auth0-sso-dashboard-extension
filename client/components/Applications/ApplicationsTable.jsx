@@ -22,7 +22,7 @@ export default class ApplicationsTable extends Component {
           <TableHeader>
             <TableColumn width="50%">Logo</TableColumn>
             <TableColumn width="30%">ID</TableColumn>
-            <TableColumn width="20">Actions</TableColumn>
+            <TableColumn width="20%">Actions</TableColumn>
           </TableHeader>
           <TableBody>
               {Object.keys(applications).map((key) => {
