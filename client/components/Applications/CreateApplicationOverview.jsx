@@ -26,19 +26,20 @@ export default class CreateApplication extends React.Component {
 
     applicationIsSaved  = () => {
         this.props.onClose();
-        // Alert.info('Application was successfully saved.',{
-        //     effect: 'slide',
-        //     timeout: 2500,
-        //     onClose: function(){
-        //
-        //     }.bind(this)
-        // });
-        this.props.fetchApplications();
+        Alert.info('Application was successfully saved.',{
+            effect: 'slide',
+            timeout: 2500,
+            onClose: function(){
+                 this.props.fetchApplications();
+            }.bind(this)
+        });
     }
 
   render() {
     const { loading, createApplication, clients, error, showModal}  = this.props;
     return (
+        <div>
+        <Alert stack={{limit: 3}} position='top' />
         <Confirm title="Create New Application" show={showModal} loading={loading} onCancel={this.onCancel.bind(this)} onConfirm={this.onConfirm}>
         <div className="user">
             <CreateApplicationForm
@@ -50,6 +51,7 @@ export default class CreateApplication extends React.Component {
             />
         </div>
         </Confirm>
+        </div>
     );
   }
 };

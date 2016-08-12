@@ -67,7 +67,7 @@ class Applications extends Component {
                            loading={loading}
                            clients={clients}
                            createApplication={this.props.createApplication}
-                           fetchApplications={this.props.fetchApplications}
+                           fetchApplications={this.props.fetchApplicationsAll}
         />
       </div>
     );

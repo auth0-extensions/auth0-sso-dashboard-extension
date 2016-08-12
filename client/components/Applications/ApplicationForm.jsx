@@ -90,6 +90,8 @@ export default class ApplicationForm extends Component {
         });
         if(typeof obj['enabled']=='undefined'){
           obj['enabled'] = false;
+        } else {
+          obj['enabled'] = true;
         }
         return this.props.updateApplication(appId,obj, function(callback) {
           Alert.info('Application meta-data was successfully saved.',{

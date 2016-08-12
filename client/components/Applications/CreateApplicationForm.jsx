@@ -1,8 +1,5 @@
 import React, { PropTypes, Component } from 'react';
 import { Error, Json, LoadingPanel, InputCombo, InputText } from '../Dashboard';
-import Alert from 'react-s-alert';
-import 'react-s-alert/dist/s-alert-default.css';
-import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import _ from 'lodash';
 
 
@@ -37,7 +34,6 @@ export default class CreateApplicationForm extends React.Component {
 
   getCallbacks = () =>{
     if(this.state.currentClient){
-      alert(this.state.currentClient);
       return this.state.currentClient.callbacks?(typeof this.state.currentClient.callbacks=='string'?[this.state.currentClient.callbacks]:this.state.currentClient.callbacks):[]
     } else {
       return [];
@@ -70,7 +66,6 @@ export default class CreateApplicationForm extends React.Component {
     const connections = [];
     const isOpenId = this.getIsOpenId();
     return <div>
-      <Alert stack={{limit: 3}} position='top' />
       <form className="appForm" onSubmit={(e) => {
         e.preventDefault();
         var arr = $('.appForm').serializeArray(), obj = {};
