@@ -18,6 +18,10 @@ article.card-docs {
   font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
 }
 
+.user-app:hover {
+  border: 1px solid deepskyblue;
+}
+
 .user-app {
   width: 180px;
   height: 180px;

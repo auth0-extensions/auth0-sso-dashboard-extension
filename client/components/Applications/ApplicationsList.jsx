@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router';
+import {Link} from 'react-router';
 
 export default class ApplicationsList extends Component {
   static propTypes = {
@@ -22,14 +22,14 @@ export default class ApplicationsList extends Component {
           const link = app.login_url;
 
           return (
-            <div className="user-app" key={ key }>
-              <a href={ link } target="_blank">
+            <a href={ link } target="_blank">
+              <div className="user-app" key={ key }>
                 <div className="image-container">
                   <img className="img-circle" src={ logo } alt={ name } width="32"/>
                 </div>
-              </a>
-              <div className="card-docs-title">{ name }</div>
-            </div>
+                <div className="card-docs-title">{ name }</div>
+              </div>
+            </a>
           );
         })}
       </div>
