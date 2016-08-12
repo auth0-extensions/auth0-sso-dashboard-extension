@@ -22,6 +22,8 @@ const saveApplication = (id, body, storage) =>
       data.scope = body.scope || 'openid';
     }
 
+    attachAuthUrl(data);
+
     readStorage(storage)
       .then(originalData => {
         originalData.applications[id] = data;
@@ -47,45 +49,46 @@ const deleteApplication = (id, storage) =>
       .catch(reject);
   });
 
+const attachAuthUrl = (app) => {
+  const authProtocol = app.type;
+  const callback = app.callback || '';
+  const domain = config("AUTH0_DOMAIN");
+  const client_id = app.client;
+  const responseType = app.response_type || 'code';
+  const scope = app.scope || 'openid';
+  let loginUrl = '';
+
+  switch (authProtocol) {
+    case 'saml':
+      loginUrl = `https://${domain}/samlp/${client_id}`;
+      break;
+    case 'ws-fed':
+      loginUrl = `https://${domain}/wsfed/${client_id}?wreply=${callback}`;
+      break;
+    case 'openid':
+      loginUrl = `https://${domain}/authorize?response_type=${responseType}&scope=${scope}&client_id=${client_id}&redirect_uri=${callback}`;
+      break;
+  }
+
+  if (app.connection) {
+    loginUrl += (authProtocol === 'ws-fed') ? '&wreply=' : '&connection=';
+    loginUrl += app.connection;
+  }
+
+  app.login_url = loginUrl;
+
+  return app;
+};
+
+
 export default (storage) => {
   const api = Router();
-
-  api.post('/auth/:id', (req, res, next) => {
-    readStorage(storage)
-      .then(apps => apps[req.params.id])
-      .then(app => {
-        const authProtocol = app.type;
-        const callback = app.callback || '';
-        const domain = config("AUTH0_DOMAIN");
-        const client_id = app.client;
-        const responseType = app.response_type || 'code';
-        const scope = app.scope || 'openid';
-        let loginUrl = '';
-
-        switch (authProtocol) {
-          case 'saml':
-            loginUrl = `https://${domain}/samlp/${client_id}`;
-            break;
-          case 'ws-fed':
-            loginUrl = `https://${domain}/wsfed/${client_id}?wreply=${callback}`;
-            break;
-          case 'openid':
-            loginUrl = `https://${domain}/authorize?response_type=${responseType}&scope=${scope}&client_id=${client_id}&redirect_uri=${callback}`;
-            break;
-        }
-
-        if (!app || !client_id) return next(new NotFoundError('Application not found'));
-        if (!loginUrl) return next(new ArgumentError('Unknown auth protocol'));
-        res.redirect(loginUrl);
-      })
-      .catch(next);
-  });
 
   /*
    * Get a list of all clients.
    */
   api.get('/clients', isAdmin, (req, res, next) => {
-    req.auth0.clients.getAll()
+    req.auth0.clients.getAll({ fields: 'name,client_id' })
       .then(clients => _.filter(clients, (client) => !client.global))
       .then(clients => res.json(clients))
       .catch(next);
@@ -96,7 +99,7 @@ export default (storage) => {
    */
   api.get('/', (req, res, next) => {
     readStorage(storage)
-      .then(apps => _.pickBy(apps.applications, (app) => app.enabled))
+      .then(apps => _.pickBy(apps.applications, (app) => (app.enabled && app.login_url)))
       .then(apps => res.json(apps))
       .catch(next);
   });

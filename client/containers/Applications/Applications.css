@@ -11,11 +11,33 @@ article.card-docs {
   margin-bottom: 15px;
 }
 
+.page-description {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #999;
+  font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+}
+
+.user-app:hover {
+  border: 1px solid deepskyblue;
+}
+
 .user-app {
-  width: 15%;
+  width: 180px;
+  height: 180px;
+  padding: 5px;
+  border: 1px solid #ddd;
   float: left;
   margin-bottom: 20px;
   margin-right: 25px;
+  overflow: hidden;
+}
+
+.user-app .image-container {
+  width: 110px;
+  height: 110px;
+  margin-top: 10px;
+  margin-left: 30px;
 }
 
 .user-app .img-circle {
@@ -24,9 +46,15 @@ article.card-docs {
   border-radius: 0;
 }
 
-.user-app h4 {
+.user-app .card-docs-title {
+  margin-top: 5px;
+  font-size: 16px;
+  line-height: 22px;
   text-align: center;
+  color: #999;
+  font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
 }
+
 .logoBlockImage{
   width: 14%;
   float: left;
