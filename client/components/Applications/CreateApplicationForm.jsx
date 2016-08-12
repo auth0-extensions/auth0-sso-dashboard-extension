@@ -5,24 +5,26 @@ import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import _ from 'lodash';
 
-export default class CreateApplicationForm extends Component {
+
+export default class CreateApplicationForm extends React.Component {
   static propTypes = {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     createApplication: PropTypes.func.isRequired,
+    applicationIsSaved: PropTypes.func.isRequired,
     clients: React.PropTypes.array.isRequired
   }
 
   constructor(props) {
     super(props);
-    this.state = {currentClient: null}
+    this.state = {currentClient: null, currentType:null}
   }
 
-  getClientById(id) {
+  getClientById = (id) => {
     return  _.find(this.props.clients, function(client){ return client.client_id == id })
   }
 
-  onClientChange = (e)=>{
+  onClientChange = (e) =>{
     if(e.target.value) {
       this.setState({currentClient:this.getClientById(e.target.value)});
     } else {
@@ -30,12 +32,24 @@ export default class CreateApplicationForm extends Component {
     }
   }
 
-  getCallbacks(){
+  getCallbacks = () =>{
     if(this.state.currentClient){
       return this.state.currentClient.callbacks?(typeof this.state.currentClient.callbacks=='string'?[this.state.currentClient.callbacks]:this.state.currentClient.callbacks):[]
     } else {
       return [];
     }
+  }
+
+  onChangeType = (e)=> {
+    if(e.target.value) {
+      this.setState({currentType:e.target.value});
+    } else {
+      this.setState({currentType:null});
+    }
+  }
+
+  getIsOpenId = ()=>{
+    return this.state.currentType==='openid';
   }
 
   render() {
@@ -46,11 +60,14 @@ export default class CreateApplicationForm extends Component {
     const types = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
     const callbacks = this.getCallbacks();
     const clients = this.props.clients;
+
+    const response_tupes = ['token','code'];
+    const connections = [];
+    const isOpenId = this.getIsOpenId();
     return <div>
       <Alert stack={{limit: 3}} position='top' />
       <form className="appForm" onSubmit={(e) => {
         e.preventDefault();
-        $('.appFormSubmit').remove();
         var arr = $('.appForm').serializeArray(), obj = {};
         $.each(arr, function(indx, el){
            obj[el.name] = el.value;
@@ -59,13 +76,7 @@ export default class CreateApplicationForm extends Component {
           obj['enabled'] = false;
         }
         return this.props.createApplication(obj, function() {
-          Alert.info('Application was successfully saved.',{
-            effect: 'slide',
-            timeout: 2500,
-            onClose: function(){
-              history.back();
-            }.bind(this)
-          });
+          this.props.applicationIsSaved();
         }.bind(this));
       }}>
       <div>
@@ -81,16 +92,35 @@ export default class CreateApplicationForm extends Component {
             })}
           </select>
       </div>
-      <div>
+
+        <div>
           <label>Type</label>
-          <select className="form-control" name="type" required>
+          <select className="form-control" name="type" required onChange={this.onChangeType.bind(this)} >
             <option value=""></option>
             {types.map((type, index) => {
               return <option key={index}
                              value={type.value}>{type.text}</option>;
             })}
           </select>
-      </div>
+        </div>
+        {isOpenId ?
+            <div>
+              <label>Scope</label> <input name="scope" className="form-control" type="text" />
+            </div>
+            :''}
+        {isOpenId ?
+            <div>
+              <label>Response Type</label>
+              <select className="form-control" name="response_type" required>
+                <option value=""></option>
+                {response_tupes.map((r_type, index) => {
+                  return <option key={index}
+                                 value={r_type}>{r_type}</option>;
+                })}
+              </select>
+            </div>
+            :''}
+
       <div>
         <label>Logo</label> <input name="logo" className="form-control" type="url" />
       </div>
@@ -105,11 +135,20 @@ export default class CreateApplicationForm extends Component {
           </select>
         </div>
         <div>
+          <label>Connection</label>
+          <select className="form-control" name="callback">
+            <option value=""></option>
+            {connections.map((connection, index) => {
+              return <option key={index}
+                             value={connection}>{connection}</option>;
+            })}
+          </select>
+        </div>
+        <div>
           <label>Enabled?</label> <input name="enabled" type="checkbox" value={true} style={{'marginLeft':'10px'}} />
         </div>
-        <br />
         <button className="btn btn-success appFormSubmit">Update</button>
       </form>
     </div>
   }
-}
+};

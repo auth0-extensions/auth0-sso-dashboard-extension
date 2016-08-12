@@ -17,14 +17,14 @@ export default class ApplicationForm extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {currentClient: null}
+    this.state = {currentClient: null, currentType:null}
   }
 
-  getClientById(id) {
+  getClientById = (id) => {
     return  _.find(this.props.clients, function(client){ return client.client_id == id })
   }
 
-  onClientChange = (e)=>{
+  onClientChange = (e) =>{
     if(e.target.value) {
       this.setState({currentClient:this.getClientById(e.target.value)});
     } else {
@@ -32,8 +32,7 @@ export default class ApplicationForm extends Component {
     }
   }
 
-  getCallbacks(app){
-
+  getCallbacks = (app) =>{
     if(this.state.currentClient){
       return this.state.currentClient.callbacks?(typeof this.state.currentClient.callbacks=='string'?[this.state.currentClient.callbacks]:this.state.currentClient.callbacks):[]
     } else {
@@ -44,6 +43,18 @@ export default class ApplicationForm extends Component {
         return [];
       }
     }
+  }
+
+  onChangeType = (e) => {
+    if(e.target.value) {
+      this.setState({currentType:e.target.value});
+    } else {
+      this.setState({currentType:null});
+    }
+  }
+
+  getIsOpenId = () =>{
+    return this.state.currentType==='openid';
   }
 
   render() {
@@ -61,6 +72,14 @@ export default class ApplicationForm extends Component {
     const appCallback = application.callback;
     const appEnabled = application.enabled;
     const appId = this.props.appId;
+
+    const appResType =  application.response_type?application.response_type:'';
+    const appScope =  application.scope?application.scope:'';
+    const appConnection =  application.connection?application.connection:'';
+    const response_tupes = ['token','code'];
+    const connections = [];
+    const isOpenId = this.getIsOpenId();
+
     return <div>
       <Alert stack={{limit: 3}} position='top' />
       <form className="appForm" onSubmit={(e) => {
@@ -94,7 +113,7 @@ export default class ApplicationForm extends Component {
         </div>
         <div>
           <label>Type</label>
-          <select className="form-control" name="type" defaultValue={appType} required>
+          <select className="form-control" name="type" defaultValue={appType} required onChange={this.onChangeType.bind(this)}>
             <option value=""></option>
             {types.map((type, index) => {
               return <option key={index}
@@ -102,6 +121,23 @@ export default class ApplicationForm extends Component {
             })}
           </select>
       </div>
+        {isOpenId ?
+            <div>
+              <label>Scope</label> <input name="scope" className="form-control" type="text"  defaultValue={appScope}/>
+            </div>
+            :''}
+        {isOpenId ?
+            <div>
+              <label>Response Type</label>
+              <select className="form-control" name="response_type" required defaultValue={appResType}>
+                <option value=""></option>
+                {response_tupes.map((r_type, index) => {
+                  return <option key={index}
+                                 value={r_type}>{r_type}</option>;
+                })}
+              </select>
+            </div>
+            :''}
       <div>
         <label>Logo</label> <input name="logo" className="form-control" type="url"  defaultValue={appLogo} />
         </div>
@@ -116,6 +152,16 @@ export default class ApplicationForm extends Component {
           </select>
         </div>
         <div>
+          <div>
+            <label>Connection</label>
+            <select className="form-control" name="callback" defaultValue={appConnection}>
+              <option value=""></option>
+              {connections.map((connection, index) => {
+                return <option key={index}
+                               value={connection}>{connection}</option>;
+              })}
+            </select>
+          </div>
         <label>Enabled?</label> <input name="enabled" type="checkbox" value={true} style={{'marginLeft':'10px'}} defaultChecked={appEnabled} />
       </div>
       <br />

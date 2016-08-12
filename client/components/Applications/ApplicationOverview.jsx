@@ -26,13 +26,6 @@ export default class ApplicationOverview extends React.Component {
 
     return (
       <div>
-        <div className="createAppButton">
-        <Link to="/applications/create">
-          <button className="btn btn-success">
-              + Create App
-          </button>
-        </Link>
-        </div>
         <LoadingPanel show={ loading }>
           <div className="row">
             <div className="col-xs-12 wrapper">

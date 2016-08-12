@@ -34,6 +34,23 @@ export function fetchClients() {
     });
   };
 }
+/**
+ * connections
+ * @param enabledOnly
+ */
+export function fetchConnections() {
+
+  return (dispatch) => {
+    dispatch({
+      type: constants.FETCH_CONNECTIONS,
+      payload: {
+        promise: axios.get(`/api/connections`, {
+          responseType: 'json'
+        })
+      }
+    });
+  };
+}
 /*
  * Fetch the app details.
  */
@@ -119,5 +136,11 @@ export function deleteApplication(appId, onSuccess) {
       })
     }
   });
+  };
+}
+
+export function cancelApplicationSave() {
+  return {
+    type: constants.CANCEL_APPLICATION_CHANGE
   };
 }

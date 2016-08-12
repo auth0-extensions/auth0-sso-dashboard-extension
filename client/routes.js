@@ -9,7 +9,6 @@ export default (history) =>
       <IndexRedirect to="/applications" />
       <Route path="applications" component={containers.UserApplications} />
       <Route path="applications/settings" component={containers.Applications} />
-      <Route path="applications/create" component={containers.CreateApplication} />
       <Route path="applications/:id" component={containers.Application} />
     </Route>
     <Route path="/login" component={containers.Login} />

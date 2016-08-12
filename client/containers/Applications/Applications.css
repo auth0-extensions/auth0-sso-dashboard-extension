@@ -39,3 +39,6 @@ article.card-docs {
   float: left;
   padding-left: 10px;
 }
+.appFormSubmit{
+  display: none;
+}

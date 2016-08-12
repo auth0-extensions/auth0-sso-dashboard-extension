@@ -2,14 +2,23 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import * as actions from '../../actions/application';
-import { ApplicationOverview } from '../../components/Applications';
-
+import { ApplicationOverview, CreateApplicationOverview } from '../../components/Applications';
 import './Applications.css';
 
 class Applications extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {showModal: false}
+  }
+  static actionsToProps = {
+    ...actions
+  }
+
   componentWillMount = () => {
     this.props.fetchApplications();
+    this.props.fetchClients();
+    this.props.fetchConnections();
   }
 
   onChangeSearch = (query) => {
@@ -27,9 +36,16 @@ class Applications extends Component {
     this.props.fetchApplications();
   }
 
-  render() {
-    const { loading, error, apps, total } = this.props;
+  onClose = () => {
+    this.setState({showModal: false})
+  }
 
+  openForm = () => {
+    this.setState({showModal: true})
+  }
+
+  render() {
+    const { loading, error, apps, clients } = this.props;
     return (
       <div className="users">
         <div className="row content-header">
@@ -37,8 +53,21 @@ class Applications extends Component {
             <h2>Applications</h2>
           </div>
         </div>
+        <div className="createAppButton">
+          <button className="btn btn-success" onClick={this.openForm}>
+            + Create App
+          </button>
+        </div>
         <ApplicationOverview onReset={this.onReset.bind(this)} onChangeSearch={this.onChangeSearch.bind(this)}
-          error={error} applications={apps} total={total} loading={loading} deleteApplication={this.props.deleteApplication}
+          error={error} applications={apps} total={apps.length} loading={loading} deleteApplication={this.props.deleteApplication}
+        />
+        <CreateApplicationOverview showModal={this.state.showModal}
+                           error={error}
+                           onClose={this.onClose}
+                           loading={loading}
+                           clients={clients}
+                           createApplication={this.props.createApplication}
+                           fetchApplications={this.props.fetchApplications}
         />
       </div>
     );
@@ -50,9 +79,9 @@ function mapStateToProps(state) {
     error: state.applications.get('error'),
     loading: state.applications.get('loading'),
     applications: state.applications.get('records').toJS(),
-    apps: state.applications.get('records').toJS(),
-    total: state.applications.get('total'),
-    nextPage: state.applications.get('nextPage')
+    clients: state.clients.get('records').toJS(),
+    connections: state.connections.get('records').toJS(),
+    apps: state.applications.get('records').toJS()
   };
 }
 
