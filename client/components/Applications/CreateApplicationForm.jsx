@@ -17,7 +17,10 @@ export default class CreateApplicationForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {currentClient: null, currentType:null}
+    this.state = {
+      currentClient: null,
+      currentType:null
+    }
   }
 
   getClientById = (id) => {
@@ -34,13 +37,15 @@ export default class CreateApplicationForm extends React.Component {
 
   getCallbacks = () =>{
     if(this.state.currentClient){
+      alert(this.state.currentClient);
       return this.state.currentClient.callbacks?(typeof this.state.currentClient.callbacks=='string'?[this.state.currentClient.callbacks]:this.state.currentClient.callbacks):[]
     } else {
       return [];
     }
   }
 
-  onChangeType = (e)=> {
+
+  onChangeType = (e) => {
     if(e.target.value) {
       this.setState({currentType:e.target.value});
     } else {
@@ -48,7 +53,7 @@ export default class CreateApplicationForm extends React.Component {
     }
   }
 
-  getIsOpenId = ()=>{
+  getIsOpenId = () =>{
     return this.state.currentType==='openid';
   }
 

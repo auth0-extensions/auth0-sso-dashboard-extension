@@ -53,7 +53,7 @@ export default class ApplicationForm extends Component {
     }
   }
 
-  getIsOpenId = () =>{
+  getIsOpenId() {
     return this.state.currentType==='openid';
   }
 

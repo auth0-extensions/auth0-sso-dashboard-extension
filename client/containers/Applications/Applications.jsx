@@ -16,7 +16,7 @@ class Applications extends Component {
   }
 
   componentWillMount = () => {
-    this.props.fetchApplications();
+    this.props.fetchApplicationsAll();
     this.props.fetchClients();
     this.props.fetchConnections();
   }
