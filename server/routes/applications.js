@@ -88,7 +88,7 @@ export default (storage) => {
    * Get a list of all clients.
    */
   api.get('/clients', isAdmin, (req, res, next) => {
-    req.auth0.clients.getAll()
+    req.auth0.clients.getAll({ fields: 'name,client_id' })
       .then(clients => _.filter(clients, (client) => !client.global))
       .then(clients => res.json(clients))
       .catch(next);
