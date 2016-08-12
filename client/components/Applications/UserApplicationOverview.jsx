@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ApplicationsList } from './';
+import { ApplicationsList, SearchBar } from './';
 import { Error, LoadingPanel, TableTotals } from '../Dashboard';
 
 export default class UserApplicationOverview extends React.Component {
@@ -16,12 +16,14 @@ export default class UserApplicationOverview extends React.Component {
 
     return (
       <div>
+        <div className="page-description">Select the application you want to log in to.</div>
         <LoadingPanel show={ loading }>
           <div className="row">
             <div className="col-xs-12 wrapper">
               <Error message={ error } />
             </div>
           </div>
+          <SearchBar onReset={this.props.onReset} onChangeSearch={this.props.onChangeSearch} enabled={ () => !loading } />
           <div className="row">
             <div className="col-xs-12">
                 <ApplicationsList loading={loading} applications={applications} />
