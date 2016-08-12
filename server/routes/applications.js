@@ -1,31 +1,49 @@
 import _ from 'lodash';
-import { Router } from 'express';
-import { Auth0 } from 'auth0';
-import { readStorage, writeStorage } from '../lib/storage';
-import { NotFoundError, ArgumentError } from '../lib/errors';
+import {Router} from 'express';
+import {Auth0} from 'auth0';
+import {readStorage, writeStorage} from '../lib/storage';
+import {NotFoundError, ArgumentError} from '../lib/errors';
 import config from '../lib/config';
-import { managementClient, isAdmin } from '../lib/middlewares';
+import {managementClient, isAdmin} from '../lib/middlewares';
 
 const saveApplication = (id, body, storage) =>
   new Promise((resolve, reject) => {
     const data = {
-      [id]: {
-        'name': body.name,
-        'client': body.client,
-        'enabled': body.enabled,
-        'type': body.type,
-        'logo': body.logo,
-        'callback': body.callback
-      }
+      'name': body.name,
+      'client': body.client,
+      'enabled': body.enabled,
+      'type': body.type,
+      'logo': body.logo,
+      'callback': body.callback
     };
 
     if (body.type === 'openid') {
-      data[id].response_type = body.response_type || 'code';
-      data[id].scope = body.scope || 'openid';
+      data.response_type = body.response_type || 'code';
+      data.scope = body.scope || 'openid';
     }
 
-    writeStorage(storage, data)
-      .then(resolve)
+    readStorage(storage)
+      .then(originalData => {
+        originalData.applications[id] = data;
+
+        return writeStorage(storage, originalData)
+          .then(resolve)
+          .catch(reject);
+      })
+      .catch(reject);
+  });
+
+const deleteApplication = (id, storage) =>
+  new Promise((resolve, reject) => {
+    readStorage(storage)
+      .then(originalData => {
+        originalData.applications[id] = null;
+        delete originalData.applications[id];
+
+        return writeStorage(storage, originalData)
+          .then(resolve)
+          .catch(reject);
+      })
       .catch(reject);
   });
 
@@ -78,8 +96,17 @@ export default (storage) => {
    */
   api.get('/', (req, res, next) => {
     readStorage(storage)
-      .then(apps => _.pickBy(apps, (app) => !!app))
+      .then(apps => _.pickBy(apps.applications, (app) => app.enabled))
       .then(apps => res.json(apps))
+      .catch(next);
+  });
+
+  /*
+   * Get a list of applications.
+   */
+  api.get('/all', (req, res, next) => {
+    readStorage(storage)
+      .then(apps => res.json(apps.applications))
       .catch(next);
   });
 
@@ -88,7 +115,7 @@ export default (storage) => {
    */
   api.get('/:id', (req, res, next) => {
     readStorage(storage)
-      .then(apps => res.json({application:apps[req.params.id]}))
+      .then(apps => res.json({application: apps[req.params.id]}))
       .catch(next);
   });
 
@@ -116,9 +143,7 @@ export default (storage) => {
    * Delete application.
    */
   api.delete('/:id', isAdmin, (req, res, next) => {
-    const data = { [req.params.id]: null };
-
-    writeStorage(storage, data)
+    deleteApplication(req.params.id, storage)
       .then(() => res.status(200).send())
       .catch(next);
   });
