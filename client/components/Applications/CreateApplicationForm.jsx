@@ -136,7 +136,7 @@ export default class CreateApplicationForm extends React.Component {
         </div>
         <div>
           <label>Connection</label>
-          <select className="form-control" name="callback">
+          <select className="form-control" name="connection">
             <option value=""></option>
             {connections.map((connection, index) => {
               return <option key={index}

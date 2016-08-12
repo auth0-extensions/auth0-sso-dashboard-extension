@@ -54,7 +54,16 @@ export default class ApplicationForm extends Component {
   }
 
   getIsOpenId() {
-    return this.state.currentType==='openid';
+    if(this.state.currentType) {
+        return this.state.currentType=='openid';
+    } else {
+      if(this.props.application) {
+        let app = this.props.application.toJS();
+        return app.type=='openid';
+      } else {
+        return false;
+      }
+    }
   }
 
   render() {
@@ -156,7 +165,7 @@ export default class ApplicationForm extends Component {
         <div>
           <div>
             <label>Connection</label>
-            <select className="form-control" name="callback" defaultValue={appConnection}>
+            <select className="form-control" name="connection" defaultValue={appConnection}>
               <option value=""></option>
               {connections.map((connection, index) => {
                 return <option key={index}
