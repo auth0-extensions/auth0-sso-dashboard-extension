@@ -19,7 +19,7 @@ export default () => {
     <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/styles/zocial.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/manage/v0.3.1672/css/index.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/styleguide/4.6.13/index.min.css" />
-    <link rel="stylesheet" type="text/css" href="http://styleguide.auth0.com/index.css" />
+    <link rel="stylesheet" type="text/css" href="https://styleguide.auth0.com/index.css" />
     <% if (assets.style) { %><link rel="stylesheet" type="text/css" href="/app/<%= assets.style %>" /><% } %>
     <% if (assets.version) { %><link rel="stylesheet" type="text/css" href="//6ec6c68f.ngrok.io/app/auth0-sso-dashboard.ui.<%= assets.version %>.css" /><% } %>
     <% if (assets.customCss) { %><link rel="stylesheet" type="text/css" href="<%= assets.customCss %>" /><% } %>
