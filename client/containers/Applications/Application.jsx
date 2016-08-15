@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Tabs, Tab } from 'react-bootstrap';
 import connectContainer from 'redux-static';
-import { applicationActions } from '../../actions';
+import { applicationActions, connectionActions } from '../../actions';
 import './Application.css';
 import { ApplicationHeader, ApplicationInfo, ApplicationForm } from '../../components/Applications';
 
@@ -9,21 +9,24 @@ export default connectContainer(class extends Component {
   static stateToProps = (state) => ({
     application: state.application.get('record'),
     clients: state.clients.get('records').toJS(),
+    connections: state.connections.get('records').toJS(),
     error: state.application.get('error')||state.clients.get('error'),
     loading: state.application.get('loading')||state.clients.get('loading')
   })
 
   static actionsToProps = {
-    ...applicationActions
+    ...applicationActions,
+    ...connectionActions
   }
 
   componentWillMount() {
     this.props.fetchApplication(this.props.params.id);
     this.props.fetchClients();
+    this.props.fetchConnections();
   }
 
   render() {
-    const { application, loading, error, clients } = this.props;
+    const { application, loading, error, clients, connections } = this.props;
     return (
       <div className="user">
         <div className="row content-header">
@@ -42,7 +45,7 @@ export default connectContainer(class extends Component {
           <div className="col-xs-12">
             <Tabs id="sso-app-tabs" defaultActiveKey={1} animation={false}>
               <Tab eventKey={1} title="Settings">
-                <ApplicationForm appId={this.props.params.id} updateApplication={this.props.updateApplication} loading={loading} application={application} error={error} clients={clients} />
+                <ApplicationForm appId={this.props.params.id} updateApplication={this.props.updateApplication} loading={loading} application={application} error={error} clients={clients} connections={connections} />
               </Tab>
               <Tab eventKey={2} title="Info">
                 <ApplicationInfo loading={loading} application={application} error={error} />

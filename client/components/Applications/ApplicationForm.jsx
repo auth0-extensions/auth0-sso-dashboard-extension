@@ -86,7 +86,7 @@ export default class ApplicationForm extends Component {
     const appScope =  application.scope?application.scope:'';
     const appConnection =  application.connection?application.connection:'';
     const response_tupes = ['token','code'];
-    const connections = [];
+    const connections = this.props.connections;
     const isOpenId = this.getIsOpenId();
 
     return <div>
@@ -169,7 +169,7 @@ export default class ApplicationForm extends Component {
               <option value=""></option>
               {connections.map((connection, index) => {
                 return <option key={index}
-                               value={connection}>{connection}</option>;
+                               value={connection.name}>{connection.name}</option>;
               })}
             </select>
           </div>
