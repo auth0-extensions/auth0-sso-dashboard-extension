@@ -8,7 +8,7 @@ export default class SearchBar extends Component {
     onChangeSearch: PropTypes.func.isRequired
   }
 
-  defaultProps: {
+  defaultProps = {
     enabled: true
   }
 
