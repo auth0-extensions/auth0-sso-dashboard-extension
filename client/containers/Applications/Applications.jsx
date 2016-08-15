@@ -9,7 +9,7 @@ class Applications extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {showModal: false}
+    this.state = {showModal: false, apps:[]}
   }
   static actionsToProps = {
     ...actions
@@ -24,7 +24,6 @@ class Applications extends Component {
   onChangeSearch = (query) => {
     if(query) {
       let apps = _.filter(this.props.applications, (app) =>  app.name.toLowerCase().indexOf(query) > -1);
-      this.props.apps = apps;
       this.setState({apps:apps});
     } else {
       this.onReset();
@@ -33,6 +32,7 @@ class Applications extends Component {
 
   onReset = () => {
     $('.search-input-apps').val('');
+    this.setState({apps:[]});
     this.props.fetchApplicationsAll();
   }
 
@@ -45,7 +45,8 @@ class Applications extends Component {
   }
 
   render() {
-    const { loading, error, apps, clients } = this.props;
+    const { loading, error, clients, applications } = this.props;
+    const apps = this.state.apps.length!=0?this.state.apps:applications;
     return (
       <div className="users">
         <div className="row content-header">
@@ -81,8 +82,7 @@ function mapStateToProps(state) {
     loading: state.applications.get('loading'),
     applications: state.applications.get('records').toJS(),
     clients: state.clients.get('records').toJS(),
-    connections: state.connections.get('records').toJS(),
-    apps: state.applications.get('records').toJS()
+    connections: state.connections.get('records').toJS()
   };
 }
 
