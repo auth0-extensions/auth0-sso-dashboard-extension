@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import uuid from 'uuid';
 import {Router} from 'express';
 import {Auth0} from 'auth0';
 import {readStorage, writeStorage} from '../lib/storage';
@@ -26,6 +27,7 @@ const saveApplication = (id, body, storage) =>
 
     readStorage(storage)
       .then(originalData => {
+        originalData = originalData || {};
         originalData.applications[id] = data;
 
         return writeStorage(storage, originalData)
@@ -148,7 +150,7 @@ export default (storage) => {
    * Create application.
    */
   api.post('/', isAdmin, (req, res, next) => {
-    const id = new Date().getTime().toString();
+    const id = uuid.v4();
 
     saveApplication(id, req.body, storage)
       .then(() => res.status(201).send())
