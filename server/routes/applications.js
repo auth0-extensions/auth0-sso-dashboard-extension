@@ -27,7 +27,7 @@ const saveApplication = (id, body, storage) =>
 
     readStorage(storage)
       .then(originalData => {
-        originalData = originalData || {};
+        originalData = originalData || {applications: {}};
         originalData.applications[id] = data;
 
         return writeStorage(storage, originalData)
