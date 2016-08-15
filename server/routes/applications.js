@@ -99,7 +99,19 @@ export default (storage) => {
    */
   api.get('/', (req, res, next) => {
     readStorage(storage)
-      .then(apps => _.pickBy(apps.applications, (app) => (app.enabled && app.login_url)))
+      .then(apps => {
+        const applications = {};
+
+        Object.keys(apps.applications).map((key) => {
+          const app = apps.applications[key];
+
+          if (app.enabled && app.login_url) {
+            applications[key] = app;
+          }
+        });
+
+        return applications;
+      })
       .then(apps => res.json(apps))
       .catch(next);
   });
