@@ -149,8 +149,8 @@ export default class ApplicationForm extends Component {
               </select>
             </div>
             :''}
-      <div>
-        <label>Logo</label> <input name="logo" className="form-control" type="url"  defaultValue={appLogo} />
+        <div>
+        <label>Logo Url</label> <input name="logo" className="form-control" type="url"  defaultValue={appLogo} />
         </div>
         <div>
           <label>Callback</label>

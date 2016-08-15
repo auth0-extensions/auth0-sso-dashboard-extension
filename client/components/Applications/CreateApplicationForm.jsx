@@ -123,7 +123,7 @@ export default class CreateApplicationForm extends React.Component {
             :''}
 
       <div>
-        <label>Logo</label> <input name="logo" className="form-control" type="url" />
+        <label>Logo Url</label> <input name="logo" className="form-control" type="url" />
       </div>
         <div>
           <label>Callback</label>
