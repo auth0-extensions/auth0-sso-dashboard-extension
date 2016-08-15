@@ -23,7 +23,7 @@ export default class ApplicationOverview extends React.Component {
   }
 
   render() {
-    const { loading, error, applications, total } = this.props;
+    const { loading, error, applications } = this.props;
 
     return (
       <div>

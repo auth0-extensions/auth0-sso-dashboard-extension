@@ -66,6 +66,7 @@ class Applications extends Component {
                            onClose={this.onClose}
                            loading={loading}
                            clients={clients}
+                           connections={this.props.connections}
                            createApplication={this.props.createApplication}
                            fetchApplications={this.props.fetchApplicationsAll}
         />

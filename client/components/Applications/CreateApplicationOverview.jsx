@@ -10,6 +10,7 @@ export default class CreateApplication extends React.Component {
         error: PropTypes.string,
         loading: PropTypes.bool.isRequired,
         showModal: PropTypes.bool.isRequired,
+        connections: PropTypes.array.isRequired,
         createApplication: PropTypes.func.isRequired,
         onClose: PropTypes.func.isRequired,
         fetchApplications: PropTypes.func.isRequired,
@@ -36,7 +37,7 @@ export default class CreateApplication extends React.Component {
     }
 
   render() {
-    const { loading, createApplication, clients, error, showModal}  = this.props;
+    const { loading, createApplication, clients, connections, error, showModal}  = this.props;
     return (
         <div>
         <Alert stack={{limit: 3}} position='top' />
@@ -46,6 +47,7 @@ export default class CreateApplication extends React.Component {
                 loading={loading}
                 createApplication={ createApplication }
                 applicationIsSaved={ this.applicationIsSaved }
+                connections={ connections }
                 error={error}
                 clients={ clients }
             />
