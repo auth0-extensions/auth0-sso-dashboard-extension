@@ -100,17 +100,18 @@ export default (storage) => {
   api.get('/', (req, res, next) => {
     readStorage(storage)
       .then(apps => {
-        const applications = {};
+        const applications = apps.applications || {};
+        const result = {};
 
-        Object.keys(apps.applications).map((key) => {
-          const app = apps.applications[key];
+        Object.keys(applications).map((key) => {
+          const app = applications[key];
 
           if (app.enabled && app.login_url) {
-            applications[key] = app;
+            result[key] = app;
           }
         });
 
-        return applications;
+        return result;
       })
       .then(apps => res.json(apps))
       .catch(next);
@@ -121,7 +122,7 @@ export default (storage) => {
    */
   api.get('/all', (req, res, next) => {
     readStorage(storage)
-      .then(apps => res.json(apps.applications))
+      .then(apps => res.json(apps.applications || {}))
       .catch(next);
   });
 
