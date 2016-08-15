@@ -33,7 +33,7 @@ class Applications extends Component {
 
   onReset = () => {
     $('.search-input-apps').val('');
-    this.props.fetchApplications();
+    this.props.fetchApplicationsAll();
   }
 
   onClose = () => {
@@ -59,7 +59,7 @@ class Applications extends Component {
           </button>
         </div>
         <ApplicationOverview onReset={this.onReset.bind(this)} onChangeSearch={this.onChangeSearch.bind(this)}
-          error={error} applications={apps} total={apps.length} loading={loading} deleteApplication={this.props.deleteApplication}
+          error={error} applications={apps} loading={loading} deleteApplication={this.props.deleteApplication}
         />
         <CreateApplicationOverview showModal={this.state.showModal}
                            error={error}

@@ -5,9 +5,11 @@ import { Link } from 'react-router';
 
 export default class ApplicationsTable extends Component {
   static propTypes = {
-    applications: React.PropTypes.array.isRequired,
-    loading: React.PropTypes.bool.isRequired,
-    renderActions: React.PropTypes.func.isRequired
+    applications: React.PropTypes.oneOfType([
+      React.PropTypes.object,
+      React.PropTypes.array
+    ]).isRequired,
+    loading: React.PropTypes.bool.isRequired
   }
 
   shouldComponentUpdate(nextProps) {
@@ -27,7 +29,7 @@ export default class ApplicationsTable extends Component {
           <TableBody>
               {Object.keys(applications).map((key) => {
                 const application = applications[key];
-                const logo = application.logo;
+                const logo = application.logo || 'https://cdn.auth0.com/manage/v0.3.1866/img/badge-grey.svg';
                 const type = application.type;
                 const callback = application.callback;
                 const enabled = application.enabled;

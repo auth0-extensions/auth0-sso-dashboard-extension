@@ -5,9 +5,13 @@ import { Error, LoadingPanel, TableTotals } from '../Dashboard';
 
 export default class UserApplicationOverview extends React.Component {
   static propTypes = {
+    onReset: React.PropTypes.func.isRequired,
+    onChangeSearch: React.PropTypes.func.isRequired,
     error: React.PropTypes.object,
-    applications: React.PropTypes.array.isRequired,
-    total: React.PropTypes.number.isRequired,
+    applications: React.PropTypes.oneOfType([
+      React.PropTypes.object,
+      React.PropTypes.array
+    ]).isRequired,
     loading: React.PropTypes.bool.isRequired
   }
 
@@ -27,11 +31,6 @@ export default class UserApplicationOverview extends React.Component {
           <div className="row">
             <div className="col-xs-12">
                 <ApplicationsList loading={loading} applications={applications} />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-xs-12">
-              <TableTotals currentCount={applications.length} totalCount={total} />
             </div>
           </div>
         </LoadingPanel>

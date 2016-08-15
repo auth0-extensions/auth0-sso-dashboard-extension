@@ -13,8 +13,23 @@ class UserApplications extends Component {
     this.props.fetchApplications(true);
   }
 
+  onChangeSearch = (query) => {
+    if(query) {
+      let apps = _.filter(this.props.applications, (app) =>  app.name.toLowerCase().indexOf(query) > -1);
+      this.props.apps = apps;
+      this.setState({apps:apps});
+    } else {
+      this.onReset();
+    }
+  }
+
+  onReset = () => {
+    $('.search-input-apps').val('');
+    this.props.fetchApplications();
+  }
+
   render() {
-    const { loading, error, applications, total } = this.props;
+    const { loading, error, apps } = this.props;
     return (
       <div className="users">
         <div className="row content-header">
@@ -22,8 +37,8 @@ class UserApplications extends Component {
             <h2>Applications</h2>
           </div>
         </div>
-        <UserApplicationOverview
-          error={error} applications={applications} total={total} loading={loading}
+        <UserApplicationOverview onReset={this.onReset.bind(this)} onChangeSearch={this.onChangeSearch.bind(this)}
+          error={error} applications={apps} loading={loading}
         />
       </div>
     );
@@ -35,8 +50,8 @@ function mapStateToProps(state) {
     error: state.applications.get('error'),
     loading: state.applications.get('loading'),
     applications: state.applications.get('records').toJS(),
-    total: state.applications.get('total'),
-    nextPage: state.applications.get('nextPage')
+    nextPage: state.applications.get('nextPage'),
+    apps: state.applications.get('records').toJS()
   };
 }
 

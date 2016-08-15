@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 
 import { SearchBar, ApplicationsTable } from './';
-import { Error, LoadingPanel, TableTotals } from '../Dashboard';
+import { Error, LoadingPanel } from '../Dashboard';
 import { Link } from 'react-router';
 
 export default class ApplicationOverview extends React.Component {
@@ -11,9 +11,10 @@ export default class ApplicationOverview extends React.Component {
     onChangeSearch: React.PropTypes.func.isRequired,
     deleteApplication: React.PropTypes.func.isRequired,
     error: React.PropTypes.object,
-    applications: React.PropTypes.array.isRequired,
-    clients: React.PropTypes.array.isRequired,
-    total: React.PropTypes.number.isRequired,
+    applications: React.PropTypes.oneOfType([
+      React.PropTypes.object,
+      React.PropTypes.array
+    ]).isRequired,
     loading: React.PropTypes.bool.isRequired
   }
 
@@ -36,11 +37,6 @@ export default class ApplicationOverview extends React.Component {
           <div className="row">
             <div className="col-xs-12">
                 <ApplicationsTable loading={loading} applications={applications} deleteApplication={this.props.deleteApplication} />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-xs-12">
-              <TableTotals currentCount={applications.length} totalCount={total} />
             </div>
           </div>
         </LoadingPanel>
