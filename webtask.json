@@ -15,7 +15,7 @@
   "auth0": {
     "createClient": true,
     "onUninstallPath": "/.extensions/on-uninstall",
-    "scopes": "read:clients update:clients read:connections read:users read:logs read:device_credentials"
+    "scopes": "read:clients delete:clients read:connections read:users read:logs read:device_credentials"
   },
   "secrets": {
     "EXTENSION_CLIENT_ID": {

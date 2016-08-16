@@ -9,7 +9,7 @@ module.exports = (hookPath) =>
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
       const token = req.headers.authorization.split(' ')[1];
       const isValid = jwt.verify(token, config('EXTENSION_SECRET'), {
-        audience: path.join(config('WT_URL'), hookPath),
+        audience: config('WT_URL') + hookPath,
         issuer: `https://${config('AUTH0_DOMAIN')}`
       });
 
