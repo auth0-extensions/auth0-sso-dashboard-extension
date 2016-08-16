@@ -1,11 +1,11 @@
 import _ from 'lodash';
+import path from 'path';
 import uuid from 'uuid';
 import {Router} from 'express';
 import {Auth0} from 'auth0';
-import {readStorage, writeStorage} from '../lib/storage';
-import {NotFoundError, ArgumentError} from '../lib/errors';
+import tools from 'auth0-extension-tools';
 import config from '../lib/config';
-import {managementClient, isAdmin} from '../lib/middlewares';
+import {isAdmin} from '../lib/middlewares';
 
 const saveApplication = (id, body, storage) =>
   new Promise((resolve, reject) => {
@@ -25,7 +25,7 @@ const saveApplication = (id, body, storage) =>
 
     attachAuthUrl(data);
 
-    readStorage(storage)
+    storage.read()
       .then(originalData => {
         originalData = originalData || {};
 
@@ -33,7 +33,7 @@ const saveApplication = (id, body, storage) =>
 
         originalData.applications[id] = data;
 
-        return writeStorage(storage, originalData)
+        return storage.write(originalData)
           .then(resolve)
           .catch(reject);
       })
@@ -42,12 +42,12 @@ const saveApplication = (id, body, storage) =>
 
 const deleteApplication = (id, storage) =>
   new Promise((resolve, reject) => {
-    readStorage(storage)
+    storage.read()
       .then(originalData => {
         originalData.applications[id] = null;
         delete originalData.applications[id];
 
-        return writeStorage(storage, originalData)
+        return storage.write(originalData)
           .then(resolve)
           .catch(reject);
       })
@@ -86,12 +86,20 @@ const attachAuthUrl = (app) => {
 };
 
 
-export default (storage) => {
+export default () => {
   const api = Router();
 
   /*
    * Get a list of all clients.
    */
+  api.use((req, res, next) => {
+    req.storage = (req.webtaskContext && req.webtaskContext.storage)
+      ? new tools.WebtaskStorageContext(req.webtaskContext.storage, { force: 1 })
+      : new tools.FileStorageContext(path.join(__dirname, '../data.json'), { mergeWrites: true });
+
+    next();
+  });
+
   api.get('/clients', isAdmin, (req, res, next) => {
     req.auth0.clients.getAll({ fields: 'name,client_id,callbacks' })
       .then(clients => _.filter(clients, (client) => !client.global))
@@ -103,7 +111,7 @@ export default (storage) => {
    * Get a list of applications.
    */
   api.get('/', (req, res, next) => {
-    readStorage(storage)
+    req.storage.read()
       .then(apps => {
         const applications = apps.applications || {};
         const result = {};
@@ -126,7 +134,7 @@ export default (storage) => {
    * Get a list of applications.
    */
   api.get('/all', (req, res, next) => {
-    readStorage(storage)
+    req.storage.read()
       .then(apps => res.json(apps.applications || {}))
       .catch(next);
   });
@@ -135,7 +143,7 @@ export default (storage) => {
    * Get application.
    */
   api.get('/:id', (req, res, next) => {
-    readStorage(storage)
+    req.storage.read()
       .then(apps => res.json({application: apps.applications[req.params.id]}))
       .catch(next);
   });
@@ -144,7 +152,7 @@ export default (storage) => {
    * Update application.
    */
   api.put('/:id', isAdmin, (req, res, next) => {
-    saveApplication(req.params.id, req.body, storage)
+    saveApplication(req.params.id, req.body, req.storage)
       .then(() => res.status(200).send())
       .catch(next);
   });
@@ -155,7 +163,7 @@ export default (storage) => {
   api.post('/', isAdmin, (req, res, next) => {
     const id = uuid.v4();
 
-    saveApplication(id, req.body, storage)
+    saveApplication(id, req.body, req.storage)
       .then(() => res.status(201).send())
       .catch(next);
   });
@@ -164,7 +172,7 @@ export default (storage) => {
    * Delete application.
    */
   api.delete('/:id', isAdmin, (req, res, next) => {
-    deleteApplication(req.params.id, storage)
+    deleteApplication(req.params.id, req.storage)
       .then(() => res.status(200).send())
       .catch(next);
   });

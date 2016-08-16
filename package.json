@@ -27,6 +27,8 @@
   "dependencies": {
     "async": "^1.5.2",
     "auth0": "^2.1.0",
+    "auth0-extension-express-tools": "^0.2.0",
+    "auth0-extension-tools": "^0.13.0",
     "axios": "^0.13.1",
     "babel": "^6.5.2",
     "babel-core": "^6.9.1",

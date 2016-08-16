@@ -1,8 +1,7 @@
 import fs from 'fs';
-import url from 'url';
 import ejs from 'ejs';
 import path from 'path';
-
+import { urlHelpers } from 'auth0-extension-express-tools';
 import config from '../lib/config';
 
 export default () => {
@@ -39,13 +38,6 @@ export default () => {
   </html>
   `;
 
-  const getBasePath = function(originalUrl, path) {
-    let basePath = url.parse(originalUrl || '').pathname.replace(path, '').replace(/^\/|\/$/g, '');
-    if (!basePath.startsWith('/')) basePath = `/${basePath}`;
-    if (!basePath.endsWith('/')) basePath = `${basePath}/`;
-    return basePath;
-  };
-
   return (req, res, next) => {
     if (req.url.indexOf('/api') === 0) {
       return next();
@@ -54,12 +46,8 @@ export default () => {
     const settings = {
       AUTH0_DOMAIN: config('AUTH0_DOMAIN'),
       AUTH0_CLIENT_ID: config('EXTENSION_CLIENT_ID'),
-      BASE_URL: url.format({
-        protocol: config('NODE_ENV') !== 'production' ? 'http' : 'https',
-        host: req.get('host'),
-        pathname: url.parse(req.originalUrl || '').pathname.replace(req.path, '')
-      }),
-      BASE_PATH: getBasePath(req.originalUrl, req.path),
+      BASE_URL: urlHelpers.getBaseUrl(req),
+      BASE_PATH: urlHelpers.getBasePath(req),
       TITLE: config('TITLE')
     };
 
