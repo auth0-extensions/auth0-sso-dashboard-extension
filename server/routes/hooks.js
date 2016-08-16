@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Promise from 'bluebird';
 import { Router as router } from 'express';
-import config from '../config';
+import config from '../lib/config';
 import logger from '../lib/logger';
 import { managementClient, validateHookToken } from '../lib/middlewares';
 
@@ -16,6 +16,7 @@ export default () => {
         res.sendStatus(204);
       })
       .catch((err) => {
+        console.log(err);
         logger.debug(`Error deleting client ${config('AUTH0_CLIENT_ID')}`);
         logger.error(err);
         res.sendStatus(500);
