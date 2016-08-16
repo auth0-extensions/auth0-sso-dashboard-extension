@@ -10,14 +10,18 @@ export default () => {
   hooks.use('/on-install', validateHookToken('/.extensions/on-install'));
   hooks.use('/on-uninstall', validateHookToken('/.extensions/on-uninstall'));
   hooks.delete('/on-uninstall', managementClient, (req, res) => {
-    req.auth0.clients.delete({ client_id: config('AUTH0_CLIENT_ID') })
+    const clientId = config('AUTH0_CLIENT_ID');
+    console.log('Starting on-uninstall v 1:');
+    console.log('Removing client ' + clientId);
+    console.log(req.auth0);
+    req.auth0.clients.delete({ client_id: clientId })
       .then(() => {
-        logger.debug(`Deleted client ${config('AUTH0_CLIENT_ID')}`);
+        logger.debug(`Deleted client ${clientId}`);
         res.sendStatus(204);
       })
       .catch((err) => {
         console.log(err);
-        logger.debug(`Error deleting client ${config('AUTH0_CLIENT_ID')}`);
+        logger.debug(`Error deleting client ${clientId}`);
         logger.error(err);
         res.sendStatus(500);
       });
