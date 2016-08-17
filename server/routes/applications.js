@@ -15,6 +15,7 @@ const saveApplication = (id, body, storage) =>
       'enabled': body.enabled,
       'type': body.type,
       'logo': body.logo,
+      'connection': body.connection,
       'callback': body.callback
     };
 

@@ -24,10 +24,9 @@ export default () => {
         res.sendStatus(204);
       })
       .catch((err) => {
-        console.log(err);
         logger.debug(`Error deleting client ${clientId}`);
         logger.error(err);
-        res.sendStatus(204);
+        res.sendStatus(500);
       });
   });
   return hooks;
