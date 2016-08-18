@@ -143,6 +143,9 @@ export function deleteApplication(appId, onSuccess) {
       type: constants.REMOVE_APPLICATION,
       meta: {
         onSuccess: () => {
+        if(onSuccess) {
+          onSuccess();
+        }
         dispatch(fetchApplicationsAll());
   }
   },

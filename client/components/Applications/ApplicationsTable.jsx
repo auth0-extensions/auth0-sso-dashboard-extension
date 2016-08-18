@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { TableActionCell, Table, TableCell, TableRouteCell, TableBody, TableTextCell, TableHeader, TableColumn, TableRow } from '../Dashboard';
+import { Confirm, TableActionCell, Table, TableCell, TableRouteCell, TableBody, TableTextCell, TableHeader, TableColumn, TableRow } from '../Dashboard';
 import { Link } from 'react-router';
 
 export default class ApplicationsTable extends Component {
@@ -12,14 +12,48 @@ export default class ApplicationsTable extends Component {
     loading: React.PropTypes.bool.isRequired
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.applications !== this.props.applications;
+    constructor(props) {
+        super(props);
+        this.state = {
+            showModal: false,
+            appToDelete:null
+        }
+    }
+
+  onCancel = () => {
+      this.setState({
+          showModal: false,
+          appToDelete:null
+      });
   }
+
+    onConfirm = () => {
+        let key = this.state.appToDelete;
+        if(key) {
+            this.props.deleteApplication(key,function(){
+                this.setState({
+                    showModal: false,
+                    appToDelete:null
+                });
+            }.bind(this));
+        } else {
+            this.setState({
+                showModal: false,
+                appToDelete:null
+            });
+        }
+    }
 
 
   render() {
     const { applications, renderActions } = this.props;
     return (
+        <div>
+        <Confirm title="Remove Application" show={this.state.showModal} loading={false} onCancel={this.onCancel.bind(this)} onConfirm={this.onConfirm.bind(this)}>
+            <span>
+                Are you sure?
+            </span>
+        </Confirm>
         <Table>
           <TableHeader>
             <TableColumn width="50%">Logo</TableColumn>
@@ -59,7 +93,10 @@ export default class ApplicationsTable extends Component {
                             <li title="Remove" data-toggle="tooltip">
                                 <a href="#" onClick={ function(e){
                                     e.preventDefault();
-                                    this.props.deleteApplication(key);
+                                    this.setState({
+                                        showModal: true,
+                                        appToDelete:key
+                                    });
                                 }.bind(this)} className="remove-rule">
                                     <i className="icon-budicon-471"></i>
                                 </a>
@@ -71,6 +108,7 @@ export default class ApplicationsTable extends Component {
             })}
           </TableBody>
         </Table>
+       </div>
     );
   }
 }
