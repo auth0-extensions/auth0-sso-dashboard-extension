@@ -62,7 +62,7 @@ export default class CreateApplicationForm extends React.Component {
     const callbacks = this.getCallbacks();
     const clients = this.props.clients;
 
-    const response_tupes = ['token','code'];
+    const response_types = [{value:'token',text:'Single Page Application'},{value:'code',text:'Traditional Web Application'}];
     const connections = this.props.connections;
     const isOpenId = this.getIsOpenId();
     return <div>
@@ -123,9 +123,9 @@ export default class CreateApplicationForm extends React.Component {
               <div className="col-xs-10">
               <select id="app_res_type" className="form-control" name="response_type" required>
                 <option value="">Select...</option>
-                {response_tupes.map((r_type, index) => {
+                {response_types.map((r_type, index) => {
                   return <option key={index}
-                                 value={r_type}>{r_type}</option>;
+                                 value={r_type.value}>{r_type.text}</option>;
                 })}
               </select>
             </div>
