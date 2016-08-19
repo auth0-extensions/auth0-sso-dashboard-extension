@@ -9,7 +9,7 @@ import {getUser} from '../lib/middlewares';
 import applications from './applications';
 import connections from './connections';
 
-export default (app, storage) => {
+export default () => {
   const api = Router();
 
   api.use(jwt({
@@ -42,7 +42,7 @@ export default (app, storage) => {
   }));
 
   api.use(getUser);
-  api.use('/applications', applications(storage));
+  api.use('/applications', applications());
   api.use('/connections', connections());
   api.get('/status', (req, res) => {
     res.json({isAdmin: req.user.isAdmin});
