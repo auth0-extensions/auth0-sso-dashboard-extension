@@ -9,7 +9,10 @@ export default class ApplicationsTable extends Component {
       React.PropTypes.object,
       React.PropTypes.array
     ]).isRequired,
-    loading: React.PropTypes.bool.isRequired
+    loading: React.PropTypes.bool.isRequired,
+      deleteApplication: React.PropTypes.func.isRequired,
+      updateApplication: React.PropTypes.func.isRequired,
+      fetchApplications: React.PropTypes.func.isRequired
   }
 
     constructor(props) {
@@ -44,6 +47,19 @@ export default class ApplicationsTable extends Component {
         }
     }
 
+    enableDisableApp = (key,app,enabled) => {
+        if(key&&app) {
+            if(enabled) {
+                app.enabled = false;
+            } else {
+                app.enabled = true;
+            }
+            this.props.updateApplication(key,app, function() {
+                this.props.fetchApplications();
+            }.bind(this));
+        }
+    }
+
 
   render() {
     const { applications, renderActions } = this.props;
@@ -55,11 +71,6 @@ export default class ApplicationsTable extends Component {
             </span>
         </Confirm>
         <Table>
-          <TableHeader>
-            <TableColumn width="50%">Logo</TableColumn>
-            <TableColumn width="30%">ID</TableColumn>
-            <TableColumn width="20%">Actions</TableColumn>
-          </TableHeader>
           <TableBody>
               {Object.keys(applications).map((key) => {
                 const application = applications[key];
@@ -67,10 +78,14 @@ export default class ApplicationsTable extends Component {
                 const type = application.type;
                 const callback = application.callback;
                 const enabled = application.enabled;
+                const appClassName = enabled?"publishedApp publishButtonApp":"unpublishedApp publishButtonApp";
+                const appButtonText = enabled?"UNPUBLISH >":"PUBLISH >";
                 const name = application.name || application.client;
+                const login_url = application.login_url;
               return (
                   <TableRow key={key}>
                     <TableCell>
+                        <div>
                         <div className="logoBlockImage">
                         <img className="img-circle" src={ logo } alt={ name } />
                         </div>
@@ -81,13 +96,21 @@ export default class ApplicationsTable extends Component {
                             <br />
                         {type}
                         </div>
+                        <div className={appClassName} onClick={function(){
+                            this.enableDisableApp(key,application,enabled);
+                        }.bind(this)}> {appButtonText}</div>
+                        </div>
                     </TableCell>
-                    <TableCell>{key}</TableCell>
                     <TableCell className="actions">
-                        <ul className="list-inline">
+                        <ul className="list-inline list-inline-apps">
+                            <li title="Login" data-toggle="tooltip">
+                                <a href={ login_url } target="_blank" key={ key }>
+                                    <i className="icon-budicon-187"></i>
+                                </a>
+                            </li>
                             <li title="Edit" data-toggle="tooltip">
                                 <Link to={`/applications/${key}`}>
-                                    <i className="icon-budicon-274"></i>
+                                    <i className="icon-budicon-329"></i>
                                 </Link>
                              </li>
                             <li title="Remove" data-toggle="tooltip">

@@ -9,7 +9,9 @@ export default class ApplicationOverview extends React.Component {
   static propTypes = {
     onReset: React.PropTypes.func.isRequired,
     onChangeSearch: React.PropTypes.func.isRequired,
+    fetchApplications: React.PropTypes.func.isRequired,
     deleteApplication: React.PropTypes.func.isRequired,
+    updateApplication: React.PropTypes.func.isRequired,
     error: React.PropTypes.object,
     applications: React.PropTypes.oneOfType([
       React.PropTypes.object,
@@ -36,7 +38,12 @@ export default class ApplicationOverview extends React.Component {
           <SearchBar onReset={this.props.onReset} onChangeSearch={this.props.onChangeSearch} enabled={ () => !loading } />
           <div className="row">
             <div className="col-xs-12">
-                <ApplicationsTable loading={loading} applications={applications} deleteApplication={this.props.deleteApplication} />
+                <ApplicationsTable loading={loading}
+                                   applications={applications}
+                                   deleteApplication={this.props.deleteApplication}
+                                   fetchApplications={this.props.fetchApplications}
+                                   updateApplication={this.props.updateApplication}
+                />
             </div>
           </div>
         </LoadingPanel>

@@ -59,8 +59,15 @@ class Applications extends Component {
             + Create App
           </button>
         </div>
-        <ApplicationOverview onReset={this.onReset.bind(this)} onChangeSearch={this.onChangeSearch.bind(this)}
-          error={error} applications={apps} loading={loading} deleteApplication={this.props.deleteApplication}
+        <ApplicationOverview onReset={this.onReset.bind(this)}
+                             onChangeSearch={this.onChangeSearch.bind(this)}
+                             error={error}
+                             applications={apps}
+                             loading={loading}
+                             deleteApplication={this.props.deleteApplication}
+                             updateApplication={this.props.updateApplication}
+                             fetchApplications={this.props.fetchApplicationsAll}
+
         />
         <CreateApplicationOverview showModal={this.state.showModal}
                            error={error}

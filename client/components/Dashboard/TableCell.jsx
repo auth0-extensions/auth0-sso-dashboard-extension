@@ -6,7 +6,7 @@ class TableCell extends Component {
   }
 
   render() {
-    return <td className="truncate">
+    return <td className={this.props.className||"truncate"}>
         { this.props.children }
       </td>;
   }

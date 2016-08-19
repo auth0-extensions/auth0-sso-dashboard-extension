@@ -56,16 +56,17 @@ article.card-docs {
 }
 
 .logoBlockImage{
-  width: 14%;
+  width: 70px;
   float: left;
 }
 .logoBlockImage img{
-   width: 90%;
+  margin-top: 4px;
+   width: 60px;
+  border: 1px solid #dddddd;
 }
 .logoBlockInfo{
-  width: 86%;
   float: left;
-  padding-left: 10px;
+  padding-left: 3px;
 }
 .appFormSubmit{
   display: none;
@@ -119,4 +120,25 @@ article.card-docs {
   letter-spacing: 0.5px;
   padding-bottom: 6px;
   text-transform: capitalize;
+}
+.publishedApp{
+  border: 1px solid red;
+  color: red;
+}
+.unpublishedApp{
+  border: 1px solid green;
+  color: green;
+}
+.publishButtonApp{
+  float: left;
+  vertical-align: middle;
+  margin-left: 17px;
+  margin-top: 14px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+ul.list-inline-apps{
+  margin-top: 6px !important;
 }
