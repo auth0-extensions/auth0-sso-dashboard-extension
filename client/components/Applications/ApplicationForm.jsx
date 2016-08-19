@@ -55,11 +55,11 @@ export default class ApplicationForm extends Component {
 
   getIsOpenId() {
     if(this.state.currentType) {
-        return this.state.currentType=='openid';
+        return this.state.currentType=='oidc';
     } else {
       if(this.props.application) {
         let app = this.props.application.toJS();
-        return app.type=='openid';
+        return app.type=='oidc';
       } else {
         return false;
       }
@@ -70,7 +70,7 @@ export default class ApplicationForm extends Component {
     if (this.props.loading || this.props.error) {
       return <div></div>;
     }
-    const types = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
+    const types = [{value:'saml',text:'SAML'},{value:'oidc',text:'OpenID-Connect'},{value:'wsfed',text:'WS-Federation'}];
     const clients = this.props.clients;
     const application = this.props.application.toJS();
     const callbacks = this.getCallbacks(application);
@@ -85,7 +85,7 @@ export default class ApplicationForm extends Component {
     const appResType =  application.response_type?application.response_type:'';
     const appScope =  application.scope?application.scope:'';
     const appConnection =  application.connection?application.connection:'';
-    const response_tupes = ['token','code'];
+    const response_types = [{value:'token',text:'Single Page Application'},{value:'code',text:'Traditional Web Application'}];
     const connections = this.props.connections;
     const isOpenId = this.getIsOpenId();
 
@@ -142,9 +142,9 @@ export default class ApplicationForm extends Component {
               <label>Response Type</label>
               <select className="form-control" name="response_type" required defaultValue={appResType}>
                 <option value=""></option>
-                {response_tupes.map((r_type, index) => {
+                {response_types.map((r_type, index) => {
                   return <option key={index}
-                                 value={r_type}>{r_type}</option>;
+                                 value={r_type.value}>{r_type.text}</option>;
                 })}
               </select>
             </div>

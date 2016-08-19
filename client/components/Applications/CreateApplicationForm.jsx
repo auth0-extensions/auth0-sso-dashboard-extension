@@ -51,7 +51,7 @@ export default class CreateApplicationForm extends React.Component {
   }
 
   getIsOpenId = () =>{
-    return this.state.currentType==='openid';
+    return this.state.currentType==='oidc';
   }
 
   render() {
@@ -59,11 +59,11 @@ export default class CreateApplicationForm extends React.Component {
       return <div></div>;
     }
 
-    const types = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
+    const types = [{value:'saml',text:'SAML'},{value:'oidc',text:'OpenID-Connect'},{value:'wsfed',text:'WS-Federation'}];
     const callbacks = this.getCallbacks();
     const clients = this.props.clients;
 
-    const response_tupes = ['token','code'];
+    const response_types = [{value:'token',text:'Single Page Application'},{value:'code',text:'Traditional Web Application'}];
     const connections = this.props.connections;
     const isOpenId = this.getIsOpenId();
     return <div>
@@ -114,9 +114,9 @@ export default class CreateApplicationForm extends React.Component {
               <label>Response Type</label>
               <select className="form-control" name="response_type" required>
                 <option value=""></option>
-                {response_tupes.map((r_type, index) => {
+                {response_types.map((r_type, index) => {
                   return <option key={index}
-                                 value={r_type}>{r_type}</option>;
+                                 value={r_type.value}>{r_type.text}</option>;
                 })}
               </select>
             </div>

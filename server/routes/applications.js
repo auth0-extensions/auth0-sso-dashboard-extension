@@ -19,7 +19,7 @@ const saveApplication = (id, body, storage) =>
       'callback': body.callback
     };
 
-    if (body.type === 'openid') {
+    if (body.type === 'oidc') {
       data.response_type = body.response_type || 'code';
       data.scope = body.scope || 'openid';
     }
@@ -68,16 +68,16 @@ const attachAuthUrl = (app) => {
     case 'saml':
       loginUrl = `https://${domain}/samlp/${client_id}`;
       break;
-    case 'ws-fed':
+    case 'wsfed':
       loginUrl = `https://${domain}/wsfed/${client_id}?wreply=${callback}`;
       break;
-    case 'openid':
+    case 'oidc':
       loginUrl = `https://${domain}/authorize?response_type=${responseType}&scope=${scope}&client_id=${client_id}&redirect_uri=${callback}`;
       break;
   }
 
   if (app.connection) {
-    loginUrl += (authProtocol === 'ws-fed') ? '&wreply=' : '&connection=';
+    loginUrl += (authProtocol === 'wsfed') ? '&wreply=' : '&connection=';
     loginUrl += app.connection;
   }
 
