@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { Error, Json, LoadingPanel, InputCombo, InputText } from '../Dashboard';
+import { Error, Json, LoadingPanel, InputCombo, InputText, Confirm } from '../Dashboard';
 import _ from 'lodash';
 
 export default class ApplicationForm extends Component {
@@ -8,13 +8,18 @@ export default class ApplicationForm extends Component {
     loading: PropTypes.bool.isRequired,
     application: PropTypes.object.isRequired,
     updateApplication: PropTypes.func.isRequired,
+    deleteApplication: PropTypes.func.isRequired,
     clients: React.PropTypes.array.isRequired,
     appId: PropTypes.string.isRequired
   }
 
   constructor(props) {
     super(props);
-    this.state = {currentClient: null, currentType:null}
+    this.state = {
+      currentClient: null,
+      currentType:null,
+      showModal:false
+    }
   }
 
   getClientById = (id) => {
@@ -63,6 +68,28 @@ export default class ApplicationForm extends Component {
     }
   }
 
+  onCancel = () => {
+    this.setState({
+      showModal: false
+    });
+  }
+
+  onConfirm = () => {
+    let app = this.props.appId;
+    if(app) {
+      this.props.deleteApplication(app,function(){
+        this.setState({
+          showModal: false
+        });
+        history.back();
+      }.bind(this));
+    } else {
+      this.setState({
+        showModal: false
+      });
+    }
+  }
+
   render() {
     if (this.props.loading || this.props.error) {
       return <div></div>;
@@ -86,8 +113,13 @@ export default class ApplicationForm extends Component {
     const connections = this.props.connections;
     const isOpenId = this.getIsOpenId();
 
-    return <div>
-      <form className="appForm" onSubmit={(e) => {
+    return <div className="updateAppScreen">
+      <Confirm title="Remove Application" show={this.state.showModal} loading={false} onCancel={this.onCancel.bind(this)} onConfirm={this.onConfirm.bind(this)}>
+            <span>
+                Are you sure?
+            </span>
+      </Confirm>
+      <form className="appForm updateAppForm" onSubmit={(e) => {
         e.preventDefault();
         var arr = $('.appForm').serializeArray(), obj = {};
         $.each(arr, function(indx, el){
@@ -102,74 +134,110 @@ export default class ApplicationForm extends Component {
           history.back();
         });
       }}>
-        <div>
-          <label>Name</label> <input name="name" className="form-control" type="text" defaultValue={name} required />
+        <div className="form-group row">
+          <label htmlFor="app_client">Application</label>
+          <div className="col-xs-10">
+            <select id="app_client" onChange={this.onClientChange.bind(this)} className="form-control" name="client" required defaultValue={clientId}>
+              <option value="">Select...</option>
+              {clients.map((client, index) => {
+                return <option key={index}
+                               value={client.client_id}>{client.name||client.client_id}</option>;
+              })}
+            </select>
+          </div>
         </div>
-        <div>
-          <label>Client</label>
-          <select onChange={this.onClientChange.bind(this)} className="form-control" name="client" defaultValue={clientId} required>
-            <option value=""></option>
-            {clients.map((client, index) => {
-              return <option key={index}
-                             value={client.client_id}>{client.name||client.client_id}</option>;
-            })}
-          </select>
+        <div className="form-group row">
+          <label htmlFor="app_name">Name</label>
+          <div className="col-xs-10">
+            <input placeholder="insert a name for users to see" name="name" id="app_name" className="form-control" type="text" defaultValue={name} required />
+          </div>
         </div>
-        <div>
-          <label>Type</label>
-          <select className="form-control" name="type" defaultValue={appType} required onChange={this.onChangeType.bind(this)}>
-            <option value=""></option>
-            {types.map((type, index) => {
-              return <option key={index}
-                             value={type.value}>{type.text}</option>;
-            })}
-          </select>
-      </div>
+        <div className="form-group row">
+          <label htmlFor="app_type">Type</label>
+          <div className="col-xs-10">
+            <select id="app_type" className="form-control" name="type" required onChange={this.onChangeType.bind(this)} defaultValue={appType} >
+              <option value="">Select...</option>
+              {types.map((type, index) => {
+                return <option key={index}
+                               value={type.value}>{type.text}</option>;
+              })}
+            </select>
+          </div>
+        </div>
         {isOpenId ?
-            <div>
-              <label>Scope</label> <input name="scope" className="form-control" type="text"  defaultValue={appScope}/>
+            <div className="form-group row">
+              <label htmlFor="app_scope">Scope</label>
+              <div className="col-xs-10">
+                <input placeholder="Insert a scope" id="app_scope" name="scope" className="form-control" type="text" defaultValue={appScope} />
+              </div>
             </div>
             :''}
         {isOpenId ?
-            <div>
-              <label>Response Type</label>
-              <select className="form-control" name="response_type" required defaultValue={appResType}>
-                <option value=""></option>
-                {response_tupes.map((r_type, index) => {
-                  return <option key={index}
-                                 value={r_type}>{r_type}</option>;
-                })}
-              </select>
+            <div className="form-group row">
+              <label htmlFor="app_res_type">Response Type</label>
+              <div className="col-xs-10">
+                <select id="app_res_type" className="form-control" name="response_type" required  defaultValue={appResType}>
+                  <option value="">Select...</option>
+                  {response_tupes.map((r_type, index) => {
+                    return <option key={index}
+                                   value={r_type}>{r_type}</option>;
+                  })}
+                </select>
+              </div>
             </div>
             :''}
-        <div>
-        <label>Logo Url</label> <input name="logo" className="form-control" type="url"  defaultValue={appLogo} />
+        <div className="form-group row">
+          <label htmlFor="app_logo_url">Icon Url</label>
+          <div className="col-xs-10">
+            <input placeholder="Insert an url of an image to use as a icon" id="app_logo_url" name="logo" className="form-control" type="url"   defaultValue={appLogo}/>
+            <div className="username-text app_tip">Tip: Choose the logo or image that represent the app</div>
+          </div>
         </div>
-        <div>
-          <label>Callback</label>
-            <select className="form-control" name="callback" defaultValue={appCallback} required>
-            <option value=""></option>
+
+        <div className="form-group row">
+          <label htmlFor="app_callback">Callback</label>
+          <div className="col-xs-10">
+            <select id="app_callback" className="form-control" name="callback" required defaultValue={appCallback}>
+              <option value="">Select...</option>
               {callbacks.map((callback, index) => {
                 return <option key={index}
                                value={callback}>{callback}</option>;
               })}
-          </select>
+            </select>
+          </div>
         </div>
-        <div>
-          <div>
-            <label>Connection</label>
-            <select className="form-control" name="connection" defaultValue={appConnection}>
-              <option value=""></option>
+        <div className="form-group row">
+          <label htmlFor="app_connection">Connection</label>
+          <div className="col-xs-10">
+            <select id="app_connection" className="form-control" name="connection" defaultValue={appConnection}>
+              <option value="">Select...</option>
               {connections.map((connection, index) => {
                 return <option key={index}
                                value={connection.name}>{connection.name}</option>;
               })}
             </select>
           </div>
-        <label>Enabled?</label> <input name="enabled" type="checkbox" value={true} style={{'marginLeft':'10px'}} defaultChecked={appEnabled} />
-      </div>
+        </div>
+        <div className="form-group row">
+          <label htmlFor="zpp_enabled">Enabled?</label>
+          <div className="col-xs-10">
+            <input id="app_enabled" name="enabled" type="checkbox" value={true} defaultChecked={appEnabled}/>
+          </div>
+        </div>
       <br />
-      <button className="btn btn-success">Update</button>
+      <div className="btn-div">
+      <button className="btn btn-info">Save Settings</button>
+      </div>
+        <br />
+        <h5>Danger Zone</h5>
+          <div className="red-border">
+            <p><strong>Warning!</strong> Once confirmed, this operation can't be undone!</p>
+            <p><input type="button" value="Delete Application" className="btn btn-danger delete-client " onClick={function () {
+                this.setState({
+                  showModal:true
+                });
+            }.bind(this)} /></p>
+          </div>
       </form>
     </div>
   }

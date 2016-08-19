@@ -41,7 +41,6 @@ export default class CreateApplicationForm extends React.Component {
     }
   }
 
-
   onChangeType = (e) => {
     if(e.target.value) {
       this.setState({currentType:e.target.value});
@@ -80,73 +79,95 @@ export default class CreateApplicationForm extends React.Component {
           this.props.applicationIsSaved();
         }.bind(this));
       }}>
-      <div>
-          <label>Name</label> <input name="name" className="form-control" type="text"  required />
+        <div className="form-group row">
+          <label htmlFor="app_client">Application</label>
+          <div className="col-xs-10">
+            <select id="app_client" onChange={this.onClientChange.bind(this)} className="form-control" name="client" required>
+              <option value="">Select...</option>
+              {clients.map((client, index) => {
+                return <option key={index}
+                               value={client.client_id}>{client.name||client.client_id}</option>;
+              })}
+            </select>
+          </div>
+        </div>
+      <div className="form-group row">
+        <label htmlFor="app_name">Name</label>
+        <div className="col-xs-10">
+        <input placeholder="insert a name for users to see" name="name" id="app_name" className="form-control" type="text"  required />
+        </div>
       </div>
-      <div>
-          <label>Client</label>
-          <select onChange={this.onClientChange.bind(this)} className="form-control" name="client" required>
-            <option value=""></option>
-            {clients.map((client, index) => {
-              return <option key={index}
-                             value={client.client_id}>{client.name||client.client_id}</option>;
-            })}
-          </select>
-      </div>
-
-        <div>
-          <label>Type</label>
-          <select className="form-control" name="type" required onChange={this.onChangeType.bind(this)} >
-            <option value=""></option>
+        <div className="form-group row">
+          <label htmlFor="app_type">Type</label>
+          <div className="col-xs-10">
+          <select id="app_type" className="form-control" name="type" required onChange={this.onChangeType.bind(this)} >
+            <option value="">Select...</option>
             {types.map((type, index) => {
               return <option key={index}
                              value={type.value}>{type.text}</option>;
             })}
           </select>
         </div>
+        </div>
         {isOpenId ?
-            <div>
-              <label>Scope</label> <input name="scope" className="form-control" type="text" />
+            <div className="form-group row">
+              <label htmlFor="app_scope">Scope</label>
+              <div className="col-xs-10">
+               <input placeholder="Insert a scope" id="app_scope" name="scope" className="form-control" type="text" />
+            </div>
             </div>
             :''}
         {isOpenId ?
-            <div>
-              <label>Response Type</label>
-              <select className="form-control" name="response_type" required>
-                <option value=""></option>
+            <div className="form-group row">
+              <label htmlFor="app_res_type">Response Type</label>
+              <div className="col-xs-10">
+              <select id="app_res_type" className="form-control" name="response_type" required>
+                <option value="">Select...</option>
                 {response_tupes.map((r_type, index) => {
                   return <option key={index}
                                  value={r_type}>{r_type}</option>;
                 })}
               </select>
             </div>
+            </div>
             :''}
 
-      <div>
-        <label>Logo Url</label> <input name="logo" className="form-control" type="url" />
+      <div className="form-group row">
+        <label htmlFor="app_logo_url">Icon Url</label>
+        <div className="col-xs-10">
+        <input placeholder="Insert an url of an image to use as a icon" id="app_logo_url" name="logo" className="form-control" type="url" />
+          <div className="username-text app_tip">Tip: Choose the logo or image that represent the app</div>
       </div>
-        <div>
-          <label>Callback</label>
-          <select className="form-control" name="callback" required>
-            <option value=""></option>
+      </div>
+        <div className="form-group row">
+          <label htmlFor="app_callback">Callback</label>
+          <div className="col-xs-10">
+          <select id="app_callback" className="form-control" name="callback" required>
+            <option value="">Select...</option>
             {callbacks.map((callback, index) => {
               return <option key={index}
                              value={callback}>{callback}</option>;
             })}
           </select>
         </div>
-        <div>
-          <label>Connection</label>
-          <select className="form-control" name="connection">
-            <option value=""></option>
+        </div>
+        <div className="form-group row">
+          <label htmlFor="app_connection">Connection</label>
+          <div className="col-xs-10">
+          <select id="app_connection" className="form-control" name="connection">
+            <option value="">Select...</option>
             {connections.map((connection, index) => {
               return <option key={index}
                              value={connection.name}>{connection.name}</option>;
             })}
           </select>
         </div>
-        <div>
-          <label>Enabled?</label> <input name="enabled" type="checkbox" value={true} style={{'marginLeft':'10px'}} />
+        </div>
+        <div className="form-group row">
+          <label htmlFor="zpp_enabled">Enabled?</label>
+          <div className="col-xs-10">
+          <input id="app_enabled" name="enabled" type="checkbox" value={true} />
+        </div>
         </div>
         <button className="btn btn-success appFormSubmit">Update</button>
       </form>

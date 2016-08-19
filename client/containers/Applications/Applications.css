@@ -70,3 +70,53 @@ article.card-docs {
 .appFormSubmit{
   display: none;
 }
+
+.modal-header{
+  border-bottom: 1px solid #ddd !important;
+}
+.modal-title{
+  font-weight: 600 !important;
+  font-size: 18px !important;
+}
+.spanTitle{
+  text-align: center;
+  color: grey;
+  margin-bottom: 30px;
+  margin-top: -5px;
+}
+.appForm label{
+  float: left !important;
+  display: block;
+  width: 100px;
+  text-align: right;
+  padding-top: 14px;
+}
+.appForm .col-xs-10{
+  float: right !important;
+}
+#app_enabled{
+  margin-left:10px;
+  margin-top:14px;
+}
+.app_tip{
+  color: grey;
+  font-size: 12px;
+  margin-top: 7px;
+  margin-bottom: -3px;
+}
+.updateAppForm #app_enabled{
+  margin-top:16px;
+}
+.updateAppForm label{
+  width: 170px;
+  padding-top: 10px;
+}
+.updateAppScreen .btn-div{
+  text-align: center;
+}
+.updateAppScreen h5 {
+  border-bottom: 1px solid #d0d2d3;
+  letter-spacing: 0.5px;
+  padding-bottom: 6px;
+  text-transform: capitalize;
+}

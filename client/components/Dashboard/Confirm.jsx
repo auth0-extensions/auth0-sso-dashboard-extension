@@ -6,7 +6,7 @@ class Confirm extends Component {
     if (this.props.onCancel) {
       return (
         <Button disabled={this.props.loading} onClick={this.props.onCancel}>
-          <i className="icon icon-budicon-501"></i> Cancel
+          { this.props.cancelMessage || <span><i className="icon icon-budicon-501"></i> Cancel</span> }
         </Button>
       );
     }
@@ -17,7 +17,7 @@ class Confirm extends Component {
   renderConfirm() {
     if (this.props.onConfirm) {
       return (
-        <Button bsStyle="success" disabled={this.props.loading} onClick={this.props.onConfirm}>
+        <Button bsStyle={this.props.successClass||'success'} disabled={this.props.loading} onClick={this.props.onConfirm}>
           { this.props.confirmMessage || <span><i className="icon icon-budicon-499"></i> Confirm</span> }
         </Button>
       );
@@ -47,6 +47,8 @@ class Confirm extends Component {
 Confirm.propTypes = {
   dialogClassName: React.PropTypes.string,
   confirmMessage: React.PropTypes.string,
+  cancelMessage: React.PropTypes.string,
+  successClass: React.PropTypes.string,
   loading: React.PropTypes.bool.isRequired,
   title: React.PropTypes.string.isRequired,
   show: React.PropTypes.bool.isRequired,

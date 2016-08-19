@@ -30,8 +30,9 @@ export default class CreateApplication extends React.Component {
     const { loading, createApplication, clients, connections, error, showModal}  = this.props;
     return (
         <div>
-        <Confirm title="Create New Application" show={showModal} loading={loading} onCancel={this.onCancel.bind(this)} onConfirm={this.onConfirm}>
+        <Confirm successClass="info" confirmMessage="Create" cancelMessage="Cancel" title="New Application" show={showModal} loading={loading} onCancel={this.onCancel.bind(this)} onConfirm={this.onConfirm}>
         <div className="user">
+            <div className="spanTitle"><span className="username-text">Add new application</span></div>
             <CreateApplicationForm
                 loading={loading}
                 createApplication={ createApplication }
