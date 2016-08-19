@@ -37,7 +37,7 @@ class Applications extends Component {
   }
 
   onClose = () => {
-    this.setState({showModal: false})
+    this.setState({showModal: false});
   }
 
   openForm = () => {

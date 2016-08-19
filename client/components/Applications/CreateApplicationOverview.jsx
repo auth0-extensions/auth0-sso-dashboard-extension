@@ -1,9 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { CreateApplicationForm } from './';
 import { Error, Confirm } from '../Dashboard';
-import Alert from 'react-s-alert';
-import 'react-s-alert/dist/s-alert-default.css';
-import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 
 export default class CreateApplication extends React.Component {
     static propTypes = {
@@ -27,20 +24,12 @@ export default class CreateApplication extends React.Component {
 
     applicationIsSaved  = () => {
         this.props.onClose();
-        Alert.info('Application was successfully saved.',{
-            effect: 'slide',
-            timeout: 2500,
-            onClose: function(){
-                 this.props.fetchApplications();
-            }.bind(this)
-        });
     }
 
   render() {
     const { loading, createApplication, clients, connections, error, showModal}  = this.props;
     return (
         <div>
-        <Alert stack={{limit: 3}} position='top' />
         <Confirm title="Create New Application" show={showModal} loading={loading} onCancel={this.onCancel.bind(this)} onConfirm={this.onConfirm}>
         <div className="user">
             <CreateApplicationForm

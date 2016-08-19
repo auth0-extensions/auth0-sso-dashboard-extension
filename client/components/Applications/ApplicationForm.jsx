@@ -1,8 +1,5 @@
 import React, { PropTypes, Component } from 'react';
 import { Error, Json, LoadingPanel, InputCombo, InputText } from '../Dashboard';
-import Alert from 'react-s-alert';
-import 'react-s-alert/dist/s-alert-default.css';
-import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import _ from 'lodash';
 
 export default class ApplicationForm extends Component {
@@ -90,7 +87,6 @@ export default class ApplicationForm extends Component {
     const isOpenId = this.getIsOpenId();
 
     return <div>
-      <Alert stack={{limit: 3}} position='top' />
       <form className="appForm" onSubmit={(e) => {
         e.preventDefault();
         var arr = $('.appForm').serializeArray(), obj = {};
@@ -102,11 +98,8 @@ export default class ApplicationForm extends Component {
         } else {
           obj['enabled'] = true;
         }
-        return this.props.updateApplication(appId,obj, function(callback) {
-          Alert.info('Application meta-data was successfully saved.',{
-            effect: 'slide',
-            onClose: callback
-          });
+        this.props.updateApplication(appId,obj, function() {
+          history.back();
         });
       }}>
         <div>

@@ -98,10 +98,8 @@ export function updateApplication(appId, data, onSuccess) {
       meta: {
         appId,
         onSuccess: () => {
-        onSuccess(function() {
-          dispatch(fetchApplication(appId));
-        });
-  }
+          onSuccess();
+        }
   },
     payload: {
       promise: axios.put(`/api/applications/${appId}`, data , {
@@ -121,7 +119,10 @@ export function createApplication(data, onSuccess) {
       type: constants.CREATE_APPLICATION,
       meta: {
         onSuccess: () => {
-        onSuccess();
+        if(onSuccess) {
+          onSuccess();
+        }
+        dispatch(fetchApplicationsAll());
   }
   },
     payload: {
