@@ -57,11 +57,11 @@ export default class ApplicationForm extends Component {
 
   getIsOpenId() {
     if(this.state.currentType) {
-        return this.state.currentType=='openid';
+        return this.state.currentType=='oidc';
     } else {
       if(this.props.application) {
         let app = this.props.application.toJS();
-        return app.type=='openid';
+        return app.type=='oidc';
       } else {
         return false;
       }
@@ -94,7 +94,7 @@ export default class ApplicationForm extends Component {
     if (this.props.loading || this.props.error) {
       return <div></div>;
     }
-    const types = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
+    const types = [{value:'saml',text:'SAML'},{value:'oidc',text:'OpenID-Connect'},{value:'wsfed',text:'WS-Federation'}];
     const clients = this.props.clients;
     const application = this.props.application.toJS();
     const callbacks = this.getCallbacks(application);

@@ -50,7 +50,7 @@ export default class CreateApplicationForm extends React.Component {
   }
 
   getIsOpenId = () =>{
-    return this.state.currentType==='openid';
+    return this.state.currentType==='oidc';
   }
 
   render() {
@@ -58,7 +58,7 @@ export default class CreateApplicationForm extends React.Component {
       return <div></div>;
     }
 
-    const types = [{value:'saml',text:'saml'},{value:'openid',text:'openid'},{value:'ws-fed',text:'ws-fed'}];
+    const types = [{value:'saml',text:'SAML'},{value:'oidc',text:'OpenID-Connect'},{value:'wsfed',text:'WS-Federation'}];
     const callbacks = this.getCallbacks();
     const clients = this.props.clients;
 
