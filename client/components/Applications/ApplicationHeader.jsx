@@ -15,10 +15,14 @@ export default class ApplicationHeader extends Component {
     const application = this.props.application.toJS();
     return (
       <div className="user-header">
+        <Link className="back-to-apps" to="/applications/settings">
+          <i className="icon-budicon-521"> </i>
+          BACK TO APPLICATIONS
+        </Link>
+
         <h4>
                   <span className="name user-head-nickname">
-                    { application.name } -
-                    <Link to="/applications/settings"> back </Link>
+                    { application.name }
                   </span>
         </h4>
       </div>
