@@ -1,10 +1,10 @@
 import jwt from 'express-jwt';
-import {Router} from 'express';
+import { Router } from 'express';
 
-import {expressJwtSecret, SigningKeyNotFoundError} from 'jwks-rsa';
+import { expressJwtSecret, SigningKeyNotFoundError } from 'jwks-rsa';
 import config from '../lib/config';
-import {middlewares} from 'auth0-extension-express-tools';
-import {getUser} from '../lib/middlewares';
+import { middlewares } from 'auth0-extension-express-tools';
+import { getUser } from '../lib/middlewares';
 
 import applications from './applications';
 import connections from './connections';
@@ -32,7 +32,7 @@ export default () => {
     // Validate the audience and the issuer.
     audience: config('EXTENSION_CLIENT_ID'),
     issuer: `https://${config('AUTH0_DOMAIN')}/`,
-    algorithms: ['RS256']
+    algorithms: [ 'RS256' ]
   }));
 
   api.use(middlewares.managementApiClient({
@@ -45,7 +45,7 @@ export default () => {
   api.use('/applications', applications());
   api.use('/connections', connections());
   api.get('/status', (req, res) => {
-    res.json({isAdmin: req.user.isAdmin});
+    res.json({ isAdmin: req.user.isAdmin });
   });
   return api;
 };

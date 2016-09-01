@@ -1,22 +1,51 @@
 import _ from 'lodash';
 import path from 'path';
 import uuid from 'uuid';
-import {Router} from 'express';
-import {Auth0} from 'auth0';
+import { Router } from 'express';
 import tools from 'auth0-extension-tools';
 import config from '../lib/config';
-import {isAdmin} from '../lib/middlewares';
+import { isAdmin } from '../lib/middlewares';
+
+const attachAuthUrl = (app) => {
+  const authProtocol = app.type;
+  const callback = app.callback || '';
+  const domain = config('AUTH0_DOMAIN');
+  const clientId = app.client;
+  const responseType = app.response_type || 'code';
+  const scope = app.scope || 'openid';
+  let loginUrl = '';
+
+  switch (authProtocol) {
+    case 'saml':
+      loginUrl = `https://${domain}/samlp/${clientId}`;
+      break;
+    case 'wsfed':
+      loginUrl = `https://${domain}/wsfed/${clientId}?wreply=${callback}`;
+      break;
+    case 'oidc':
+      loginUrl = `https://${domain}/authorize?response_type=${responseType}&scope=${scope}&client_id=${clientId}&redirect_uri=${callback}`;
+      break;
+  }
+
+  if (app.connection) {
+    loginUrl += (authProtocol === 'wsfed') ? '&wreply=' : '&connection=';
+    loginUrl += app.connection;
+  }
+
+  app.login_url = loginUrl;
+
+  return app;
+};
 
 const saveApplication = (id, body, storage) =>
   new Promise((resolve, reject) => {
-    const data = {
-      'name': body.name,
-      'client': body.client,
-      'enabled': body.enabled,
-      'type': body.type,
-      'logo': body.logo,
-      'connection': body.connection,
-      'callback': body.callback
+    const data = { name: body.name,
+      client: body.client,
+      enabled: body.enabled,
+      type: body.type,
+      logo: body.logo,
+      connection: body.connection,
+      callback: body.callback
     };
 
     if (body.type === 'oidc') {
@@ -55,38 +84,6 @@ const deleteApplication = (id, storage) =>
       .catch(reject);
   });
 
-const attachAuthUrl = (app) => {
-  const authProtocol = app.type;
-  const callback = app.callback || '';
-  const domain = config("AUTH0_DOMAIN");
-  const client_id = app.client;
-  const responseType = app.response_type || 'code';
-  const scope = app.scope || 'openid';
-  let loginUrl = '';
-
-  switch (authProtocol) {
-    case 'saml':
-      loginUrl = `https://${domain}/samlp/${client_id}`;
-      break;
-    case 'wsfed':
-      loginUrl = `https://${domain}/wsfed/${client_id}?wreply=${callback}`;
-      break;
-    case 'oidc':
-      loginUrl = `https://${domain}/authorize?response_type=${responseType}&scope=${scope}&client_id=${client_id}&redirect_uri=${callback}`;
-      break;
-  }
-
-  if (app.connection) {
-    loginUrl += (authProtocol === 'wsfed') ? '&wreply=' : '&connection=';
-    loginUrl += app.connection;
-  }
-
-  app.login_url = loginUrl;
-
-  return app;
-};
-
-
 export default () => {
   const api = Router();
 
@@ -118,10 +115,10 @@ export default () => {
         const result = {};
 
         Object.keys(applications).map((key) => {
-          const app = applications[key];
+          const app = applications[ key ];
 
           if (app.enabled && app.login_url) {
-            result[key] = app;
+            result[ key ] = app;
           }
         });
 
@@ -145,7 +142,7 @@ export default () => {
    */
   api.get('/:id', (req, res, next) => {
     req.storage.read()
-      .then(apps => res.json({application: apps.applications[req.params.id]}))
+      .then(apps => res.json({ application: apps.applications[ req.params.id ] }))
       .catch(next);
   });
 

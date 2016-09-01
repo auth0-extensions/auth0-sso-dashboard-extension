@@ -38,7 +38,8 @@ export function show(returnUrl) {
     callbackURL: `${window.config.BASE_URL}/login`,
     callbackOnLocationHash: true,
     authParams: {
-      state: returnUrl
+      state: returnUrl,
+      scope: 'openid authorization'
     }
   });
 }
