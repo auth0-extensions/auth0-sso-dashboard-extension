@@ -28,6 +28,7 @@ export default class CreateApplication extends React.Component {
 
     render() {
         const {loading, createApplication, clients, connections, error, showModal}  = this.props;
+
         return (
             <div>
                 <Confirm successClass="info" confirmMessage="Create" cancelMessage="Cancel" title="New Application"

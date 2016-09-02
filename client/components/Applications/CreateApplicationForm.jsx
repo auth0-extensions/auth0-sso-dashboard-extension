@@ -73,6 +73,7 @@ export default class CreateApplicationForm extends React.Component {
         }];
         const connections = this.props.connections;
         const isOpenId = this.getIsOpenId();
+
         return <div>
             <form className="appForm" onSubmit={(e) => {
                 e.preventDefault();

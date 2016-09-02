@@ -27,8 +27,7 @@ export default class SearchBar extends Component {
                      spellCheck="false" style={{marginLeft: '10px'}} onChange={this.onChangeSearch}
               />
             </span>
-
-                        <span className="controls pull-right">
+            <span className="controls pull-right">
               <button onClick={this.props.onReset} type="reset" disabled={!this.props.enabled}>
                 Reset <i className="icon-budicon-471"></i>
               </button>

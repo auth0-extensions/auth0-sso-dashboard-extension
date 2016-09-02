@@ -36,6 +36,7 @@ class UserApplications extends Component {
     render() {
         const {loading, error, applications} = this.props;
         const apps = this.state.apps.length != 0 ? this.state.apps : applications;
+
         return (
             <div className="users">
                 <div className="row content-header">
