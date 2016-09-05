@@ -22,6 +22,7 @@ const attachAuthUrl = (app) => {
     case 'wsfed':
       loginUrl = `https://${domain}/wsfed/${clientId}?wreply=${callback}`;
       break;
+    default:
     case 'oidc':
       loginUrl = `https://${domain}/authorize?response_type=${responseType}&scope=${scope}&client_id=${clientId}&redirect_uri=${callback}`;
       break;
@@ -142,7 +143,7 @@ export default () => {
    */
   api.get('/:id', (req, res, next) => {
     req.storage.read()
-      .then(apps => res.json({ application: apps.applications[ req.params.id ] }))
+      .then(apps => res.json({ application: apps.applications[req.params.id] }))
       .catch(next);
   });
 

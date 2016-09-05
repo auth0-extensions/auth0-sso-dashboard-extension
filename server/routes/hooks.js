@@ -1,7 +1,7 @@
-import {Router as router} from 'express';
+import { Router as router } from 'express';
 import config from '../lib/config';
 import logger from '../lib/logger';
-import {middlewares} from 'auth0-extension-express-tools';
+import { middlewares } from 'auth0-extension-express-tools';
 
 export default () => {
   const hooks = router();
@@ -18,7 +18,7 @@ export default () => {
 
   hooks.delete('/on-uninstall', (req, res) => {
     const clientId = config('AUTH0_CLIENT_ID');
-    req.auth0.clients.delete({client_id: clientId})
+    req.auth0.clients.delete({ client_id: clientId })
       .then(() => {
         logger.debug(`Deleted client ${clientId}`);
         res.sendStatus(204);

@@ -4,6 +4,6 @@ const expressApp = require('./server');
 const logger = require('./server/lib/logger');
 
 module.exports = tools.createExpressServer((req, config, storage) => {
-  logger.info('Starting SSO Dashboard extension - Version:', config('CLIENT_VERSION'));
+  logger.info('Starting SSO Dashboard Extension - Version:', config('CLIENT_VERSION'));
   return expressApp(config, storage);
 });
