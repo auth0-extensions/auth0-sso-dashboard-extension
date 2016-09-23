@@ -2,16 +2,15 @@ import axios from 'axios';
 
 import * as constants from '../constants';
 
-
 /*
- * Load all enabled applications in an Auth0 account.
- */
+* Load all enabled applications in an Auth0 account.
+*/
 export function fetchApplications() {
   return (dispatch) => {
     dispatch({
       type: constants.FETCH_APPLICATIONS,
       payload: {
-        promise: axios.get(`/api/applications`, {
+        promise: axios.get('/api/applications', {
           responseType: 'json'
         })
       }
@@ -19,14 +18,14 @@ export function fetchApplications() {
   };
 }
 /*
- * Load all applications in an Auth0 account.
- */
+* Load all applications in an Auth0 account.
+*/
 export function fetchApplicationsAll() {
   return (dispatch) => {
     dispatch({
       type: constants.FETCH_APPLICATIONS,
       payload: {
-        promise: axios.get(`/api/applications/all`, {
+        promise: axios.get('/api/applications/all', {
           responseType: 'json'
         })
       }
@@ -34,16 +33,15 @@ export function fetchApplicationsAll() {
   };
 }
 /**
- * clients
- * @param enabledOnly
- */
+* clients
+* @param enabledOnly
+*/
 export function fetchClients() {
-
   return (dispatch) => {
     dispatch({
       type: constants.FETCH_CLIENTS,
       payload: {
-        promise: axios.get(`/api/applications/clients`, {
+        promise: axios.get('/api/applications/clients', {
           responseType: 'json'
         })
       }
@@ -51,16 +49,15 @@ export function fetchClients() {
   };
 }
 /**
- * connections
- * @param enabledOnly
- */
+* connections
+* @param enabledOnly
+*/
 export function fetchConnections() {
-
   return (dispatch) => {
     dispatch({
       type: constants.FETCH_CONNECTIONS,
       payload: {
-        promise: axios.get(`/api/connections`, {
+        promise: axios.get('/api/connections', {
           responseType: 'json'
         })
       }
@@ -68,11 +65,10 @@ export function fetchConnections() {
   };
 }
 /*
- * Fetch the app details.
- */
+* Fetch the app details.
+*/
 export function fetchApplication(appId, onSuccess) {
-  return (dispatch) =>
-  {
+  return (dispatch) => {
     dispatch({
       type: constants.FETCH_APPLICATION,
       meta: {
@@ -88,11 +84,10 @@ export function fetchApplication(appId, onSuccess) {
   };
 }
 /*
- * Update the app details.
- */
+* Update the app details.
+*/
 export function updateApplication(appId, data, onSuccess) {
-  return (dispatch) =>
-  {
+  return (dispatch) => {
     dispatch({
       type: constants.UPDATE_APPLICATION,
       meta: {
@@ -100,62 +95,57 @@ export function updateApplication(appId, data, onSuccess) {
         onSuccess: () => {
           onSuccess();
         }
-  },
-    payload: {
-      promise: axios.put(`/api/applications/${appId}`, data , {
-        responseType: 'json'
-      })
-    }
-  });
+      },
+      payload: {
+        promise: axios.put(`/api/applications/${appId}`, data, {
+          responseType: 'json'
+        })
+      }
+    });
   };
 }
 /*
- * Update the app details.
- */
+* Update the app details.
+*/
 export function createApplication(data, onSuccess) {
-  return (dispatch) =>
-  {
+  return (dispatch) => {
     dispatch({
       type: constants.CREATE_APPLICATION,
       meta: {
         onSuccess: () => {
-        if(onSuccess) {
-          onSuccess();
+          if (onSuccess) {
+            onSuccess();
+          }
+          dispatch(fetchApplicationsAll());
         }
-        dispatch(fetchApplicationsAll());
-  }
-  },
-    payload: {
-      promise: axios.post(`/api/applications`, data , {
-        responseType: 'json'
-      })
-    }
-  });
+      },
+      payload: {
+        promise: axios.post('/api/applications', data, {
+          responseType: 'json'
+        })
+      }
+    });
   };
 }
 
-/*
- * Remove the application.
- */
 export function deleteApplication(appId, onSuccess) {
-  return (dispatch) =>
-  {
+  return (dispatch) => {
     dispatch({
       type: constants.REMOVE_APPLICATION,
       meta: {
         onSuccess: () => {
-        if(onSuccess) {
-          onSuccess();
+          if (onSuccess) {
+            onSuccess();
+          }
+          dispatch(fetchApplicationsAll());
         }
-        dispatch(fetchApplicationsAll());
-  }
-  },
-    payload: {
-      promise: axios.delete(`/api/applications/${appId}`,  {
-        responseType: 'json'
-      })
-    }
-  });
+      },
+      payload: {
+        promise: axios.delete(`/api/applications/${appId}`, {
+          responseType: 'json'
+        })
+      }
+    });
   };
 }
 

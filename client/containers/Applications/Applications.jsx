@@ -6,93 +6,92 @@ import {ApplicationOverview, CreateApplicationOverview} from '../../components/A
 import './Applications.css';
 
 class Applications extends Component {
+  static actionsToProps = {
+    ...actions
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = {showModal: false, apps: []}
+  constructor(props) {
+    super(props);
+    this.state = {showModal: false, apps: []}
+  }
+
+  componentWillMount = () => {
+    this.props.fetchApplicationsAll();
+    this.props.fetchClients();
+    this.props.fetchConnections();
+  }
+
+  onChangeSearch = (query) => {
+    if (query) {
+      let apps = _.filter(this.props.applications, (app) => app.name.toLowerCase().indexOf(query) > -1);
+      this.setState({apps: apps});
+    } else {
+      this.onReset();
     }
+  }
 
-    static actionsToProps = {
-        ...actions
-    }
+  onReset = () => {
+    $('.search-input-apps').val('');
+    this.setState({apps: []});
+    this.props.fetchApplicationsAll();
+  }
 
-    componentWillMount = () => {
-        this.props.fetchApplicationsAll();
-        this.props.fetchClients();
-        this.props.fetchConnections();
-    }
+  onClose = () => {
+    this.setState({showModal: false});
+  }
 
-    onChangeSearch = (query) => {
-        if (query) {
-            let apps = _.filter(this.props.applications, (app) => app.name.toLowerCase().indexOf(query) > -1);
-            this.setState({apps: apps});
-        } else {
-            this.onReset();
-        }
-    }
+  openForm = () => {
+    this.setState({showModal: true})
+  }
 
-    onReset = () => {
-        $('.search-input-apps').val('');
-        this.setState({apps: []});
-        this.props.fetchApplicationsAll();
-    }
+  render() {
+    const { loading, error, clients, applications } = this.props;
+    const apps = this.state.apps.length !== 0 ? this.state.apps : applications;
 
-    onClose = () => {
-        this.setState({showModal: false});
-    }
+    return (
+      <div className="users">
+        <div className="row content-header">
+          <div className="col-xs-12">
+            <h2>Applications</h2>
+          </div>
+        </div>
+        <div className="createAppButton">
+          <button className="btn btn-success" onClick={this.openForm}>
+            + Create App
+          </button>
+        </div>
+        <ApplicationOverview onReset={this.onReset.bind(this)}
+          onChangeSearch={this.onChangeSearch.bind(this)}
+          error={error}
+          applications={apps}
+          loading={loading}
+          deleteApplication={this.props.deleteApplication}
+          updateApplication={this.props.updateApplication}
+          fetchApplications={this.props.fetchApplicationsAll}
+        />
 
-    openForm = () => {
-        this.setState({showModal: true})
-    }
-
-    render() {
-        const {loading, error, clients, applications} = this.props;
-        const apps = this.state.apps.length != 0 ? this.state.apps : applications;
-
-        return (
-            <div className="users">
-                <div className="row content-header">
-                    <div className="col-xs-12">
-                        <h2>Applications</h2>
-                    </div>
-                </div>
-                <div className="createAppButton">
-                    <button className="btn btn-success" onClick={this.openForm}>
-                        + Create App
-                    </button>
-                </div>
-                <ApplicationOverview onReset={this.onReset.bind(this)}
-                                     onChangeSearch={this.onChangeSearch.bind(this)}
-                                     error={error}
-                                     applications={apps}
-                                     loading={loading}
-                                     deleteApplication={this.props.deleteApplication}
-                                     updateApplication={this.props.updateApplication}
-                                     fetchApplications={this.props.fetchApplicationsAll}
-
-                />
-                <CreateApplicationOverview showModal={this.state.showModal}
-                                           error={error}
-                                           onClose={this.onClose}
-                                           loading={loading}
-                                           clients={clients}
-                                           connections={this.props.connections}
-                                           createApplication={this.props.createApplication}
-                                           fetchApplications={this.props.fetchApplicationsAll}
-                />
-            </div>
-        );
-    }
+        <CreateApplicationOverview showModal={this.state.showModal}
+          error={error}
+          onClose={this.onClose}
+          loading={loading}
+          clients={clients}
+          connections={this.props.connections}
+          createApplication={this.props.createApplication}
+          fetchApplications={this.props.fetchApplicationsAll}
+        />
+      </div>
+    );
+  }
 }
 
 function mapStateToProps(state) {
-    return {
-        error: state.applications.get('error'),
-        loading: state.applications.get('loading'),
-        applications: state.applications.get('records').toJS(),
-        clients: state.clients.get('records').toJS(),
-        connections: state.connections.get('records').toJS()
-    };
+  return {
+    error: state.applications.get('error'),
+    loading: state.applications.get('loading'),
+    applications: state.applications.get('records').toJS(),
+    clients: state.clients.get('records').toJS(),
+    connections: state.connections.get('records').toJS()
+  };
 }
 
 export default connect(mapStateToProps, actions)(Applications);
