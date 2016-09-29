@@ -9,7 +9,7 @@ class Applications extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {showModal: false, apps: []}
+        this.state = { apps: [] }
     }
 
     static actionsToProps = {
@@ -32,21 +32,16 @@ class Applications extends Component {
     }
 
     onReset = () => {
-        $('.search-input-apps').val('');
         this.setState({apps: []});
         this.props.fetchApplicationsAll();
     }
 
-    onClose = () => {
-        this.setState({showModal: false});
-    }
-
     openForm = () => {
-        this.setState({showModal: true})
+        this.props.requestCreateApplication();
     }
 
     render() {
-        const {loading, error, clients, applications} = this.props;
+        const {loading, error, clients, applications, showModal} = this.props;
         const apps = this.state.apps.length != 0 ? this.state.apps : applications;
 
         return (
@@ -71,14 +66,15 @@ class Applications extends Component {
                                      fetchApplications={this.props.fetchApplicationsAll}
 
                 />
-                <CreateApplicationOverview showModal={this.state.showModal}
-                                           error={error}
-                                           onClose={this.onClose}
+                <CreateApplicationOverview error={error}
                                            loading={loading}
                                            clients={clients}
                                            connections={this.props.connections}
                                            createApplication={this.props.createApplication}
                                            fetchApplications={this.props.fetchApplicationsAll}
+                                           requestCreateApplication={this.props.requestCreateApplication}
+                                           cancelCreateApplication={this.props.cancelCreateApplication}
+                                           showModal={showModal}
                 />
             </div>
         );
@@ -91,7 +87,8 @@ function mapStateToProps(state) {
         loading: state.applications.get('loading'),
         applications: state.applications.get('records').toJS(),
         clients: state.clients.get('records').toJS(),
-        connections: state.connections.get('records').toJS()
+        connections: state.connections.get('records').toJS(),
+        showModal: state.createApplication.get('requesting')
     };
 }
 

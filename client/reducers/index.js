@@ -8,6 +8,7 @@ import { clients } from './clients';
 import { application } from './application';
 import { status } from './status';
 import { connections } from './connections';
+import { createApplication } from './createApplication';
 
 export default combineReducers({
   routing: routerReducer,
@@ -17,5 +18,6 @@ export default combineReducers({
   status,
   connections,
   auth,
+  createApplication,
   form: formReducer
 });

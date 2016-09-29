@@ -1,7 +1,5 @@
 import { fromJS, Map } from 'immutable';
-
 import * as constants from '../constants';
-import logTypes from '../utils/logTypes';
 import createReducer from '../utils/createReducer';
 
 const initialState = {

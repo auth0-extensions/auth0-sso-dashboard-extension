@@ -109,6 +109,18 @@ export function updateApplication(appId, data, onSuccess) {
   });
   };
 }
+
+export function requestCreateApplication() {
+  return {
+    type: constants.REQUEST_APPLICATION_CREATE
+  };
+}
+
+export function cancelCreateApplication() {
+  return {
+    type: constants.CANCEL_APPLICATION_CREATE
+  };
+}
 /*
  * Update the app details.
  */

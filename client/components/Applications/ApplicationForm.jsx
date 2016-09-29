@@ -92,6 +92,31 @@ export default class ApplicationForm extends Component {
         }
     }
 
+    saveApplication = (e) => {
+        e.preventDefault();
+        let obj = {};
+        obj['client'] = this.refs.client.value;
+        obj['name'] = this.refs.name.value;
+        obj['type'] = this.refs.type.value;
+        if (this.refs.scope) {
+            obj['scope'] = this.refs.scope.value;
+        }
+        if (this.refs.response_type) {
+            obj['response_type'] = this.refs.response_type.value;
+        }
+        obj['logo'] = this.refs.logo.value;
+        obj['callback'] = this.refs.callback.value;
+        obj['connection'] = this.refs.connection.value;
+        if (this.refs.enabled.checked) {
+            obj['enabled'] = true;
+        } else {
+            obj['enabled'] = false;
+        }
+        this.props.updateApplication(this.props.appId, obj, function () {
+            history.back();
+        });
+    }
+
     render() {
         if (this.props.loading || this.props.error) {
             return <div></div>;
@@ -109,7 +134,6 @@ export default class ApplicationForm extends Component {
         const appType = application.type;
         const appCallback = application.callback;
         const appEnabled = application.enabled;
-        const appId = this.props.appId;
 
         const appResType = application.response_type ? application.response_type : '';
         const appScope = application.scope ? application.scope : '';
@@ -128,25 +152,11 @@ export default class ApplicationForm extends Component {
                 Are you sure?
             </span>
             </Confirm>
-            <form className="appForm updateAppForm" onSubmit={(e) => {
-                e.preventDefault();
-                var arr = $('.appForm').serializeArray(), obj = {};
-                $.each(arr, function (indx, el) {
-                    obj[el.name] = el.value;
-                });
-                if (typeof obj['enabled'] == 'undefined') {
-                    obj['enabled'] = false;
-                } else {
-                    obj['enabled'] = true;
-                }
-                this.props.updateApplication(appId, obj, function () {
-                    history.back();
-                });
-            }}>
+            <form className="appForm updateAppForm" onSubmit={this.saveApplication}>
                 <div className="form-group row">
                     <label htmlFor="app_client">Application</label>
                     <div className="col-xs-10">
-                        <select id="app_client" onChange={this.onClientChange.bind(this)} className="form-control"
+                        <select ref="client" id="app_client" onChange={this.onClientChange.bind(this)} className="form-control"
                                 name="client" required defaultValue={clientId}>
                             <option value="">Select...</option>
                             {clients.map((client, index) => {
@@ -159,14 +169,14 @@ export default class ApplicationForm extends Component {
                 <div className="form-group row">
                     <label htmlFor="app_name">Name</label>
                     <div className="col-xs-10">
-                        <input placeholder="insert a name for users to see" name="name" id="app_name"
+                        <input ref="name" placeholder="insert a name for users to see" name="name" id="app_name"
                                className="form-control" type="text" defaultValue={name} required/>
                     </div>
                 </div>
                 <div className="form-group row">
                     <label htmlFor="app_type">Type</label>
                     <div className="col-xs-10">
-                        <select id="app_type" className="form-control" name="type" required
+                        <select ref="type" id="app_type" className="form-control" name="type" required
                                 onChange={this.onChangeType.bind(this)} defaultValue={appType}>
                             <option value="">Select...</option>
                             {types.map((type, index) => {
@@ -180,7 +190,7 @@ export default class ApplicationForm extends Component {
                     <div className="form-group row">
                         <label htmlFor="app_scope">Scope</label>
                         <div className="col-xs-10">
-                            <input placeholder="Insert a scope" id="app_scope" name="scope" className="form-control"
+                            <input ref="scope" placeholder="Insert a scope" id="app_scope" name="scope" className="form-control"
                                    type="text" defaultValue={appScope}/>
                         </div>
                     </div>
@@ -189,7 +199,7 @@ export default class ApplicationForm extends Component {
                     <div className="form-group row">
                         <label htmlFor="app_res_type">Response Type</label>
                         <div className="col-xs-10">
-                            <select id="app_res_type" className="form-control" name="response_type" required
+                            <select ref="response_type" id="app_res_type" className="form-control" name="response_type" required
                                     defaultValue={appResType}>
                                 <option value="">Select...</option>
                                 {response_types.map((r_type, index) => {
@@ -203,7 +213,7 @@ export default class ApplicationForm extends Component {
                 <div className="form-group row">
                     <label htmlFor="app_logo_url">Icon Url</label>
                     <div className="col-xs-10">
-                        <input placeholder="Insert an url of an image to use as a icon" id="app_logo_url" name="logo"
+                        <input ref="logo" placeholder="Insert an url of an image to use as a icon" id="app_logo_url" name="logo"
                                className="form-control" type="url" defaultValue={appLogo}/>
                         <div className="username-text app_tip">Tip: Choose the logo or image that represent the app
                         </div>
@@ -213,7 +223,7 @@ export default class ApplicationForm extends Component {
                 <div className="form-group row">
                     <label htmlFor="app_callback">Callback</label>
                     <div className="col-xs-10">
-                        <select id="app_callback" className="form-control" name="callback" required
+                        <select ref="callback" id="app_callback" className="form-control" name="callback" required
                                 defaultValue={appCallback}>
                             <option value="">Select...</option>
                             {callbacks.map((callback, index) => {
@@ -226,7 +236,7 @@ export default class ApplicationForm extends Component {
                 <div className="form-group row">
                     <label htmlFor="app_connection">Connection</label>
                     <div className="col-xs-10">
-                        <select id="app_connection" className="form-control" name="connection"
+                        <select ref="connection" id="app_connection" className="form-control" name="connection"
                                 defaultValue={appConnection}>
                             <option value="">Select...</option>
                             {connections.map((connection, index) => {
@@ -239,7 +249,7 @@ export default class ApplicationForm extends Component {
                 <div className="form-group row">
                     <label htmlFor="zpp_enabled">Enabled?</label>
                     <div className="col-xs-10">
-                        <input id="app_enabled" name="enabled" type="checkbox" value={true}
+                        <input ref="enabled" id="app_enabled" name="enabled" type="checkbox" value={true}
                                defaultChecked={appEnabled}/>
                     </div>
                 </div>

@@ -28,7 +28,6 @@ class UserApplications extends Component {
     }
 
     onReset = () => {
-        $('.search-input-apps').val('');
         this.setState({apps: []});
         this.props.fetchApplications();
     }
