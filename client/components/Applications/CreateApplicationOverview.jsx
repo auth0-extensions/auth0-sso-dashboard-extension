@@ -13,6 +13,7 @@ export default class CreateApplication extends React.Component {
   static propTypes = {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
+    showModal: PropTypes.bool.isRequired,
     connections: PropTypes.array.isRequired,
     createApplication: PropTypes.func.isRequired,
     fetchApplications: PropTypes.func.isRequired,

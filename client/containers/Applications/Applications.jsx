@@ -41,7 +41,7 @@ class Applications extends Component {
     }
 
     render() {
-        const {loading, error, clients, applications, showModal} = this.props;
+        const {loading, error, clients, applications, showModalCreate, showModalDelete, appId} = this.props;
         const apps = this.state.apps.length != 0 ? this.state.apps : applications;
 
         return (
@@ -63,7 +63,11 @@ class Applications extends Component {
                                      loading={loading}
                                      deleteApplication={this.props.deleteApplication}
                                      updateApplication={this.props.updateApplication}
+                                     requestDeleteApplication={this.props.requestDeleteApplication}
+                                     cancelDeleteApplication={this.props.cancelDeleteApplication}
                                      fetchApplications={this.props.fetchApplicationsAll}
+                                     showModalDelete={showModalDelete}
+                                     appId={appId}
 
                 />
                 <CreateApplicationOverview error={error}
@@ -74,7 +78,7 @@ class Applications extends Component {
                                            fetchApplications={this.props.fetchApplicationsAll}
                                            requestCreateApplication={this.props.requestCreateApplication}
                                            cancelCreateApplication={this.props.cancelCreateApplication}
-                                           showModal={showModal}
+                                           showModal={showModalCreate}
                 />
             </div>
         );
@@ -88,7 +92,9 @@ function mapStateToProps(state) {
         applications: state.applications.get('records').toJS(),
         clients: state.clients.get('records').toJS(),
         connections: state.connections.get('records').toJS(),
-        showModal: state.createApplication.get('requesting')
+        showModalCreate: state.createApplication.get('requesting'),
+        showModalDelete: state.deleteApplication.get('requesting'),
+        appId: state.deleteApplication.get('appId'),
     };
 }
 

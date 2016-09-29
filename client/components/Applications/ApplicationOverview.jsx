@@ -12,12 +12,16 @@ export default class ApplicationOverview extends React.Component {
     fetchApplications: React.PropTypes.func.isRequired,
     deleteApplication: React.PropTypes.func.isRequired,
     updateApplication: React.PropTypes.func.isRequired,
+    requestDeleteApplication: React.PropTypes.func.isRequired,
+    cancelDeleteApplication: React.PropTypes.func.isRequired,
     error: React.PropTypes.object,
     applications: React.PropTypes.oneOfType([
       React.PropTypes.object,
       React.PropTypes.array
     ]).isRequired,
-    loading: React.PropTypes.bool.isRequired
+    loading: React.PropTypes.bool.isRequired,
+    showModalDelete: React.PropTypes.bool.isRequired,
+    appId: React.PropTypes.string
   }
 
   onChangeSearch = (e) => {
@@ -44,6 +48,10 @@ export default class ApplicationOverview extends React.Component {
                 deleteApplication={this.props.deleteApplication}
                 fetchApplications={this.props.fetchApplications}
                 updateApplication={this.props.updateApplication}
+                requestDeleteApplication={this.props.requestDeleteApplication}
+                cancelDeleteApplication={this.props.cancelDeleteApplication}
+                showModalDelete={this.props.showModalDelete}
+                appId={this.props.appId}
                 />
             </div>
           </div>

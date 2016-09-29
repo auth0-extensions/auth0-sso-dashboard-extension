@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import {
   Confirm,
@@ -12,7 +12,7 @@ import {
   TableColumn,
   TableRow
 } from '../Dashboard';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
 export default class ApplicationsTable extends Component {
   static propTypes = {
@@ -23,39 +23,11 @@ export default class ApplicationsTable extends Component {
     loading: React.PropTypes.bool.isRequired,
     deleteApplication: React.PropTypes.func.isRequired,
     updateApplication: React.PropTypes.func.isRequired,
-    fetchApplications: React.PropTypes.func.isRequired
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      showModal: false,
-      appToDelete: null
-    }
-  }
-
-  onCancel = () => {
-    this.setState({
-      showModal: false,
-      appToDelete: null
-    });
-  }
-
-  onConfirm = () => {
-    let key = this.state.appToDelete;
-    if (key) {
-      this.props.deleteApplication(key, function () {
-        this.setState({
-          showModal: false,
-          appToDelete: null
-        });
-      }.bind(this));
-    } else {
-      this.setState({
-        showModal: false,
-        appToDelete: null
-      });
-    }
+    fetchApplications: React.PropTypes.func.isRequired,
+    requestDeleteApplication: React.PropTypes.func.isRequired,
+    cancelDeleteApplication: React.PropTypes.func.isRequired,
+    showModalDelete: React.PropTypes.bool.isRequired,
+    appId: React.PropTypes.string
   }
 
   enableDisableApp = (key, app, enabled) => {
@@ -71,13 +43,15 @@ export default class ApplicationsTable extends Component {
     }
   }
 
-
   render() {
-    const {applications, renderActions} = this.props;
+    const { applications, renderActions, appId } = this.props;
     return (
       <div>
-        <Confirm title="Remove Application" show={this.state.showModal} loading={false}
-          onCancel={this.onCancel.bind(this)} onConfirm={this.onConfirm.bind(this)}>
+        <Confirm title="Remove Application" show={this.props.showModalDelete} loading={false}
+                 onCancel={this.props.cancelDeleteApplication} onConfirm={(e) =>
+        {
+          this.props.deleteApplication(appId)
+        }}>
           <span>
             Are you sure?
           </span>
@@ -99,7 +73,7 @@ export default class ApplicationsTable extends Component {
                   <TableCell>
                     <div>
                       <div className="logoBlockImage">
-                        <img className="img-circle" src={ logo } alt={ name }/>
+                        <img className="img-circle" src={ logo } alt={ name } />
                       </div>
                       <div className="logoBlockInfo">
                         <Link to={`/applications/${key}`}>
@@ -109,41 +83,37 @@ export default class ApplicationsTable extends Component {
                         {type}
                       </div>
                       <div className={appClassName} onClick={function () {
-                          this.enableDisableApp(key, application, enabled);
-                        }.bind(this)}> {appButtonText}</div>
-                      </div>
-                    </TableCell>
-                    <TableCell className="actions">
-                      <ul className="list-inline list-inline-apps">
-                        <li title="Login" data-toggle="tooltip">
-                          <a href={ login_url } target="_blank" key={ key }>
-                            <i className="icon-budicon-187"></i>
-                          </a>
-                        </li>
-                        <li title="Edit" data-toggle="tooltip">
-                          <Link to={`/applications/${key}`}>
-                            <i className="icon-budicon-329"></i>
-                          </Link>
-                        </li>
-                        <li title="Remove" data-toggle="tooltip">
-                          <a href="#" onClick={ function (e) {
-                              e.preventDefault();
-                              this.setState({
-                                showModal: true,
-                                appToDelete: key
-                              });
-                            }.bind(this)} className="remove-rule">
-                            <i className="icon-budicon-471"></i>
-                          </a>
-                        </li>
-                      </ul>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </div>
-      );
-    }
+                        this.enableDisableApp(key, application, enabled);
+                      }.bind(this)}> {appButtonText}</div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="actions">
+                    <ul className="list-inline list-inline-apps">
+                      <li title="Login" data-toggle="tooltip">
+                        <a href={ login_url } target="_blank" key={ key }>
+                          <i className="icon-budicon-187"></i>
+                        </a>
+                      </li>
+                      <li title="Edit" data-toggle="tooltip">
+                        <Link to={`/applications/${key}`}>
+                          <i className="icon-budicon-329"></i>
+                        </Link>
+                      </li>
+                      <li title="Remove" data-toggle="tooltip">
+                        <a href="#" onClick={(e) => {
+                          this.props.requestDeleteApplication(key);
+                        } } className="remove-rule">
+                          <i className="icon-budicon-471"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </div>
+    );
   }
+}

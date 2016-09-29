@@ -140,10 +140,25 @@ export function createApplication(data, onSuccess) {
   };
 }
 
-export function deleteApplication(appId, onSuccess) {
+export function requestDeleteApplication(appId) {
+  return {
+    type: constants.REQUEST_APPLICATION_DELETE,
+    meta: {
+      appId: appId
+    }
+  };
+}
+
+export function cancelDeleteApplication() {
+  return {
+    type: constants.CANCEL_APPLICATION_DELETE
+  };
+}
+
+export function deleteApplication(appId,onSuccess) {
   return (dispatch) => {
     dispatch({
-      type: constants.REMOVE_APPLICATION,
+      type: constants.DELETE_APPLICATION,
       meta: {
         onSuccess: () => {
           if (onSuccess) {
