@@ -5,7 +5,6 @@ import { logout } from '../actions/auth';
 import { applicationActions, connectionActions, statusActions } from '../actions';
 
 import Header from '../components/Header';
-import { NavigationLink } from '../components/Dashboard';
 
 class App extends Component {
   static propTypes = {
@@ -27,7 +26,7 @@ class App extends Component {
             <section className="content-page current">
               <div className="col-xs-12">
                 <div id="content-area" className="tab-content">
-                  { this.props.children }
+                  {this.props.children}
                 </div>
               </div>
             </section>
@@ -43,7 +42,7 @@ function select(state) {
     issuer: state.auth.get('issuer'),
     user: state.auth.get('user'),
     ruleStatus: state.ruleStatus,
-    isAdmin:state.status.get('isAdmin')
+    isAdmin: state.status.get('isAdmin')
   };
 }
 
