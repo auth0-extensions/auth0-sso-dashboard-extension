@@ -18,7 +18,7 @@ export const application = createReducer(fromJS(initialState), {
   [constants.FETCH_APPLICATION_REJECTED]: (state, action) =>
     state.merge({
       loading: false,
-      error: `An error occured while loading the user: ${action.errorMessage}`
+      error: `An error occured while loading the application: ${action.errorMessage}`
     }),
   [constants.FETCH_APPLICATION_FULFILLED]: (state, action) => {
     const { data } = action.payload;
