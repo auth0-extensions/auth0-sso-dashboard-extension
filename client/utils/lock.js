@@ -1,10 +1,11 @@
-let _lock = null;
+let lockInstance = null;
 
 function getLock() {
-  if (window.config.AUTH0_CLIENT_ID && !_lock) {
-    _lock = new Auth0Lock(window.config.AUTH0_CLIENT_ID, window.config.AUTH0_DOMAIN);
+  if (window.config.AUTH0_CLIENT_ID && !lockInstance) {
+    lockInstance = new Auth0Lock(window.config.AUTH0_CLIENT_ID, window.config.AUTH0_DOMAIN);  // eslint-disable-line no-undef
   }
-  return _lock;
+
+  return lockInstance;
 }
 
 export function getProfile(token, callback) {
@@ -39,7 +40,7 @@ export function show(returnUrl) {
     callbackOnLocationHash: true,
     authParams: {
       state: returnUrl,
-      scope: 'openid authorization'
+      scope: 'openid authorization roles'
     }
   });
 }

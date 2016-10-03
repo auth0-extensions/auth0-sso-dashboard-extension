@@ -8,6 +8,7 @@ import normalizeErrorMiddleware from '../middlewares/normalizeErrorMiddleware';
 import promiseSuccessMiddleware from '../middlewares/promiseSuccessMiddleware';
 import DevTools from '../containers/DevTools';
 
+const nextRootReducer = (process.env.NODE_ENV !== 'production' && module.hot) ? require('../reducers') : null;
 
 export default function configureStore(middlewares, initialState = { }) {
   const pipeline = [
@@ -31,9 +32,8 @@ export default function configureStore(middlewares, initialState = { }) {
   const store = finalCreateStore(rootReducer, initialState);
 
   // Enable Webpack hot module replacement for reducers.
-  if (process.env.NODE_ENV !== 'production' && module.hot) {
+  if (nextRootReducer) {
     module.hot.accept('../reducers', () => {
-      const nextRootReducer = require('../reducers');
       store.replaceReducer(nextRootReducer);
     });
   }

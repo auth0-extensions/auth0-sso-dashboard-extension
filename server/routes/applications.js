@@ -1,8 +1,6 @@
 import _ from 'lodash';
-import path from 'path';
 import uuid from 'uuid';
 import { Router } from 'express';
-import tools from 'auth0-extension-tools';
 import config from '../lib/config';
 import { isAdmin } from '../lib/middlewares';
 
@@ -33,7 +31,7 @@ const attachAuthUrl = (app) => {
     loginUrl += app.connection;
   }
 
-  app.login_url = loginUrl;
+  app.login_url = loginUrl; // eslint-disable-line no-param-reassign
 
   return app;
 };
@@ -58,11 +56,11 @@ const saveApplication = (id, body, storage) =>
 
     storage.read()
       .then(originalData => {
-        originalData = originalData || {};
+        originalData = originalData || {};  // eslint-disable-line no-param-reassign
 
-        if (!originalData.applications) originalData.applications = {};
+        if (!originalData.applications) originalData.applications = {};  // eslint-disable-line no-param-reassign
 
-        originalData.applications[id] = data;
+        originalData.applications[id] = data;  // eslint-disable-line no-param-reassign
 
         return storage.write(originalData)
           .then(resolve)
@@ -75,8 +73,8 @@ const deleteApplication = (id, storage) =>
   new Promise((resolve, reject) => {
     storage.read()
       .then(originalData => {
-        originalData.applications[id] = null;
-        delete originalData.applications[id];
+        originalData.applications[id] = null;  // eslint-disable-line no-param-reassign
+        delete originalData.applications[id];  // eslint-disable-line no-param-reassign
 
         return storage.write(originalData)
           .then(resolve)
@@ -85,20 +83,12 @@ const deleteApplication = (id, storage) =>
       .catch(reject);
   });
 
-export default () => {
+export default (storage) => {
   const api = Router();
 
   /*
    * Get a list of all clients.
    */
-  api.use((req, res, next) => {
-    req.storage = (req.webtaskContext && req.webtaskContext.storage)
-      ? new tools.WebtaskStorageContext(req.webtaskContext.storage, { force: 1 })
-      : new tools.FileStorageContext(path.join(__dirname, '../data.json'), { mergeWrites: true });
-
-    next();
-  });
-
   api.get('/clients', isAdmin, (req, res, next) => {
     req.auth0.clients.getAll({ fields: 'name,client_id,callbacks' })
       .then(clients => _.filter(clients, (client) => !client.global))
@@ -110,17 +100,19 @@ export default () => {
    * Get a list of applications.
    */
   api.get('/', (req, res, next) => {
-    req.storage.read()
+    storage.read()
       .then(apps => {
         const applications = apps.applications || {};
         const result = {};
 
         Object.keys(applications).map((key) => {
-          const app = applications[ key ];
+          const app = applications[key];
 
           if (app.enabled && app.login_url) {
-            result[ key ] = app;
+            result[key] = app;
           }
+
+          return app;
         });
 
         return result;
@@ -133,7 +125,7 @@ export default () => {
    * Get a list of applications.
    */
   api.get('/all', (req, res, next) => {
-    req.storage.read()
+    storage.read()
       .then(apps => res.json(apps.applications || {}))
       .catch(next);
   });
@@ -142,7 +134,7 @@ export default () => {
    * Get application.
    */
   api.get('/:id', (req, res, next) => {
-    req.storage.read()
+    storage.read()
       .then(apps => res.json({ application: apps.applications[req.params.id] }))
       .catch(next);
   });
@@ -151,7 +143,7 @@ export default () => {
    * Update application.
    */
   api.put('/:id', isAdmin, (req, res, next) => {
-    saveApplication(req.params.id, req.body, req.storage)
+    saveApplication(req.params.id, req.body, storage)
       .then(() => res.status(200).send())
       .catch(next);
   });
@@ -162,7 +154,7 @@ export default () => {
   api.post('/', isAdmin, (req, res, next) => {
     const id = uuid.v4();
 
-    saveApplication(id, req.body, req.storage)
+    saveApplication(id, req.body, storage)
       .then(() => res.status(201).send())
       .catch(next);
   });
@@ -171,7 +163,7 @@ export default () => {
    * Delete application.
    */
   api.delete('/:id', isAdmin, (req, res, next) => {
-    deleteApplication(req.params.id, req.storage)
+    deleteApplication(req.params.id, storage)
       .then(() => res.status(200).send())
       .catch(next);
   });

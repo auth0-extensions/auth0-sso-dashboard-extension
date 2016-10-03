@@ -144,7 +144,7 @@ export function requestDeleteApplication(appId) {
   return {
     type: constants.REQUEST_APPLICATION_DELETE,
     meta: {
-      appId: appId
+      appId
     }
   };
 }
@@ -155,7 +155,7 @@ export function cancelDeleteApplication() {
   };
 }
 
-export function deleteApplication(appId,onSuccess) {
+export function deleteApplication(appId, onSuccess) {
   return (dispatch) => {
     dispatch({
       type: constants.DELETE_APPLICATION,

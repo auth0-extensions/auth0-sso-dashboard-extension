@@ -10,7 +10,7 @@ const initialState = {
   total: 0
 };
 
-export const applications = createReducer(fromJS(initialState), {
+export const applications = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
   [constants.FETCH_APPLICATIONS_PENDING]: (state) =>
     state.merge({
       loading: true,
