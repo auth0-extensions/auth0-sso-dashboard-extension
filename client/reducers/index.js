@@ -9,6 +9,7 @@ import { application } from './application';
 import { status } from './status';
 import { connections } from './connections';
 import { createApplication } from './createApplication';
+import { updateApplication } from './updateApplication';
 import { deleteApplication } from './deleteApplication';
 
 export default combineReducers({
@@ -20,6 +21,7 @@ export default combineReducers({
   connections,
   auth,
   createApplication,
+  updateApplication,
   deleteApplication,
   form: formReducer
 });

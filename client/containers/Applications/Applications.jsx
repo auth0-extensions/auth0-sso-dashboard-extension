@@ -41,7 +41,7 @@ class Applications extends Component {
     }
 
     render() {
-        const {loading, error, clients, applications, showModalCreate, showModalDelete, appId} = this.props;
+        const {loading, error, clients, applications, showModalCreate, showModalDelete, appId, createError} = this.props;
         const apps = this.state.apps.length != 0 ? this.state.apps : applications;
 
         return (
@@ -71,6 +71,7 @@ class Applications extends Component {
 
                 />
                 <CreateApplicationOverview error={error}
+                                           createError={createError}
                                            loading={loading}
                                            clients={clients}
                                            connections={this.props.connections}
@@ -100,6 +101,7 @@ function mapStateToProps(state) {
         showModalDelete: state.deleteApplication.get('requesting'),
         appId: state.deleteApplication.get('appId'),
         currentClient: state.application.get('currentClient'),
+        createError: state.createApplication.get('error'),
         currentType: state.application.get('currentType')
     };
 }

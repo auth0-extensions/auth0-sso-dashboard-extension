@@ -12,6 +12,7 @@ export default connectContainer(class extends Component {
     clients: state.clients.get('records').toJS(),
     connections: state.connections.get('records').toJS(),
     error: state.application.get('error') || state.clients.get('error'),
+    updateError: state.updateApplication.get('error'),
     currentClient: state.application.get('currentClient'),
     currentType: state.application.get('currentType'),
     loading: state.application.get('loading'),
@@ -94,7 +95,7 @@ export default connectContainer(class extends Component {
                   onTypeChange={this.props.onTypeChange}
                   loading={loading}
                   application={applicationJSON}
-                  error={error}
+                  error={this.props.updateError}
                   clients={clients}
                   currentClient={this.props.currentClient}
                   currentType={this.props.currentType}

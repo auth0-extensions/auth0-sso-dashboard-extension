@@ -5,6 +5,7 @@ import { ApplicationForm } from '../../components/Applications';
 export default class CreateApplication extends React.Component {
   static propTypes = {
     error: PropTypes.string,
+    createError: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     showModal: PropTypes.bool.isRequired,
     connections: PropTypes.array.isRequired,
@@ -58,7 +59,7 @@ export default class CreateApplication extends React.Component {
                 onTypeChange={this.props.onTypeChange}
                 loading={loading}
                 application={{}}
-                error={error}
+                error={this.props.createError}
                 clients={clients}
                 currentClient={this.props.currentClient}
                 currentType={this.props.currentType}
