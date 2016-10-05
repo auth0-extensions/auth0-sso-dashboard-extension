@@ -126,3 +126,20 @@
   margin-top: -72px;
   width: 125px;
 }
+.btn-div{
+  text-align: center;
+}
+
+.form-group label{
+  width: 14%;
+  padding-right: 11px;
+  padding-top: 12px;
+}
+
+.form-group input, .form-group select{
+  width: 85%;
+}
+.form-group input[type="checkbox"] {
+  width: 2%;
+  margin-top: 15px;
+}

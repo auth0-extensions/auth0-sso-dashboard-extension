@@ -79,6 +79,10 @@ class Applications extends Component {
                                            requestCreateApplication={this.props.requestCreateApplication}
                                            cancelCreateApplication={this.props.cancelCreateApplication}
                                            showModal={showModalCreate}
+                                           currentClient={this.props.currentClient}
+                                           currentType={this.props.currentType}
+                                           onClientChange={this.props.onClientChange}
+                                           onTypeChange={this.props.onTypeChange}
                 />
             </div>
         );
@@ -95,6 +99,8 @@ function mapStateToProps(state) {
         showModalCreate: state.createApplication.get('requesting'),
         showModalDelete: state.deleteApplication.get('requesting'),
         appId: state.deleteApplication.get('appId'),
+        currentClient: state.application.get('currentClient'),
+        currentType: state.application.get('currentType')
     };
 }
 

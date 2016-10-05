@@ -128,6 +128,7 @@ export function createApplication(data, onSuccess) {
           if (onSuccess) {
             onSuccess();
           }
+          dispatch(cancelCreateApplication());
           dispatch(fetchApplicationsAll());
         }
       },
@@ -181,3 +182,23 @@ export function cancelApplicationSave() {
     type: constants.CANCEL_APPLICATION_CHANGE
   };
 }
+
+export function onClientChange(client) {
+  return {
+    type: constants.APPLICATION_CLIENT_CHANGE,
+    meta: {
+      client
+    }
+  };
+}
+
+export function onTypeChange(type) {
+  return {
+    type: constants.APPLICATION_TYPE_CHANGE,
+    meta: {
+      type
+    }
+  };
+}
+
+

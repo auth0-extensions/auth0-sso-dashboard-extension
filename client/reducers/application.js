@@ -7,9 +7,19 @@ const initialState = {
   loading: false,
   error: null,
   appId: null,
-  record: Map()
+  record: Map(),
+  currentType: null,
+  currentClient: null
 };
 export const application = createReducer(fromJS(initialState), {
+  [constants.APPLICATION_CLIENT_CHANGE]: (state, action) =>
+    state.merge({
+      currentClient: action.meta.client
+    }),
+  [constants.APPLICATION_TYPE_CHANGE]: (state, action) =>
+    state.merge({
+      currentType: action.meta.type
+    }),
   [constants.FETCH_APPLICATION_PENDING]: (state, action) =>
     state.merge({
       loading: true,
@@ -22,10 +32,12 @@ export const application = createReducer(fromJS(initialState), {
     }),
   [constants.FETCH_APPLICATION_FULFILLED]: (state, action) => {
     const { data } = action.payload;
-
+    const app = fromJS(data.application);
     return state.merge({
       loading: false,
-      record: fromJS(data.application)
+      currentType: app.get('type'),
+      currentClient: app.get('client'),
+      record: app
     });
   }
 });
