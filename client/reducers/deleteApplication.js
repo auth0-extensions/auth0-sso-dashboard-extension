@@ -1,4 +1,4 @@
-import { fromJS, Map } from 'immutable';
+import { fromJS } from 'immutable';
 
 import * as constants from '../constants';
 import createReducer from '../utils/createReducer';
@@ -10,7 +10,7 @@ const initialState = {
   appId: null
 };
 
-export const deleteApplication = createReducer(fromJS(initialState), {
+export const deleteApplication = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
   [constants.REQUEST_APPLICATION_DELETE]: (state, action) =>
     state.merge({
       requesting: true,
@@ -31,7 +31,7 @@ export const deleteApplication = createReducer(fromJS(initialState), {
       loading: false,
       error: `An error occured while loading the applications: ${action.errorMessage}`
     }),
-  [constants.DELETE_APPLICATION_FULFILLED]: (state, action) =>
+  [constants.DELETE_APPLICATION_FULFILLED]: (state) =>
     state.merge({
       loading: false,
       error: null,

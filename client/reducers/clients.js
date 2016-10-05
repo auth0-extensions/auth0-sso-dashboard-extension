@@ -1,4 +1,4 @@
-import { fromJS, Map } from 'immutable';
+import { fromJS } from 'immutable';
 
 import * as constants from '../constants';
 import createReducer from '../utils/createReducer';
@@ -9,7 +9,7 @@ const initialState = {
   records: []
 };
 
-export const clients = createReducer(fromJS(initialState), {
+export const clients = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
   [constants.FETCH_CLIENTS_PENDING]: (state) =>
     state.merge({
       loading: true,

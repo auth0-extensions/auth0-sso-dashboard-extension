@@ -2,7 +2,7 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
 import * as constants from '../constants';
-import { show, parseHash, getProfile } from '../utils/lock';
+import { show, parseHash } from '../utils/lock';
 
 export function login(returnUrl) {
   show(returnUrl);
@@ -38,13 +38,13 @@ export function loadCredentials() {
   return (dispatch) => {
     if (window.location.hash) {
       const { id_token } = parseHash(window.location.hash);
-      if (id_token) {
+      if (id_token) { // eslint-disable-line camelcase
         const decodedToken = jwtDecode(id_token);
         if (isExpired(decodedToken)) {
           return;
         }
 
-        axios.defaults.headers.common.Authorization = `Bearer ${id_token}`;
+        axios.defaults.headers.common.Authorization = `Bearer ${id_token}`; // eslint-disable-line camelcase
 
         dispatch({
           type: constants.LOADED_TOKEN,

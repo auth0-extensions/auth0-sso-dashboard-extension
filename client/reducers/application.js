@@ -7,19 +7,9 @@ const initialState = {
   loading: false,
   error: null,
   appId: null,
-  record: Map(),
-  currentType: null,
-  currentClient: null
+  record: Map()
 };
-export const application = createReducer(fromJS(initialState), {
-  [constants.APPLICATION_CLIENT_CHANGE]: (state, action) =>
-    state.merge({
-      currentClient: action.meta.client
-    }),
-  [constants.APPLICATION_TYPE_CHANGE]: (state, action) =>
-    state.merge({
-      currentType: action.meta.type
-    }),
+export const application = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
   [constants.FETCH_APPLICATION_PENDING]: (state, action) =>
     state.merge({
       loading: true,
@@ -32,12 +22,10 @@ export const application = createReducer(fromJS(initialState), {
     }),
   [constants.FETCH_APPLICATION_FULFILLED]: (state, action) => {
     const { data } = action.payload;
-    const app = fromJS(data.application);
+
     return state.merge({
       loading: false,
-      currentType: app.get('type'),
-      currentClient: app.get('client'),
-      record: app
+      record: fromJS(data.application)
     });
   }
 });

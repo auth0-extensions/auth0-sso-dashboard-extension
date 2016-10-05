@@ -1,4 +1,4 @@
-import { fromJS, Map } from 'immutable';
+import { fromJS } from 'immutable';
 
 import * as constants from '../constants';
 import createReducer from '../utils/createReducer';
@@ -9,7 +9,7 @@ const initialState = {
   requesting: false
 };
 
-export const createApplication = createReducer(fromJS(initialState), {
+export const createApplication = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
   [constants.REQUEST_APPLICATION_CREATE]: (state) =>
     state.merge({
       requesting: true
@@ -28,7 +28,7 @@ export const createApplication = createReducer(fromJS(initialState), {
       loading: false,
       error: `An error occured while loading the applications: ${action.errorMessage}`
     }),
-  [constants.CREATE_APPLICATION_FULFILLED]: (state, action) =>
+  [constants.CREATE_APPLICATION_FULFILLED]: (state) =>
     state.merge({
       loading: false,
       error: null,
