@@ -38,7 +38,7 @@ export default class CreateApplication extends React.Component {
     if (loading || error) {
       return <div></div>;
     }
-
+    const initialValues = { 'client': this.props.currentClient, 'type': this.props.currentType };
     return (
       <div>
         <Confirm successClass="info"
@@ -55,6 +55,7 @@ export default class CreateApplication extends React.Component {
               <ApplicationForm
                 ref="app_form"
                 onSubmit={this.createApplication}
+                initialValues={initialValues}
                 onClientChange={this.props.onClientChange}
                 onTypeChange={this.props.onTypeChange}
                 loading={loading}
