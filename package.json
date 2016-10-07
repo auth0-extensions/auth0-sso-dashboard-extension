@@ -11,12 +11,10 @@
     "client:build": "npm run clean && cross-env NODE_ENV=production webpack --config ./build/webpack/config.prod.js --colors -p",
     "serve:dev": "cross-env NODE_ENV=development nodemon --ignore assets/app/ --ignore build/webpack/ --ignore client/ --ignore node_modules/ ./build/webpack/server.js",
     "serve:prod": "cross-env NODE_ENV=production node index.js",
-
     "test": "npm run test:pre && cross-env NODE_ENV=test nyc mocha tests/mocha.js ./tests/**/*.tests.js",
     "test:watch": "npm run test:pre && cross-env NODE_ENV=test mocha tests/mocha.js ./tests/**/*.tests.js --watch",
     "test:pre": "npm run test:clean",
     "test:clean": "rimraf ./coverage && rimraf ./.nyc_output",
-
     "extension:build": "webpack -p --config ./build/extension/webpack.config.js",
     "extension:size": "cross-env NODE_ENV=production webpack -p --config ./build/extension/webpack.config.js --json > ./build/extension/bundle-size.json && node ./build/extension/bundle-size.js",
     "extension:bundle": "cp ./dist/auth0-sso-dashboard.extension.$npm_package_version.js ./build/bundle.js",
@@ -49,6 +47,7 @@
     "bluebird": "^3.4.0",
     "body-parser": "^1.15.1",
     "ejs": "^2.4.2",
+    "expect": "^1.20.2",
     "express": "^4.13.4",
     "express-jwt": "^3.4.0",
     "glob": "^7.0.3",
@@ -75,10 +74,11 @@
     "redux-logger": "^2.6.1",
     "redux-promise-middleware": "^2.4.0",
     "redux-thunk": "^2.1.0",
-    "reselect": "^2.5.3",
     "request": "^2.34.0",
     "request-promise": "^2.0.1",
+    "reselect": "^2.5.3",
     "semver": "^5.1.0",
+    "supertest": "^2.0.0",
     "uuid": "^2.0.2",
     "webtask-tools": "^2.2.0",
     "winston": "^2.2.0"

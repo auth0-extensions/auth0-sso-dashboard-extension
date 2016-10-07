@@ -144,7 +144,7 @@ export default (storage) => {
    */
   api.put('/:id', isAdmin, (req, res, next) => {
     saveApplication(req.params.id, req.body, storage)
-      .then(() => res.status(200).send())
+      .then(() => res.status(204).send())
       .catch(next);
   });
 
@@ -155,7 +155,7 @@ export default (storage) => {
     const id = uuid.v4();
 
     saveApplication(id, req.body, storage)
-      .then(() => res.status(201).send())
+      .then(() => res.status(201).send({ id }))
       .catch(next);
   });
 
@@ -164,7 +164,7 @@ export default (storage) => {
    */
   api.delete('/:id', isAdmin, (req, res, next) => {
     deleteApplication(req.params.id, storage)
-      .then(() => res.status(200).send())
+      .then(() => res.status(204).send())
       .catch(next);
   });
 
