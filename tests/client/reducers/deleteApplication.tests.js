@@ -49,8 +49,7 @@ describe('delete application reducer', () => {
   it('should handle DELETE_APPLICATION_PENDING', () => {
     expect(
       deleteApplication(initialState, {
-        type: constants.DELETE_APPLICATION_PENDING,
-
+        type: constants.DELETE_APPLICATION_PENDING
       }).toJSON()
     ).toEqual(
       {

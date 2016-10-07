@@ -17,7 +17,7 @@ describe('status reducer', () => {
 
   it('should handle FETCH_STATUS_PENDING', () => {
     expect(
-      application(initialState, {
+      status(initialState, {
         type: constants.FETCH_STATUS_PENDING
       }).toJSON()
     ).toEqual(
@@ -29,7 +29,7 @@ describe('status reducer', () => {
 
   it('should handle FETCH_STATUS_REJECTED', () => {
     expect(
-      application(initialState, {
+      status(initialState, {
         type: constants.FETCH_STATUS_REJECTED
       }).toJSON()
     ).toEqual(
@@ -41,7 +41,7 @@ describe('status reducer', () => {
 
   it('should handle FETCH_STATUS_FULFILLED', () => {
     expect(
-      application(initialState, {
+      status(initialState, {
         type: constants.FETCH_STATUS_FULFILLED,
         payload: { isAdmin: true }
       }).toJSON()

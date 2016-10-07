@@ -97,10 +97,11 @@ export default createForm('application', class extends Component {
     if (this.props.loading) {
       return <div></div>;
     }
-    const types = [{ value: 'saml', text: 'SAML' }, { value: 'oidc', text: 'OpenID-Connect' }, {
-      value: 'wsfed',
-      text: 'WS-Federation'
-    }];
+    const types = [
+      { value: 'saml', text: 'SAML' },
+      { value: 'oidc', text: 'OpenID-Connect' },
+      { value: 'wsfed', text: 'WS-Federation' }
+    ];
     const fields = this.props.fields;
     const clients = this.props.clients.map(conn => ({ value: conn.client_id, text: conn.name }));
     const application = this.props.application;

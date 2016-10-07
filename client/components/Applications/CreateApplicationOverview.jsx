@@ -21,7 +21,7 @@ export default class CreateApplication extends React.Component {
   }
 
   onConfirm = () => {
-    this.refs.app_form.submit()
+    this.refs.app_form.submit();
   }
 
   onCancel = () => {

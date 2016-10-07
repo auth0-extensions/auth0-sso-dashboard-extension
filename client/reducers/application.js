@@ -11,7 +11,7 @@ const initialState = {
   currentType: null,
   currentClient: null
 };
-export const application = createReducer(fromJS(initialState), {
+export const application = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
   [constants.APPLICATION_CLIENT_CHANGE]: (state, action) =>
     state.merge({
       currentClient: action.meta.client

@@ -50,13 +50,13 @@ describe('clients reducer', () => {
     expect(
       clients(initialState, {
         type: constants.FETCH_CLIENTS_FULFILLED,
-        payload: { data: [{ id: 2, name: 'test' }, { id: 3, name: 'test_3' }] }
+        payload: { data: [ { id: 2, name: 'test' }, { id: 3, name: 'test_3' } ] }
       }).toJSON()
     ).toEqual(
       {
         loading: false,
         error: null,
-        records: [{ id: 2, name: 'test' }, { id: 3, name: 'test_3' }]
+        records: [ { id: 2, name: 'test' }, { id: 3, name: 'test_3' } ]
       }
     );
   });
