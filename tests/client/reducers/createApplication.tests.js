@@ -68,7 +68,7 @@ describe('create application reducer', () => {
     ).toEqual(
       {
         loading: false,
-        error: 'An error occured while loading the applications: ERROR',
+        error: 'An error occured while creating the application: ERROR',
         requesting: false
       }
     );

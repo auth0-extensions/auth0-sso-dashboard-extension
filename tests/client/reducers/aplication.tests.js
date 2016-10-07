@@ -6,7 +6,9 @@ const initialState = {
   loading: false,
   error: null,
   appId: null,
-  record: {}
+  record: {},
+  currentType: null,
+  currentClient: null
 };
 
 describe('application reducer', () => {
@@ -15,6 +17,46 @@ describe('application reducer', () => {
       application(undefined, {}).toJSON()
     ).toEqual(
       initialState
+    );
+  });
+
+  it('should handle APPLICATION_CLIENT_CHANGE', () => {
+    expect(
+      application(initialState, {
+        type: constants.APPLICATION_CLIENT_CHANGE,
+        meta: {
+          client: 1
+        }
+      }).toJSON()
+    ).toEqual(
+      {
+        loading: false,
+        error: null,
+        appId: null,
+        record: {},
+        currentType: null,
+        currentClient: 1
+      }
+    );
+  });
+
+  it('should handle APPLICATION_TYPE_CHANGE', () => {
+    expect(
+      application(initialState, {
+        type: constants.APPLICATION_TYPE_CHANGE,
+        meta: {
+          type: 1
+        }
+      }).toJSON()
+    ).toEqual(
+      {
+        loading: false,
+        error: null,
+        appId: null,
+        record: {},
+        currentType: 1,
+        currentClient: null
+      }
     );
   });
 
@@ -31,7 +73,9 @@ describe('application reducer', () => {
         loading: true,
         error: null,
         appId: 1,
-        record: {}
+        record: {},
+        currentType: null,
+        currentClient: null
       }
     );
   });
@@ -47,7 +91,9 @@ describe('application reducer', () => {
         loading: false,
         error: 'An error occured while loading the application: ERROR',
         appId: null,
-        record: {}
+        record: {},
+        currentType: null,
+        currentClient: null
       }
     );
   });
@@ -58,7 +104,7 @@ describe('application reducer', () => {
         type: constants.FETCH_APPLICATION_FULFILLED,
         payload: {
           data: {
-            application: { id: 2, name: 'test' }
+            application: { id: 2, name: 'test', type: 'test', client: 'test' }
           }
         }
       }).toJSON()
@@ -67,7 +113,9 @@ describe('application reducer', () => {
         loading: false,
         error: null,
         appId: null,
-        record: { id: 2, name: 'test' }
+        record: { id: 2, name: 'test', type: 'test', client: 'test' },
+        currentType: 'test',
+        currentClient: 'test'
       }
     );
   });
