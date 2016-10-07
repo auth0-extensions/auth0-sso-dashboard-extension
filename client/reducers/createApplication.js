@@ -26,7 +26,7 @@ export const createApplication = createReducer(fromJS(initialState), { // eslint
   [constants.CREATE_APPLICATION_REJECTED]: (state, action) =>
     state.merge({
       loading: false,
-      error: `An error occured while loading the applications: ${action.errorMessage}`
+      error: `An error occured while creating the application: ${action.errorMessage}`
     }),
   [constants.CREATE_APPLICATION_FULFILLED]: (state) =>
     state.merge({

@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { InputCombo, InputText, InputCheckBox } from '../Dashboard';
+import { InputCombo, InputText, InputCheckBox, Error } from '../Dashboard';
 import _ from 'lodash';
 import createForm from '../../utils/createForm';
 
@@ -42,6 +42,11 @@ export default createForm('application', class extends Component {
     } else {
       this.props.onTypeChange(null);
     }
+  }
+
+  componentDidMount = () => {
+    this.refs.client.props.field.onChange = this.onClientChange;
+    this.refs.type.props.field.onChange = this.onChangeType;
   }
 
   getClientById = (id) => {
@@ -89,7 +94,7 @@ export default createForm('application', class extends Component {
   }
 
   render() {
-    if (this.props.loading || this.props.error) {
+    if (this.props.loading) {
       return <div></div>;
     }
     const types = [{ value: 'saml', text: 'SAML' }, { value: 'oidc', text: 'OpenID-Connect' }, {
@@ -102,21 +107,27 @@ export default createForm('application', class extends Component {
     const callbacks = this.getCallbacks(application);
     const connections = this.props.connections.map(conn => ({ value: conn.name, text: conn.name }));
 
-    return <form className="appForm updateAppForm">
-      <InputCombo field={fields.client} options={clients} fieldName="client" label="Application"
-                  ref="client" events={{ onChange: this.onClientChange }} />
-      <InputText field={fields.name} fieldName="name" label="Name" ref="name"
-                 placeholder="insert a name for users to see" />
-      <InputCombo field={fields.type} options={types} fieldName="type" label="Type" ref="type"
-                  events={{ onChange: this.onChangeType }} />
-      {this.renderOpenIdAdditionalFields(application)}
-      <InputText field={fields.logo} fieldName="logo" label="Logo" ref="logo"
-                 placeholder="Insert an url of an image to use as a icon" />
-      <InputCombo field={fields.callback} options={callbacks} fieldName="callback"
-                  label="Callback" ref="callback" />
-      <InputCombo field={fields.connection} options={connections} fieldName="connection"
-                  label="Connection" ref="connection" />
-      <InputCheckBox field={fields.enabled} fieldName="enabled" label="Enabled" ref="enabled" />
-    </form>
+    return <div>
+      <div className="row">
+        <div className="col-xs-12 wrapper">
+          <Error message={ this.props.error } />
+        </div>
+      </div>
+      <form className="appForm updateAppForm">
+        <InputCombo field={fields.client} options={clients} fieldName="client" label="Application"
+                    ref="client" />
+        <InputText field={fields.name} fieldName="name" label="Name" ref="name"
+                   placeholder="insert a name for users to see" />
+        <InputCombo field={fields.type} options={types} fieldName="type" label="Type" ref="type" />
+        {this.renderOpenIdAdditionalFields(application)}
+        <InputText field={fields.logo} fieldName="logo" label="Logo" ref="logo"
+                   placeholder="Insert an url of an image to use as a icon" />
+        <InputCombo field={fields.callback} options={callbacks} fieldName="callback"
+                    label="Callback" ref="callback" />
+        <InputCombo field={fields.connection} options={connections} fieldName="connection"
+                    label="Connection" ref="connection" />
+        <InputCheckBox field={fields.enabled} fieldName="enabled" label="Enabled" ref="enabled" />
+      </form>
+    </div>
   }
 })

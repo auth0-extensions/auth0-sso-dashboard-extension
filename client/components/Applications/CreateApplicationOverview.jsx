@@ -5,6 +5,7 @@ import { ApplicationForm } from '../../components/Applications';
 export default class CreateApplication extends React.Component {
   static propTypes = {
     error: PropTypes.string,
+    createError: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     showModal: PropTypes.bool.isRequired,
     connections: PropTypes.array.isRequired,
@@ -37,7 +38,7 @@ export default class CreateApplication extends React.Component {
     if (loading || error) {
       return <div></div>;
     }
-
+    const initialValues = { 'client': this.props.currentClient, 'type': this.props.currentType };
     return (
       <div>
         <Confirm successClass="info"
@@ -54,11 +55,12 @@ export default class CreateApplication extends React.Component {
               <ApplicationForm
                 ref="app_form"
                 onSubmit={this.createApplication}
+                initialValues={initialValues}
                 onClientChange={this.props.onClientChange}
                 onTypeChange={this.props.onTypeChange}
                 loading={loading}
                 application={{}}
-                error={error}
+                error={this.props.createError}
                 clients={clients}
                 currentClient={this.props.currentClient}
                 currentType={this.props.currentType}
