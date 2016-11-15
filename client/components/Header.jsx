@@ -39,7 +39,7 @@ export default class Header extends Component {
                     <span className="username-text">
                       { issuer }
                     </span>
-                    <i className="icon-budicon-460"></i>
+                    <i className="icon-budicon-460" />
                   </span>
                   <ul role="menu" className="dropdown-menu">
                     <li role="presentation">
@@ -48,12 +48,12 @@ export default class Header extends Component {
                       </Link>
                     </li>
                     { isAdmin ?
-                    <li role="presentation">
-                      <Link role="menuitem" tabIndex="0" to="/applications/settings">
+                      <li role="presentation">
+                        <Link role="menuitem" tabIndex="0" to="/applications/settings">
                         Settings
                       </Link>
-                    </li>
-                     :''}
+                      </li>
+                     : ''}
                     <li role="presentation">
                       <a href="#" role="menuitem" tabIndex="-1" onClick={onLogout}>
                         Logout

@@ -1,9 +1,9 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import { findDOMNode } from 'react-dom';
 
-import {SearchBar, ApplicationsTable} from './';
-import {Error, LoadingPanel} from '../Dashboard';
-import {Link} from 'react-router';
+import { SearchBar, ApplicationsTable } from './';
+import { Error, LoadingPanel } from '../Dashboard';
+import { Link } from 'react-router';
 
 export default class ApplicationOverview extends React.Component {
   static propTypes = {
@@ -29,21 +29,24 @@ export default class ApplicationOverview extends React.Component {
   }
 
   render() {
-    const {loading, error, applications} = this.props;
+    const { loading, error, applications } = this.props;
 
     return (
       <div>
-        <LoadingPanel show={ loading }>
+        <LoadingPanel show={loading}>
           <div className="row">
             <div className="col-xs-12 wrapper">
-              <Error message={ error }/>
+              <Error message={error} />
             </div>
           </div>
-          <SearchBar onReset={this.props.onReset} onChangeSearch={this.props.onChangeSearch}
-            enabled={ () => !loading }/>
+          <SearchBar
+            onReset={this.props.onReset} onChangeSearch={this.props.onChangeSearch}
+            enabled={() => !loading}
+          />
           <div className="row">
             <div className="col-xs-12">
-              <ApplicationsTable loading={loading}
+              <ApplicationsTable
+                loading={loading}
                 applications={applications}
                 deleteApplication={this.props.deleteApplication}
                 fetchApplications={this.props.fetchApplications}
@@ -52,7 +55,7 @@ export default class ApplicationOverview extends React.Component {
                 cancelDeleteApplication={this.props.cancelDeleteApplication}
                 showModalDelete={this.props.showModalDelete}
                 appId={this.props.appId}
-                />
+              />
             </div>
           </div>
         </LoadingPanel>

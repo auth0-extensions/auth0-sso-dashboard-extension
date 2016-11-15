@@ -10,7 +10,6 @@ export default () => {
     .validateHookToken(config('AUTH0_DOMAIN'), config('WT_URL'), config('EXTENSION_SECRET'));
 
   hooks.use('/on-uninstall', hookValidator('/.extensions/on-uninstall'));
-
   hooks.use(middlewares.managementApiClient({
     domain: config('AUTH0_DOMAIN'),
     clientId: config('AUTH0_CLIENT_ID'),
@@ -25,9 +24,11 @@ export default () => {
         res.sendStatus(204);
       })
       .catch((err) => {
-        logger.debug(`Error deleting client ${clientId}`);
+        logger.debug(`Error deleting client: ${config('AUTH0_CLIENT_ID')}`);
         logger.error(err);
-        res.sendStatus(500);
+
+        // Even if deleting fails, we need to be able to uninstall the extension.
+        res.sendStatus(204);
       });
   });
   return hooks;

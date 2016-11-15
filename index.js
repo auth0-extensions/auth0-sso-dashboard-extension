@@ -1,8 +1,6 @@
 const path = require('path');
 const nconf = require('nconf');
-
 const logger = require('./server/lib/logger');
-
 
 // Initialize babel.
 require('babel-core/register')({
@@ -25,18 +23,17 @@ nconf
     DATA_CACHE_MAX_AGE: 1000 * 10,
     NODE_ENV: 'development',
     HOSTING_ENV: 'default',
-    PORT: 3000,
+    PORT: 3001,
     TITLE: 'SSO Dashboard'
   });
 
 // Start the server.
 const app = require('./server')((key) => nconf.get(key), null);
 
-const port = nconf.get('PORT');
-app.listen(port, (error) => {
+app.listen(nconf.get('PORT'), (error) => {
   if (error) {
     logger.error(error);
   } else {
-    logger.info(`Express listening on http://localhost:${port}`);
+    logger.info(`Express listening on http://localhost:${nconf.get('PORT')}`);
   }
 });

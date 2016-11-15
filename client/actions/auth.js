@@ -2,10 +2,19 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
 import * as constants from '../constants';
-import { show, parseHash } from '../utils/lock';
+
+const auth0 = new Auth0({ // eslint-disable-line no-undef
+  domain: window.config.AUTH0_DOMAIN,
+  clientID: window.config.AUTH0_CLIENT_ID,
+  callbackURL: `${window.config.BASE_URL}/login`,
+  callbackOnLocationHash: true
+});
 
 export function login(returnUrl) {
-  show(returnUrl);
+  auth0.login({
+    state: returnUrl,
+    scope: 'openid name email nickname groups roles app_metadata authorization'
+  });
 
   return {
     type: constants.SHOW_LOGIN
@@ -25,8 +34,7 @@ function isExpired(decodedToken) {
 
 export function logout() {
   return (dispatch) => {
-    localStorage.removeItem('apiToken');
-    sessionStorage.removeItem('apiToken');
+    sessionStorage.removeItem('sso-dashboard:apiToken');
 
     dispatch({
       type: constants.LOGOUT_SUCCESS
@@ -36,27 +44,34 @@ export function logout() {
 
 export function loadCredentials() {
   return (dispatch) => {
-    if (window.location.hash) {
-      const { id_token } = parseHash(window.location.hash);
-      if (id_token) { // eslint-disable-line camelcase
-        const decodedToken = jwtDecode(id_token);
+    const token = sessionStorage.getItem('sso-dashboard:apiToken');
+    if (token || window.location.hash) {
+      let apiToken = token;
+
+      const hash = auth0.parseHash(window.location.hash);
+      if (hash && hash.idToken) {
+        apiToken = hash.idToken;
+      }
+
+      if (apiToken) {
+        const decodedToken = jwtDecode(apiToken);
         if (isExpired(decodedToken)) {
           return;
         }
 
-        axios.defaults.headers.common.Authorization = `Bearer ${id_token}`; // eslint-disable-line camelcase
+        axios.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
 
         dispatch({
           type: constants.LOADED_TOKEN,
           payload: {
-            token: id_token
+            token: apiToken
           }
         });
 
         dispatch({
           type: constants.LOGIN_SUCCESS,
           payload: {
-            token: id_token,
+            token: apiToken,
             decodedToken,
             user: decodedToken
           }

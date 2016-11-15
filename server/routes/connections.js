@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { Router } from 'express';
-import { isAdmin } from '../lib/middlewares';
+import { requireScope } from '../lib/middlewares';
 
 export default () => {
   const api = Router();
@@ -8,7 +8,7 @@ export default () => {
   /*
    * List all connections.
    */
-  api.get('/', isAdmin, (req, res, next) => {
+  api.get('/', requireScope('manage:applications'), (req, res, next) => {
     req.auth0.connections.getAll({ fields: 'name' })
       .then(connections => _.chain(connections)
         .sortBy((conn) => conn.name.toLowerCase())

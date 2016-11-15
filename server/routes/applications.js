@@ -2,7 +2,7 @@ import _ from 'lodash';
 import uuid from 'uuid';
 import { Router } from 'express';
 import config from '../lib/config';
-import { isAdmin } from '../lib/middlewares';
+import { requireScope } from '../lib/middlewares';
 
 const attachAuthUrl = (app) => {
   const authProtocol = app.type;
@@ -89,7 +89,7 @@ export default (storage) => {
   /*
    * Get a list of all clients.
    */
-  api.get('/clients', isAdmin, (req, res, next) => {
+  api.get('/clients', requireScope('manage:applications'), (req, res, next) => {
     req.auth0.clients.getAll({ fields: 'name,client_id,callbacks' })
       .then(clients => _.filter(clients, (client) => !client.global))
       .then(clients => res.json(clients))
@@ -142,7 +142,7 @@ export default (storage) => {
   /*
    * Update application.
    */
-  api.put('/:id', isAdmin, (req, res, next) => {
+  api.put('/:id', requireScope('manage:applications'), (req, res, next) => {
     saveApplication(req.params.id, req.body, storage)
       .then(() => res.status(204).send())
       .catch(next);
@@ -151,9 +151,8 @@ export default (storage) => {
   /*
    * Create application.
    */
-  api.post('/', isAdmin, (req, res, next) => {
+  api.post('/', requireScope('manage:applications'), (req, res, next) => {
     const id = uuid.v4();
-
     saveApplication(id, req.body, storage)
       .then(() => res.status(201).send({ id }))
       .catch(next);
@@ -162,11 +161,10 @@ export default (storage) => {
   /*
    * Delete application.
    */
-  api.delete('/:id', isAdmin, (req, res, next) => {
+  api.delete('/:id', requireScope('manage:applications'), (req, res, next) => {
     deleteApplication(req.params.id, storage)
       .then(() => res.status(204).send())
       .catch(next);
   });
-
   return api;
 };

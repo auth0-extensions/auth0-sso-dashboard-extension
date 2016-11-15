@@ -30,9 +30,9 @@ export default createForm('application', class extends Component {
 
   onClientChange = (e) => {
     if (e.target.value) {
-      this.props.onClientChange(e.target.value)
+      this.props.onClientChange(e.target.value);
     } else {
-      this.props.onClientChange(this.getClientById(null))
+      this.props.onClientChange(this.getClientById(null));
     }
   }
 
@@ -49,18 +49,14 @@ export default createForm('application', class extends Component {
     this.refs.type.props.field.onChange = this.onChangeType;
   }
 
-  getClientById = (id) => {
-    return _.find(this.props.clients, function (client) {
-      return client.client_id == id
-    })
-  }
+  getClientById = (id) => _.find(this.props.clients, (client) => client.client_id == id)
 
   getCallbacks = (app) => {
     let callbacks = [];
     const clientId = this.props.currentClient || app.client;
-    let client = this.getClientById(clientId);
+    const client = this.getClientById(clientId);
     if (client) {
-      callbacks = client.callbacks ? (typeof client.callbacks == 'string' ? [client.callbacks] : client.callbacks) : [];
+      callbacks = client.callbacks ? (typeof client.callbacks === 'string' ? [ client.callbacks ] : client.callbacks) : [];
       return callbacks.map(call => ({ value: call, text: call }));
     } else {
       return [];
@@ -80,22 +76,26 @@ export default createForm('application', class extends Component {
       { value: 'code', text: 'Traditional Web Application' }
     ];
     if (!this.getIsOpenId()) {
-      return null
+      return null;
     }
     return (
       <div>
-        <InputText field={this.props.fields.scope} fieldName="scope" label="Scope" ref="scope"
-                   placeholder="Insert a scope" />
-        <InputCombo field={this.props.fields.response_type} options={responseTypes}
-                    fieldName="response_type" label="Response Type"
-                    ref="response_type" />
+        <InputText
+          field={this.props.fields.scope} fieldName="scope" label="Scope" ref="scope"
+          placeholder="Insert a scope"
+        />
+        <InputCombo
+          field={this.props.fields.response_type} options={responseTypes}
+          fieldName="response_type" label="Response Type"
+          ref="response_type"
+        />
       </div>
-    )
+    );
   }
 
   render() {
     if (this.props.loading) {
-      return <div></div>;
+      return <div />;
     }
     const types = [
       { value: 'saml', text: 'SAML' },
@@ -108,27 +108,37 @@ export default createForm('application', class extends Component {
     const callbacks = this.getCallbacks(application);
     const connections = this.props.connections.map(conn => ({ value: conn.name, text: conn.name }));
 
-    return <div>
+    return (<div>
       <div className="row">
         <div className="col-xs-12 wrapper">
-          <Error message={ this.props.error } />
+          <Error message={this.props.error} />
         </div>
       </div>
       <form className="appForm updateAppForm">
-        <InputCombo field={fields.client} options={clients} fieldName="client" label="Application"
-                    ref="client" />
-        <InputText field={fields.name} fieldName="name" label="Name" ref="name"
-                   placeholder="insert a name for users to see" />
+        <InputCombo
+          field={fields.client} options={clients} fieldName="client" label="Application"
+          ref="client"
+        />
+        <InputText
+          field={fields.name} fieldName="name" label="Name" ref="name"
+          placeholder="insert a name for users to see"
+        />
         <InputCombo field={fields.type} options={types} fieldName="type" label="Type" ref="type" />
         {this.renderOpenIdAdditionalFields(application)}
-        <InputText field={fields.logo} fieldName="logo" label="Logo" ref="logo"
-                   placeholder="Insert an url of an image to use as a icon" />
-        <InputCombo field={fields.callback} options={callbacks} fieldName="callback"
-                    label="Callback" ref="callback" />
-        <InputCombo field={fields.connection} options={connections} fieldName="connection"
-                    label="Connection" ref="connection" />
+        <InputText
+          field={fields.logo} fieldName="logo" label="Logo" ref="logo"
+          placeholder="Insert an url of an image to use as a icon"
+        />
+        <InputCombo
+          field={fields.callback} options={callbacks} fieldName="callback"
+          label="Callback" ref="callback"
+        />
+        <InputCombo
+          field={fields.connection} options={connections} fieldName="connection"
+          label="Connection" ref="connection"
+        />
         <InputCheckBox field={fields.enabled} fieldName="enabled" label="Enabled" ref="enabled" />
       </form>
-    </div>
+    </div>);
   }
-})
+});

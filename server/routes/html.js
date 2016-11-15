@@ -2,6 +2,7 @@ import fs from 'fs';
 import ejs from 'ejs';
 import path from 'path';
 import { urlHelpers } from 'auth0-extension-express-tools';
+
 import config from '../lib/config';
 
 export default () => {
@@ -18,18 +19,17 @@ export default () => {
     <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/styles/zocial.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/manage/v0.3.1672/css/index.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/styleguide/4.6.13/index.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://styleguide.auth0.com/index.css" />
     <% if (assets.style) { %><link rel="stylesheet" type="text/css" href="/app/<%= assets.style %>" /><% } %>
     <% if (assets.version) { %><link rel="stylesheet" type="text/css" href="//cdn.auth0.com/extensions/auth0-sso-dashboard/assets/auth0-sso-dashboard.ui.<%= assets.version %>.css" /><% } %>
     <% if (assets.customCss) { %><link rel="stylesheet" type="text/css" href="<%= assets.customCss %>" /><% } %>
   </head>
   <body>
     <div id="app"></div>
-    <script type="text/javascript" src="//cdn.auth0.com/js/lock-9.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.auth0.com/w2/auth0-7.0.4.min.js"></script>
     <script type="text/javascript" src="//cdn.auth0.com/manage/v0.3.1672/js/bundle.js"></script>
     <script type="text/javascript">window.config = <%- JSON.stringify(config) %>;</script>
-    <% if (assets.vendors) { %><script type="text/javascript" src="/app/<%= assets.vendors %>"></script><% } %>
-    <% if (assets.app) { %><script type="text/javascript" src="/app/<%= assets.app %>"></script><% } %>
+    <% if (assets.vendors) { %><script type="text/javascript" src="<%= assets.vendors %>"></script><% } %>
+    <% if (assets.app) { %><script type="text/javascript" src="<%= assets.app %>"></script><% } %>
     <% if (assets.version) { %>
     <script type="text/javascript" src="//cdn.auth0.com/extensions/auth0-sso-dashboard/assets/auth0-sso-dashboard.ui.vendors.<%= assets.version %>.js"></script>
     <script type="text/javascript" src="//cdn.auth0.com/extensions/auth0-sso-dashboard/assets/auth0-sso-dashboard.ui.<%= assets.version %>.js"></script>
@@ -69,7 +69,7 @@ export default () => {
         config: settings,
         assets: {
           customCss: config('CUSTOM_CSS'),
-          app: 'bundle.js'
+          app: 'http://localhost:3000/app/bundle.js'
         }
       };
 

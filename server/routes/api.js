@@ -10,8 +10,25 @@ import connections from './connections';
 
 export default (storage) => {
   const api = Router();
-
-  api.use(middlewares.authenticateUser(config('AUTH0_DOMAIN'), config('EXTENSION_CLIENT_ID')));
+  api.use(middlewares.authenticateUsers.optional({
+    domain: config('AUTH0_DOMAIN'),
+    audience: config('EXTENSION_CLIENT_ID'),
+    credentialsRequired: false,
+    onLoginSuccess: (req, res, next) => {
+      req.user.scope = [ 'access:applications' ];
+      next();
+    }
+  }));
+  api.use(middlewares.authenticateAdmins.optional({
+    credentialsRequired: false,
+    secret: config('EXTENSION_SECRET'),
+    audience: 'urn:sso-dashboard',
+    baseUrl: config('WT_URL'),
+    onLoginSuccess: (req, res, next) => {
+      req.user.scope = [ 'access:applications', 'manage:applications' ];
+      next();
+    }
+  }));
 
   api.use(middlewares.managementApiClient({
     domain: config('AUTH0_DOMAIN'),
@@ -23,7 +40,8 @@ export default (storage) => {
   api.use('/applications', applications(storage));
   api.use('/connections', connections());
   api.get('/status', (req, res) => {
-    res.json({ isAdmin: req.user.role === constants.ADMIN_ACCESS_LEVEL });
+    console.log(req.user);
+    res.json({ isAdmin: req.user.scope && req.user.scope.indexOf('access:applications') > -1 });
   });
   return api;
 };

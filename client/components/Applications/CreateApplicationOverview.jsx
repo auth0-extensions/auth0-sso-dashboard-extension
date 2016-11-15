@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
 import { Error, Confirm } from '../Dashboard';
 import { ApplicationForm } from '../../components/Applications';
 
@@ -24,31 +24,31 @@ export default class CreateApplication extends React.Component {
     this.refs.app_form.submit();
   }
 
-  onCancel = () => {
-    return this.props.cancelCreateApplication();
-  }
+  onCancel = () => this.props.cancelCreateApplication()
 
   createApplication = (data) => {
     this.props.createApplication(data);
   }
 
   render() {
-    const { loading, clients, connections, error, showModal }  = this.props;
+    const { loading, clients, connections, error, showModal } = this.props;
 
     if (loading || error) {
-      return <div></div>;
+      return <div />;
     }
-    const initialValues = { 'client': this.props.currentClient, 'type': this.props.currentType };
+    const initialValues = { client: this.props.currentClient, type: this.props.currentType };
     return (
       <div>
-        <Confirm successClass="info"
-                 show={showModal}
-                 confirmMessage="Create"
-                 cancelMessage="Cancel"
-                 title="New Application"
-                 loading={loading}
-                 onCancel={this.onCancel}
-                 onConfirm={this.onConfirm}>
+        <Confirm
+          successClass="info"
+          show={showModal}
+          confirmMessage="Create"
+          cancelMessage="Cancel"
+          title="New Application"
+          loading={loading}
+          onCancel={this.onCancel}
+          onConfirm={this.onConfirm}
+        >
           <div className="user">
             <div className="spanTitle"><span className="username-text">Add new application</span></div>
             <div>
@@ -64,11 +64,12 @@ export default class CreateApplication extends React.Component {
                 clients={clients}
                 currentClient={this.props.currentClient}
                 currentType={this.props.currentType}
-                connections={connections} />
+                connections={connections}
+              />
             </div>
           </div>
         </Confirm>
       </div>
     );
   }
-};
+}

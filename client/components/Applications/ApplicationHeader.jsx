@@ -16,7 +16,7 @@ export default class ApplicationHeader extends Component {
     return (
       <div className="user-header">
         <Link className="back-to-apps" to="/applications/settings">
-          <i className="icon-budicon-521"> </i>
+          <i className="icon-budicon-521" />
           BACK TO APPLICATIONS
         </Link>
         <h4>

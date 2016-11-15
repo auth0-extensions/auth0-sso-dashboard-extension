@@ -25,10 +25,10 @@ export default class ApplicationsList extends Component {
           const link = app.login_url;
 
           return (
-            <a href={ link } target="_blank" key={ key }>
+            <a href={link} target="_blank" key={key}>
               <div className="user-app">
                 <div className="image-container">
-                  <img className="img-circle" src={ logo } alt={ name } width="32"/>
+                  <img className="img-circle" src={logo} alt={name} width="32" />
                 </div>
                 <div className="card-docs-title">{ name }</div>
               </div>

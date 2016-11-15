@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import connectContainer from 'redux-static';
 import { applicationActions, connectionActions } from '../../actions';
@@ -36,36 +36,37 @@ export default connectContainer(class extends Component {
   }
 
   clickRemoveButton = () => {
-    this.props.requestDeleteApplication(this.props.params.id)
+    this.props.requestDeleteApplication(this.props.params.id);
   }
 
   clickSubmitButton = () => {
-    this.refs.app_form.submit()
+    this.refs.app_form.submit();
   }
 
   render() {
     const { application, loading, error, clients, connections } = this.props;
     const applicationJSON = application.toJSON();
     const initialValues = {
-      'name': applicationJSON.name || applicationJSON.client,
-      'client': this.props.currentClient,
-      'logo': applicationJSON.logo,
-      'type': this.props.currentType,
-      'callback': applicationJSON.callback,
-      'connection': applicationJSON.connection ? applicationJSON.connection : '',
-      'response_type': applicationJSON.response_type ? applicationJSON.response_type : '',
-      'scope': applicationJSON.scope ? applicationJSON.scope : '',
-      'enabled': applicationJSON.enabled
+      name: applicationJSON.name || applicationJSON.client,
+      client: this.props.currentClient,
+      logo: applicationJSON.logo,
+      type: this.props.currentType,
+      callback: applicationJSON.callback,
+      connection: applicationJSON.connection ? applicationJSON.connection : '',
+      response_type: applicationJSON.response_type ? applicationJSON.response_type : '',
+      scope: applicationJSON.scope ? applicationJSON.scope : '',
+      enabled: applicationJSON.enabled
     };
     return (
       <div className="user">
-        <Confirm title="Remove Application" show={this.props.showModalDelete} loading={false}
-                 onCancel={this.props.cancelDeleteApplication}
-                 onConfirm={(e) => {
-                   this.props.deleteApplication(this.props.params.id, ()=> {
-                     history.back();
-                   })
-                 }}
+        <Confirm
+          title="Remove Application" show={this.props.showModalDelete} loading={false}
+          onCancel={this.props.cancelDeleteApplication}
+          onConfirm={(e) => {
+            this.props.deleteApplication(this.props.params.id, () => {
+              history.back();
+            });
+          }}
         >
           <span>
             Are you sure?
@@ -74,8 +75,7 @@ export default connectContainer(class extends Component {
         <div className="row content-header">
           <div className="col-xs-12">
             <h2 className="pull-left">Application Details</h2>
-            <div className="pull-right">
-            </div>
+            <div className="pull-right" />
           </div>
         </div>
         <div className="row">
@@ -99,7 +99,8 @@ export default connectContainer(class extends Component {
                   clients={clients}
                   currentClient={this.props.currentClient}
                   currentType={this.props.currentType}
-                  connections={connections} />
+                  connections={connections}
+                />
                 <br />
                 <div className="btn-div">
                   <button className="btn btn-info" onClick={this.clickSubmitButton}>Save Settings</button>
@@ -108,8 +109,9 @@ export default connectContainer(class extends Component {
                 <h5>Danger Zone</h5>
                 <div className="red-border">
                   <p><strong>Warning!</strong> Once confirmed, this operation can't be undone!</p>
-                  <p><input onClick={this.clickRemoveButton} type="button" value="Delete Application"
-                            className="btn btn-danger delete-client "
+                  <p><input
+                    onClick={this.clickRemoveButton} type="button" value="Delete Application"
+                    className="btn btn-danger delete-client "
                   /></p>
                 </div>
               </Tab>
@@ -122,4 +124,4 @@ export default connectContainer(class extends Component {
       </div>
     );
   }
-})
+});
