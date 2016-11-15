@@ -64,8 +64,8 @@ export default class ApplicationsTable extends Component {
               const type = application.type;
               const callback = application.callback;
               const enabled = application.enabled;
-              const appClassName = enabled ? "publishedApp publishButtonApp" : "unpublishedApp publishButtonApp";
-              const appButtonText = enabled ? "UNPUBLISH >" : "PUBLISH >";
+              const appClassName = `btn btn-publish-app ${enabled ? 'btn-transparent' : 'btn-success'}`;
+              const appButtonText = enabled ? "UNPUBLISH" : "PUBLISH";
               const name = application.name || application.client;
               const login_url = application.login_url;
               return (
@@ -82,13 +82,16 @@ export default class ApplicationsTable extends Component {
                         <br />
                         {type}
                       </div>
-                      <div className={appClassName} onClick={function () {
-                        this.enableDisableApp(key, application, enabled);
-                      }.bind(this)}> {appButtonText}</div>
                     </div>
                   </TableCell>
                   <TableCell className="actions">
                     <ul className="list-inline list-inline-apps">
+                      <div
+                        className={appClassName}
+                        onClick={() => this.enableDisableApp(key, application, enabled)}
+                      >
+                        {appButtonText}
+                      </div>
                       <li title="Login" data-toggle="tooltip">
                         <a href={ login_url } target="_blank" key={ key }>
                           <i className="icon-budicon-187"></i>

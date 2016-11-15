@@ -49,7 +49,7 @@ class Applications extends Component {
           <div className="col-xs-12">
             <h2>Settings</h2>
             <button
-              className="btn btn-success pull-right"
+              className="btn btn-success btn-create-app"
               onClick={this.openForm}
             >
               + Create App

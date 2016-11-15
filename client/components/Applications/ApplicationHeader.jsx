@@ -15,9 +15,9 @@ export default class ApplicationHeader extends Component {
     const application = this.props.application.toJS();
     return (
       <div className="user-header">
-        <Link className="back-to-apps" to="/applications/settings">
-          <i className="icon-budicon-521" />
-          BACK TO APPLICATIONS
+        <Link className="btn btn-sm btn-transparent back-to-apps" to="/applications/settings">
+          <span className="btn-icon icon-budicon-521" />
+          Go back to Applications
         </Link>
         <h4>
           <span className="name user-head-nickname">

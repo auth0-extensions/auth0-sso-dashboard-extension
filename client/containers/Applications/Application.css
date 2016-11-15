@@ -1,5 +1,13 @@
 .user .content-header {
+    position: relative;
     margin-bottom: 20px;
+}
+
+.user .content-header .back-to-apps{
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
 }
 
 .user .dropdown-menu {
@@ -10,8 +18,9 @@
     margin: 0px;
 }
 
-.user .content-header .h2 {
-    margin-top: 0px;
+.user .content-header .settings-header {
+    display: inline-block;
+    margin-top: 10px;
 }
 
 .user-tabs a[role="tab"] {
@@ -97,16 +106,6 @@
 
 .user-header .user-bg-box .box-content .username-area .name {
     margin-right: 10px;
-}
-
-.user-header .back-to-apps {
-    position: relative;
-    top: -70px;
-    float: right;
-    color: black;
-    padding: 0 15px;
-    border: 1px solid #c1c0c0;
-    border-radius: 3px;
 }
 
 .user-header .user-bg-box .box-content .username-area .user-label {

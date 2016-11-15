@@ -5,8 +5,14 @@
 }
 
 .users .content-header h2 {
-    display: inline-block;
     margin-top: 0px;
+}
+
+.users .content-header .btn-create-app{
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
 }
 
 article.card-docs {
@@ -156,17 +162,10 @@ article.card-docs {
     color: green;
 }
 
-.publishButtonApp {
-    float: left;
-    vertical-align: middle;
-    margin-left: 16px;
-    margin-top: 14px;
-    padding-left: 15px;
-    padding-right: 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-    padding-top: 2px;
+.btn-publish-app {
+    vertical-align: top;
+    margin-right: 16px;
+    width: 114px;
 }
 
 ul.list-inline-apps {
