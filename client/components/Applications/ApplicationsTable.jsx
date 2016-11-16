@@ -73,14 +73,13 @@ export default class ApplicationsTable extends Component {
                   <TableCell>
                     <div>
                       <div className="logoBlockImage">
-                        <img className="img-circle" src={ logo } alt={ name } />
+                        <img src={ logo } alt={ name } />
                       </div>
                       <div className="logoBlockInfo">
                         <Link to={`/applications/${key}`}>
-                          {name}
+                          <span className="application-name">{name}</span>
                         </Link>
-                        <br />
-                        {type}
+                        <span className="application-type">{type}</span>
                       </div>
                     </div>
                   </TableCell>

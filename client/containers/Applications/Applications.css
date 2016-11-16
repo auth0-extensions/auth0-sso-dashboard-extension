@@ -72,20 +72,35 @@ article.card-docs {
 }
 
 .logoBlockImage {
-    width: 70px;
+    margin-top: 4px;
     float: left;
 }
 
 .logoBlockImage img {
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
     object-fit: contain;
-    border: 1px solid #dddddd;
+    border-radius: 3px;
+    background-color: #fafafa;
+    border: 1px solid #f1f1f1;
+    margin-right: 10px;
 }
 
 .logoBlockInfo {
     float: left;
     padding-left: 3px;
+}
+
+.logoBlockInfo .application-name{
+    display: block;
+}
+
+.logoBlockInfo .application-type{
+    color: black;
+    opacity: .56;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .appFormSubmit {
