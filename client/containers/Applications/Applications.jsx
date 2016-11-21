@@ -47,14 +47,16 @@ class Applications extends Component {
       <div className="users">
         <div className="row content-header">
           <div className="col-xs-12">
-            <h2>Applications</h2>
+            <h2>Settings</h2>
+            <button
+              className="btn btn-success btn-create-app"
+              onClick={this.openForm}
+            >
+              + Create App
+            </button>
           </div>
         </div>
-        <div className="createAppButton">
-          <button className="btn btn-success" onClick={this.openForm}>
-                        + Create App
-                    </button>
-        </div>
+        <div className="page-description">Change the application settings.</div>
         <ApplicationOverview
           onReset={this.onReset.bind(this)}
           onChangeSearch={this.onChangeSearch.bind(this)}

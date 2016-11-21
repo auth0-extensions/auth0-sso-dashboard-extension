@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import connectContainer from 'redux-static';
+import { Link } from 'react-router';
 import { applicationActions, connectionActions } from '../../actions';
 import './Application.css';
 import { ApplicationHeader, ApplicationInfo, ApplicationForm } from '../../components/Applications';
@@ -74,13 +75,11 @@ export default connectContainer(class extends Component {
         </Confirm>
         <div className="row content-header">
           <div className="col-xs-12">
-            <h2 className="pull-left">Application Details</h2>
-            <div className="pull-right" />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-xs-12">
-            <ApplicationHeader loading={loading} application={application} error={error} />
+            <h2 className="settings-header">{application.get('name')} settings</h2>
+            <Link className="btn btn-transparent back-to-apps pull-right" to="/applications/settings">
+              <span className="btn-icon icon-budicon-521" />
+              Go back to Applications
+            </Link>
           </div>
         </div>
         <div className="row user-tabs">

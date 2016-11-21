@@ -1,9 +1,18 @@
 .users .content-header {
-    margin-bottom: 20px;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
-.users .content-header .h2 {
+.users .content-header h2 {
     margin-top: 0px;
+}
+
+.users .content-header .btn-create-app{
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
 }
 
 article.card-docs {
@@ -15,7 +24,6 @@ article.card-docs {
     font-size: 18px;
     margin-bottom: 20px;
     color: #999;
-    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 .user-app:hover {
@@ -24,51 +32,75 @@ article.card-docs {
 
 .user-app {
     width: 180px;
-    height: 180px;
     padding: 5px;
     border: 1px solid #ddd;
+    border-radius: 3px;
     float: left;
     margin-bottom: 20px;
-    margin-right: 25px;
+    margin-right: 15px;
     overflow: hidden;
 }
 
 .user-app .image-container {
-    width: 110px;
-    height: 110px;
-    margin-top: 10px;
-    margin-left: 30px;
+    position: relative;
+    width: 90px;
+    height: 90px;
+    margin: 10px 40px;
+    overflow: hidden;
 }
 
 .user-app .img-circle {
     width: 100%;
-    padding: 5%;
+    max-height: 100%;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     border-radius: 0;
 }
 
 .user-app .card-docs-title {
-    margin-top: 5px;
+    margin: 15px 5px;
     font-size: 16px;
     line-height: 22px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     text-align: center;
     color: #999;
-    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 .logoBlockImage {
-    width: 70px;
+    margin-top: 4px;
     float: left;
 }
 
 .logoBlockImage img {
-    margin-top: 4px;
-    width: 60px;
-    border: 1px solid #dddddd;
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 3px;
+    background-color: #fafafa;
+    border: 1px solid #f1f1f1;
+    margin-right: 10px;
 }
 
 .logoBlockInfo {
     float: left;
     padding-left: 3px;
+}
+
+.logoBlockInfo .application-name{
+    display: block;
+}
+
+.logoBlockInfo .application-type{
+    color: black;
+    opacity: .56;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .appFormSubmit {
@@ -145,17 +177,10 @@ article.card-docs {
     color: green;
 }
 
-.publishButtonApp {
-    float: left;
-    vertical-align: middle;
-    margin-left: 16px;
-    margin-top: 14px;
-    padding-left: 15px;
-    padding-right: 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-    padding-top: 2px;
+.btn-publish-app {
+    vertical-align: top;
+    margin-right: 16px;
+    width: 114px;
 }
 
 ul.list-inline-apps {
