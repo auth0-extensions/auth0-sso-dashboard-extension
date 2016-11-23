@@ -90,8 +90,15 @@ export default (storage) => {
    * Get a list of all clients.
    */
   api.get('/clients', requireScope('manage:applications'), (req, res, next) => {
-    req.auth0.clients.getAll({ fields: 'name,client_id,callbacks' })
-      .then(clients => _.filter(clients, (client) => !client.global))
+    req.auth0.clients.getAll({ fields: 'client_id,name,callbacks,global,app_type' })
+      .then(clients => _.chain(clients)
+        .filter(client =>
+          !client.global &&
+          (client.app_type === 'spa' || client.app_type === 'native' || client.app_type === 'regular_web')
+        )
+        .sortBy((client) => client.name.toLowerCase())
+        .value()
+      )
       .then(clients => res.json(clients))
       .catch(next);
   });
@@ -99,7 +106,7 @@ export default (storage) => {
   /*
    * Get a list of applications.
    */
-  api.get('/', (req, res, next) => {
+  api.get('/', requireScope('read:applications'), (req, res, next) => {
     storage.read()
       .then(apps => {
         const applications = apps.applications || {};
@@ -124,7 +131,7 @@ export default (storage) => {
   /*
    * Get a list of applications.
    */
-  api.get('/all', (req, res, next) => {
+  api.get('/all', requireScope('read:applications'), (req, res, next) => {
     storage.read()
       .then(apps => res.json(apps.applications || {}))
       .catch(next);
@@ -133,7 +140,7 @@ export default (storage) => {
   /*
    * Get application.
    */
-  api.get('/:id', (req, res, next) => {
+  api.get('/:id', requireScope('read:applications'), (req, res, next) => {
     storage.read()
       .then(apps => res.json({ application: apps.applications[req.params.id] }))
       .catch(next);
