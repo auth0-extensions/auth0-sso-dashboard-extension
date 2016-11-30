@@ -16,6 +16,8 @@ Update the configuration file under `./server/config.json`:
 {
   "AUTHORIZE_API_KEY": "mysecret",
   "EXTENSION_CLIENT_ID": "client id of my app",
+  "EXTENSION_SECRET": "client secret of my app",
+  "AUTH0_RTA": "default is auth0.auth0.com",
   "WT_URL": "http://localhost:3000/",
   "AUTH0_DOMAIN": "me.auth0.com",
   "AUTH0_CLIENT_ID": "client id of my api client",
