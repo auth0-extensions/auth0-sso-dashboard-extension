@@ -1,6 +1,8 @@
 import React, { PropTypes, Component } from 'react';
-import { InputCombo, InputText, InputCheckBox, Error } from '../Dashboard';
+import { InputCombo, InputText, InputCheckBox, Error } from 'auth0-extension-ui';
+import { Field } from 'redux-form';
 import _ from 'lodash';
+
 import createForm from '../../utils/createForm';
 
 export default createForm('application', class extends Component {
@@ -16,18 +18,6 @@ export default createForm('application', class extends Component {
     currentType: React.PropTypes.string
   }
 
-  static formFields = [
-    'client',
-    'name',
-    'type',
-    'scope',
-    'response_type',
-    'logo',
-    'callback',
-    'connection',
-    'enabled'
-  ];
-
   onClientChange = (e) => {
     if (e.target.value) {
       this.props.onClientChange(e.target.value);
@@ -42,11 +32,6 @@ export default createForm('application', class extends Component {
     } else {
       this.props.onTypeChange(null);
     }
-  }
-
-  componentDidMount = () => {
-    this.refs.client.props.field.onChange = this.onClientChange;
-    this.refs.type.props.field.onChange = this.onChangeType;
   }
 
   getClientById = (id) => _.find(this.props.clients, (client) => client.client_id == id)
@@ -80,14 +65,13 @@ export default createForm('application', class extends Component {
     }
     return (
       <div>
-        <InputText
-          field={this.props.fields.scope} fieldName="scope" label="Scope" ref="scope"
+        <Field
+          name="scope" component={InputText} label="Scope" type="text"
           placeholder="Insert a scope"
         />
-        <InputCombo
-          field={this.props.fields.response_type} options={responseTypes}
-          fieldName="response_type" label="Response Type"
-          ref="response_type"
+        <Field
+          name="response_type" component={InputCombo}
+          options={responseTypes} label="Response Type"
         />
       </div>
     );
@@ -102,7 +86,6 @@ export default createForm('application', class extends Component {
       { value: 'oidc', text: 'OpenID-Connect' },
       { value: 'wsfed', text: 'WS-Federation' }
     ];
-    const fields = this.props.fields;
     const clients = this.props.clients.map(conn => ({ value: conn.client_id, text: conn.name }));
     const application = this.props.application;
     const callbacks = this.getCallbacks(application);
@@ -114,31 +97,31 @@ export default createForm('application', class extends Component {
           <Error message={this.props.error} />
         </div>
       </div>
-      <form className="appForm updateAppForm">
-        <InputCombo
-          field={fields.client} options={clients} fieldName="client" label="Application"
-          ref="client"
+      <form className="form-horizontal">
+        <Field
+          name="client" component={InputCombo}
+          options={clients} label="Application" onChange={this.onClientChange}
         />
-        <InputText
-          field={fields.name} fieldName="name" label="Name" ref="name"
-          placeholder="insert a name for users to see"
+        <Field name="name" component={InputText} label="Name" type="text" />
+        <Field
+          name="type" component={InputCombo}
+          options={types} label="Type" onChange={this.onChangeType}
         />
-        <InputCombo field={fields.type} options={types} fieldName="type" label="Type" ref="type" />
         {this.renderOpenIdAdditionalFields(application)}
-        <InputText
-          field={fields.logo} fieldName="logo" label="Logo" ref="logo"
+        <Field
+          name="logo" component={InputText} label="Logo" type="text"
           placeholder="Insert an url of an image to use as a icon"
         />
-        <InputCombo
-          field={fields.callback} options={callbacks} fieldName="callback"
-          label="Callback" ref="callback"
+        <Field
+          name="callback" component={InputCombo}
+          options={callbacks} label="Callback"
         />
-        <InputCombo
-          field={fields.connection} options={connections} fieldName="connection"
-          label="Connection" ref="connection"
+        <Field
+          name="connection" component={InputCombo}
+          options={connections} label="Connection"
         />
-        <InputCheckBox field={fields.enabled} fieldName="enabled" label="Enabled" ref="enabled" />
+        <Field name="enabled" component={InputCheckBox} label="Enabled" />
       </form>
     </div>);
   }
-});
+}, { enableReinitialize: true });
