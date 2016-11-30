@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import connectContainer from 'redux-static';
 import { Link } from 'react-router';
+import { Confirm } from 'auth0-extension-ui';
+
 import { applicationActions, connectionActions } from '../../actions';
-import './Application.css';
 import { ApplicationHeader, ApplicationInfo, ApplicationForm } from '../../components/Applications';
-import { Confirm } from '../../components/Dashboard';
 
 export default connectContainer(class extends Component {
   static stateToProps = (state) => ({

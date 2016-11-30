@@ -1,6 +1,6 @@
 import './CreateApplicationDialog.css';
 import React, { Component, PropTypes } from 'react';
-import { Error, Confirm } from '../Dashboard';
+import { Error, Confirm } from 'auth0-extension-ui';
 import { ApplicationForm } from '../../components/Applications';
 
 export default class CreateApplicationDialog extends React.Component {
