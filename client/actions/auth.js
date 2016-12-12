@@ -33,12 +33,17 @@ function isExpired(decodedToken) {
 }
 
 export function logout() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     sessionStorage.removeItem('sso-dashboard:apiToken');
 
-    dispatch({
-      type: constants.LOGOUT_SUCCESS
-    });
+    const isAdmin = getState().status.get('isAdmin');
+    if (isAdmin) {
+      window.location.href = `${window.config.AUTH0_MANAGE_URL}/#/extensions`;
+    } else {
+      dispatch({
+        type: constants.LOGOUT_SUCCESS
+      });
+    }
   };
 }
 

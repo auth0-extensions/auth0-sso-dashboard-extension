@@ -12,6 +12,5 @@ export default () => {
       .then(connections => res.json(connections))
       .catch(next);
   });
-
   return api;
 };

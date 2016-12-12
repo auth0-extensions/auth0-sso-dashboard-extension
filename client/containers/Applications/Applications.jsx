@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import * as actions from '../../actions/application';
-import { ApplicationOverview, CreateApplicationOverview } from '../../components/Applications';
+import { ApplicationOverview, CreateApplicationDialog } from '../../components/Applications';
 import './Applications.css';
 
 class Applications extends Component {
@@ -71,7 +71,7 @@ class Applications extends Component {
           showModalDelete={showModalDelete}
           appId={appId}
         />
-        <CreateApplicationOverview
+        <CreateApplicationDialog
           error={error}
           createError={createError}
           loading={loading}

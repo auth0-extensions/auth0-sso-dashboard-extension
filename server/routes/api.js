@@ -14,7 +14,8 @@ export default (storage) => {
     audience: config('EXTENSION_CLIENT_ID'),
     credentialsRequired: false,
     onLoginSuccess: (req, res, next) => {
-      req.user.scope = [ 'read:applications' ];
+      const currentRequest = req;
+      currentRequest.user.scope = [ 'read:applications' ];
       next();
     }
   }));
@@ -24,9 +25,10 @@ export default (storage) => {
     credentialsRequired: false,
     secret: config('EXTENSION_SECRET'),
     audience: 'urn:sso-dashboard',
-    baseUrl: config('WT_URL'),
+    baseUrl: config('PUBLIC_WT_URL'),
     onLoginSuccess: (req, res, next) => {
-      req.user.scope = [ 'read:applications', 'manage:applications' ];
+      const currentRequest = req;
+      currentRequest.user.scope = [ 'read:applications', 'manage:applications' ];
       next();
     }
   }));

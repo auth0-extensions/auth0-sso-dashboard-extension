@@ -16,8 +16,11 @@ gulp.task('run', () => {
       ext: 'js json',
       cwd: path.join(__dirname, '/../'),
       env: {
+        EXTENSION_SECRET: 'a-random-secret',
+        AUTH0_RTA: 'https://auth0.auth0.com',
         NODE_ENV: 'development',
-        WT_URL: url
+        WT_URL: url,
+        PUBLIC_WT_URL: url
       },
       ignore: [
         path.join(__dirname, '../assets/app/'),

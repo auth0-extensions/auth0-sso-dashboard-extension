@@ -115,6 +115,7 @@ export default createForm('application', class extends Component {
         </div>
       </div>
       <form className="appForm updateAppForm">
+        <InputCombo field={fields.type} options={types} fieldName="type" label="Type" ref="type" />
         <InputCombo
           field={fields.client} options={clients} fieldName="client" label="Application"
           ref="client"
@@ -123,7 +124,6 @@ export default createForm('application', class extends Component {
           field={fields.name} fieldName="name" label="Name" ref="name"
           placeholder="insert a name for users to see"
         />
-        <InputCombo field={fields.type} options={types} fieldName="type" label="Type" ref="type" />
         {this.renderOpenIdAdditionalFields(application)}
         <InputText
           field={fields.logo} fieldName="logo" label="Logo" ref="logo"

@@ -1,8 +1,9 @@
+import './CreateApplicationDialog.css';
 import React, { Component, PropTypes } from 'react';
 import { Error, Confirm } from '../Dashboard';
 import { ApplicationForm } from '../../components/Applications';
 
-export default class CreateApplication extends React.Component {
+export default class CreateApplicationDialog extends React.Component {
   static propTypes = {
     error: PropTypes.string,
     createError: PropTypes.string,
@@ -42,6 +43,7 @@ export default class CreateApplication extends React.Component {
         <Confirm
           successClass="info"
           show={showModal}
+          dialogClassName="create-app-modal"
           confirmMessage="Create"
           cancelMessage="Cancel"
           title="New Application"

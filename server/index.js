@@ -31,10 +31,10 @@ module.exports = (configProvider, storageProvider) => {
   app.use(routes.dashboardAdmins({
     secret: config('EXTENSION_SECRET'),
     audience: 'urn:sso-dashboard',
-    rta: config('AUTH0_RTA'),
+    rta: config('AUTH0_RTA').replace('https://', ''),
     domain: config('AUTH0_DOMAIN'),
-    baseUrl: config('WT_URL'),
-    clientName: 'Delegated Administration Extension',
+    baseUrl: config('PUBLIC_WT_URL'),
+    clientName: 'SSO Dashboard',
     urlPrefix: '/admins',
     sessionStorageKey: 'sso-dashboard:apiToken',
     scopes: 'read:clients read:connections'

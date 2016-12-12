@@ -70,12 +70,12 @@ export default connectContainer(class extends Component {
           }}
         >
           <span>
-            Are you sure?
+            Do you really want to remove this application?
           </span>
         </Confirm>
         <div className="row content-header">
           <div className="col-xs-12">
-            <h2 className="settings-header">{application.get('name')} settings</h2>
+            <h2 className="settings-header">{application.get('name') || 'Application Settings'}</h2>
             <Link className="btn btn-transparent back-to-apps pull-right" to="/applications/settings">
               <span className="btn-icon icon-budicon-521" />
               Go back to Applications

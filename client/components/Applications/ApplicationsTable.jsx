@@ -37,9 +37,9 @@ export default class ApplicationsTable extends Component {
       } else {
         app.enabled = true;
       }
-      this.props.updateApplication(key, app, function () {
+      this.props.updateApplication(key, app, () => {
         this.props.fetchApplications();
-      }.bind(this));
+      });
     }
   }
 
@@ -47,13 +47,14 @@ export default class ApplicationsTable extends Component {
     const { applications, renderActions, appId } = this.props;
     return (
       <div>
-        <Confirm title="Remove Application" show={this.props.showModalDelete} loading={false}
-                 onCancel={this.props.cancelDeleteApplication} onConfirm={(e) =>
-        {
-          this.props.deleteApplication(appId)
-        }}>
+        <Confirm
+          title="Remove Application" show={this.props.showModalDelete} loading={false}
+          onCancel={this.props.cancelDeleteApplication} onConfirm={(e) => {
+            this.props.deleteApplication(appId);
+          }}
+        >
           <span>
-            Are you sure?
+            Do you really want to remove this application?
           </span>
         </Confirm>
         <Table>
@@ -65,7 +66,7 @@ export default class ApplicationsTable extends Component {
               const callback = application.callback;
               const enabled = application.enabled;
               const appClassName = `btn btn-publish-app ${enabled ? 'btn-transparent' : 'btn-success'}`;
-              const appButtonText = enabled ? "UNPUBLISH" : "PUBLISH";
+              const appButtonText = enabled ? 'UNPUBLISH' : 'PUBLISH';
               const name = application.name || application.client;
               const login_url = application.login_url;
               return (
@@ -73,7 +74,7 @@ export default class ApplicationsTable extends Component {
                   <TableCell>
                     <div>
                       <div className="logoBlockImage">
-                        <img src={ logo } alt={ name } />
+                        <img src={logo} alt={name} />
                       </div>
                       <div className="logoBlockInfo">
                         <Link to={`/applications/${key}`}>
@@ -92,20 +93,22 @@ export default class ApplicationsTable extends Component {
                         {appButtonText}
                       </div>
                       <li title="Login" data-toggle="tooltip">
-                        <a href={ login_url } target="_blank" key={ key }>
-                          <i className="icon-budicon-187"></i>
+                        <a href={login_url} target="_blank" key={key}>
+                          <i className="icon-budicon-187" />
                         </a>
                       </li>
                       <li title="Edit" data-toggle="tooltip">
                         <Link to={`/applications/${key}`}>
-                          <i className="icon-budicon-329"></i>
+                          <i className="icon-budicon-329" />
                         </Link>
                       </li>
                       <li title="Remove" data-toggle="tooltip">
-                        <a href="#" onClick={(e) => {
-                          this.props.requestDeleteApplication(key);
-                        } } className="remove-rule">
-                          <i className="icon-budicon-471"></i>
+                        <a
+                          href="#" onClick={(e) => {
+                            this.props.requestDeleteApplication(key);
+                          }} className="remove-rule"
+                        >
+                          <i className="icon-budicon-471" />
                         </a>
                       </li>
                     </ul>

@@ -24,7 +24,7 @@
     },
     "TITLE": {
       "description": "Custom title for the dashboard",
-      "example": "Fabrikam SSO Management",
+      "example": "Fabrikam SSO Dashboard",
       "required": false
     },
     "CUSTOM_CSS": {
