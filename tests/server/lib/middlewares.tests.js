@@ -2,7 +2,6 @@ import expect from 'expect';
 import request from 'supertest';
 import express from 'express';
 
-import * as constants from '../../../server/constants';
 import * as middlewares from '../../../server/lib/middlewares';
 
 
@@ -13,16 +12,12 @@ describe('#middlewares', () => {
   };
 
   const addAdminToReq = (req, res, next) => {
-    req.user = {
-      roles: [ constants.ADMIN_ROLE_NAME ]
-    };
+    req.user = { };
     next();
   };
 
   const addRoleToReq = (req, res, next) => {
-    req.user = {
-      role: constants.ADMIN_ACCESS_LEVEL
-    };
+    req.user = { };
     next();
   };
 

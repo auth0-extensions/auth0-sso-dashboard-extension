@@ -5,7 +5,7 @@
   "author": "Auth0",
   "description": "This extension provides your users with a dashboard for all of their applications.",
   "type": "application",
-  "logoUrl": "https://cdn.auth0.com/extensions/auth0-delegated-admin/assets/logo.svg",
+  "logoUrl": "https://cdn.auth0.com/extensions/auth0-sso-dashboard/assets/logo.svg",
   "initialUrlPath": "/",
   "repository": "https://github.com/auth0-extensions/auth0-sso-dashboard-extension",
   "keywords": [

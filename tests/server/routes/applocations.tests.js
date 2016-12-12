@@ -4,7 +4,6 @@ import request from 'supertest';
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import * as constants from '../../../server/constants';
 import applications from '../../../server/routes/applications';
 
 describe('#logs router', () => {
@@ -60,9 +59,7 @@ describe('#logs router', () => {
   };
 
   const addUserToReq = (req, res, next) => {
-    req.user = {
-      role: constants.ADMIN_ACCESS_LEVEL
-    };
+    req.user = { };
     next();
   };
 
