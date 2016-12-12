@@ -2,6 +2,7 @@ import Confirm from './Confirm';
 import Error from './Error';
 import Json from './Json';
 import InputText from './InputText';
+import InputCheckBox from './InputCheckBox';
 import InputCombo from './InputCombo';
 import LoadingPanel from './LoadingPanel';
 import NavigationLink from './NavigationLink';
@@ -23,6 +24,7 @@ export {
   Error,
   Json,
   InputText,
+  InputCheckBox,
   InputCombo,
   LoadingPanel,
   NavigationLink,

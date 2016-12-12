@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 class InputCombo extends Component {
   render() {
-    const { label, field, fieldName, options, validationErrors } = this.props;
+    const { label, field, fieldName, options, validationErrors, events } = this.props;
     const classes = classNames({
       'form-group': true,
       'has-error': validationErrors && validationErrors[fieldName] && validationErrors[fieldName].length
@@ -11,7 +11,7 @@ class InputCombo extends Component {
 
     return <div className={classes}>
       <label>{label}</label>
-      <select className="form-control" {...field}>
+      <select className="form-control" {...field} >
         <option value=""></option>
         {options.map((option, index) => {
           return <option key={index} value={option.value}>{option.text}</option>;
@@ -27,7 +27,8 @@ InputCombo.propTypes = {
   field: React.PropTypes.object.isRequired,
   fieldName: React.PropTypes.string.isRequired,
   label: React.PropTypes.string.isRequired,
-  validationErrors: React.PropTypes.object
+  validationErrors: React.PropTypes.object,
+  events: React.PropTypes.object,
 };
 
 export default InputCombo;

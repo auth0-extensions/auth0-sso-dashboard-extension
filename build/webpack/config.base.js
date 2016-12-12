@@ -8,7 +8,7 @@ module.exports = {
 
   // The application and the vendor libraries.
   entry: {
-    app: path.resolve(__dirname, '../../client/app.js'),
+    app: path.resolve(__dirname, '../../client/app.jsx'),
     vendors: [
       'axios',
       'bluebird',

@@ -19,15 +19,15 @@ export default class TableTextCell extends Component {
     if (this.props.onClick) {
       return (
         <TableCell>
-          <a href="#" onClick={this.clickCell} title={ this.props.children || '' }>
+          <a href="#" onClick={this.clickCell} title={this.props.children || ''}>
             { this.props.children || '' }
           </a>
         </TableCell>
       );
     }
 
-    return <TableCell>
-      <span title={ this.props.children || '' }>{ this.props.children || '' }</span>
-    </TableCell>;
+    return (<TableCell>
+      <span title={this.props.children || ''}>{ this.props.children || '' }</span>
+    </TableCell>);
   }
 }

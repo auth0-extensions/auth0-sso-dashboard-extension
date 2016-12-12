@@ -1,146 +1,188 @@
 .users .content-header {
-  margin-bottom: 20px;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
-.users .content-header .h2 {
-  margin-top: 0px;
+.users .content-header h2 {
+    margin-top: 0px;
+}
+
+.users .content-header .btn-create-app{
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
 }
 
 article.card-docs {
-  min-height: 256px;
-  margin-bottom: 15px;
+    min-height: 256px;
+    margin-bottom: 15px;
 }
 
 .page-description {
-  font-size: 18px;
-  margin-bottom: 20px;
-  color: #999;
-  font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #999;
 }
 
 .user-app:hover {
-  border: 1px solid deepskyblue;
+    border: 1px solid deepskyblue;
 }
 
 .user-app {
-  width: 180px;
-  height: 180px;
-  padding: 5px;
-  border: 1px solid #ddd;
-  float: left;
-  margin-bottom: 20px;
-  margin-right: 25px;
-  overflow: hidden;
+    width: 180px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    float: left;
+    margin-bottom: 20px;
+    margin-right: 15px;
+    overflow: hidden;
 }
 
 .user-app .image-container {
-  width: 110px;
-  height: 110px;
-  margin-top: 10px;
-  margin-left: 30px;
+    position: relative;
+    width: 90px;
+    height: 90px;
+    margin: 10px 40px;
+    overflow: hidden;
 }
 
 .user-app .img-circle {
-  width: 100%;
-  padding: 5%;
-  border-radius: 0;
+    width: 100%;
+    max-height: 100%;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 0;
 }
 
 .user-app .card-docs-title {
-  margin-top: 5px;
-  font-size: 16px;
-  line-height: 22px;
-  text-align: center;
-  color: #999;
-  font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+    margin: 15px 5px;
+    font-size: 16px;
+    line-height: 22px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    color: #999;
 }
 
-.logoBlockImage{
-  width: 70px;
-  float: left;
-}
-.logoBlockImage img{
-  margin-top: 4px;
-   width: 60px;
-  border: 1px solid #dddddd;
-}
-.logoBlockInfo{
-  float: left;
-  padding-left: 3px;
-}
-.appFormSubmit{
-  display: none;
+.logoBlockImage {
+    margin-top: 4px;
+    float: left;
 }
 
-.modal-header{
-  border-bottom: 1px solid #ddd !important;
+.logoBlockImage img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 3px;
+    background-color: #fafafa;
+    border: 1px solid #f1f1f1;
+    margin-right: 10px;
 }
-.modal-title{
-  font-weight: 600 !important;
-  font-size: 18px !important;
+
+.logoBlockInfo {
+    float: left;
+    padding-left: 3px;
 }
-.spanTitle{
-  text-align: center;
-  color: grey;
-  margin-bottom: 30px;
-  margin-top: -5px;
+
+.logoBlockInfo .application-name{
+    display: block;
 }
-.appForm label{
-  float: left !important;
-  display: block;
-  width: 100px;
-  text-align: right;
-  padding-top: 14px;
+
+.logoBlockInfo .application-type{
+    color: black;
+    opacity: .56;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
-.appForm .col-xs-10{
-  float: right !important;
+
+.appFormSubmit {
+    display: none;
 }
-#app_enabled{
-  margin-left:10px;
-  margin-top:14px;
+
+.modal-header {
+    border-bottom: 1px solid #ddd !important;
 }
-.app_tip{
-  color: grey;
-  font-size: 12px;
-  margin-top: 7px;
-  margin-bottom: -3px;
+
+.modal-title {
+    font-weight: 600 !important;
+    font-size: 18px !important;
 }
-.updateAppForm #app_enabled{
-  margin-top:16px;
+
+.spanTitle {
+    text-align: center;
+    color: grey;
+    margin-bottom: 30px;
+    margin-top: -5px;
 }
-.updateAppForm label{
-  width: 170px;
-  padding-top: 10px;
+
+.appForm label {
+    float: left !important;
+    display: block;
+    width: 100px;
+    text-align: right;
+    padding-top: 14px;
 }
-.updateAppScreen .btn-div{
-  text-align: center;
+
+.appForm .col-xs-10 {
+    float: right !important;
 }
+
+#app_enabled {
+    margin-left: 10px;
+    margin-top: 14px;
+}
+
+.app_tip {
+    color: grey;
+    font-size: 12px;
+    margin-top: 7px;
+    margin-bottom: -3px;
+}
+
+.updateAppForm #app_enabled {
+    margin-top: 16px;
+}
+
+.updateAppForm label {
+    width: 170px;
+    padding-top: 10px;
+}
+
+.updateAppScreen .btn-div {
+    text-align: center;
+}
+
 .updateAppScreen h5 {
-  border-bottom: 1px solid #d0d2d3;
-  letter-spacing: 0.5px;
-  padding-bottom: 6px;
-  text-transform: capitalize;
+    border-bottom: 1px solid #d0d2d3;
+    letter-spacing: 0.5px;
+    padding-bottom: 6px;
+    text-transform: capitalize;
 }
-.publishedApp{
-  border: 1px solid red;
-  color: red;
+
+.publishedApp {
+    border: 1px solid red;
+    color: red;
 }
-.unpublishedApp{
-  border: 1px solid green;
-  color: green;
+
+.unpublishedApp {
+    border: 1px solid green;
+    color: green;
 }
-.publishButtonApp{
-  float: left;
-  vertical-align: middle;
-  margin-left: 16px;
-  margin-top: 14px;
-  padding-left: 15px;
-  padding-right: 15px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  padding-top: 2px;
+
+.btn-publish-app {
+    vertical-align: top;
+    margin-right: 16px;
+    width: 114px;
 }
-ul.list-inline-apps{
-  margin-top: 6px !important;
+
+ul.list-inline-apps {
+    margin-top: 6px !important;
 }

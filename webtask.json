@@ -1,11 +1,11 @@
 {
-  "title": "SSO Dashboard",
+  "title": "Auth0 SSO Dashboard",
   "name": "auth0-sso-dashboard",
-  "version": "0.1.0",
-  "author": "auth0",
-  "description": "This extension allows users to use SSO",
+  "version": "1.0.0",
+  "author": "Auth0",
+  "description": "This extension provides your users with a dashboard for all of their applications.",
   "type": "application",
-  "logoUrl": "https://cdn.auth0.com/extensions/auth0-delegated-admin/assets/logo.svg",
+  "logoUrl": "https://cdn.auth0.com/extensions/auth0-sso-dashboard/assets/logo.svg",
   "initialUrlPath": "/",
   "repository": "https://github.com/auth0-extensions/auth0-sso-dashboard-extension",
   "keywords": [
@@ -15,7 +15,7 @@
   "auth0": {
     "createClient": true,
     "onUninstallPath": "/.extensions/on-uninstall",
-    "scopes": "read:clients delete:clients read:connections read:users read:logs read:device_credentials"
+    "scopes": "read:clients delete:clients read:connections"
   },
   "secrets": {
     "EXTENSION_CLIENT_ID": {
@@ -24,7 +24,7 @@
     },
     "TITLE": {
       "description": "Custom title for the dashboard",
-      "example": "Fabrikam SSO Management",
+      "example": "Fabrikam SSO Dashboard",
       "required": false
     },
     "CUSTOM_CSS": {

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 class TabPane extends Component {
   render() {
     const linkClass = classNames({
-      'active': this.context.router.isActive(this.props.route)
+      active: this.context.router.isActive(this.props.route)
     });
     return (
       <li className={linkClass}>

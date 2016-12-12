@@ -1,0 +1,7 @@
+module.exports = (expectedScope) => (req, res, next) => {
+  if (!req.user || !req.user.scope || req.user.scope.indexOf(expectedScope) < 0) {
+    return next(new Error(`Cannot perform action. Missing scope ${expectedScope}`));
+  }
+
+  return next();
+};
