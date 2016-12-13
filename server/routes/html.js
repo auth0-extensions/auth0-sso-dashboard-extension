@@ -53,7 +53,7 @@ export default () => {
     };
 
     // Render from CDN.
-    const clientVersion = config('CLIENT_VERSION');
+    const clientVersion = process.env.CLIENT_VERSION;
     if (clientVersion) {
       return res.send(ejs.render(template, {
         config: settings,

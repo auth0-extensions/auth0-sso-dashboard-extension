@@ -5,9 +5,9 @@ import { Router } from 'express';
 import { requireScope } from '../lib/middlewares';
 import { saveApplication, deleteApplication } from '../lib/applications';
 
-export default (storage) => {
+export default (auth0, storage) => {
   const api = Router();
-  api.get('/clients', requireScope('manage:applications'), (req, res, next) => {
+  api.get('/clients', auth0, requireScope('manage:applications'), (req, res, next) => {
     req.auth0.clients.getAll({ fields: 'client_id,name,callbacks,global,app_type' })
       .then(clients => _.chain(clients)
         .filter(client =>
@@ -28,7 +28,7 @@ export default (storage) => {
 
         Object.keys(applications).map((key) => {
           const app = applications[key];
-          if (app.enabled && app.login_url) {
+          if (app.enabled && app.loginUrl) {
             result[key] = app;
           }
           return app;

@@ -29,12 +29,12 @@ describe('#logs router', () => {
     appOne: {
       name: 'App One',
       enabled: true,
-      login_url: 'http://some.url'
+      loginUrl: 'http://some.url'
     },
     appTwo: {
       name: 'App Two',
       enabled: false,
-      login_url: ''
+      loginUrl: ''
     }
   };
 

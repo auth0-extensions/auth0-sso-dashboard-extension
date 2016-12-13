@@ -33,11 +33,11 @@ export default (storage) => {
     }
   }));
 
-  api.use(middlewares.managementApiClient({
+  const auth0 = middlewares.managementApiClient({
     domain: config('AUTH0_DOMAIN')
-  }));
-  api.use('/applications', applications(storage));
-  api.use('/connections', connections());
+  });
+  api.use('/applications', applications(auth0, storage));
+  api.use('/connections', connections(auth0));
   api.get('/status', (req, res) => {
     res.json({ isAdmin: req.user.scope && req.user.scope.indexOf('manage:applications') > -1 });
   });

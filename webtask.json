@@ -1,12 +1,13 @@
 {
-  "title": "Auth0 SSO Dashboard",
+  "title": "SSO Dashboard",
   "name": "auth0-sso-dashboard",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "author": "Auth0",
+  "useHashName": false,
   "description": "This extension provides your users with a dashboard for all of their applications.",
   "type": "application",
   "logoUrl": "https://cdn.auth0.com/extensions/auth0-sso-dashboard/assets/logo.svg",
-  "initialUrlPath": "/",
+  "initialUrlPath": "/admins/login",
   "repository": "https://github.com/auth0-extensions/auth0-sso-dashboard-extension",
   "keywords": [
     "auth0",

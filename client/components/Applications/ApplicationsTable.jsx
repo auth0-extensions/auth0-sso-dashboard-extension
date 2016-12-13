@@ -68,7 +68,7 @@ export default class ApplicationsTable extends Component {
               const appClassName = `btn btn-publish-app ${enabled ? 'btn-transparent' : 'btn-success'}`;
               const appButtonText = enabled ? 'UNPUBLISH' : 'PUBLISH';
               const name = application.name || application.client;
-              const login_url = application.login_url;
+              const loginUrl = application.loginUrl;
               return (
                 <TableRow key={key}>
                   <TableCell>
@@ -93,7 +93,7 @@ export default class ApplicationsTable extends Component {
                         {appButtonText}
                       </div>
                       <li title="Login" data-toggle="tooltip">
-                        <a href={login_url} target="_blank" key={key}>
+                        <a href={loginUrl} target="_blank" key={key}>
                           <i className="icon-budicon-187" />
                         </a>
                       </li>
