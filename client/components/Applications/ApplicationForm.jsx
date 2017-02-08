@@ -28,6 +28,7 @@ export default createForm('application', class extends Component {
     'logo',
     'callback',
     'connection',
+    'permissions',
     'customURLEnabled',
     'customURL',
     'enabled'
@@ -235,6 +236,10 @@ export default createForm('application', class extends Component {
           fieldName="enabled"
           label="Enabled"
           ref="enabled"
+        />
+        <InputText
+          field={fields.permissions} fieldName="permissions" label="Permissions" ref="permissions"
+          placeholder="Permissions"
         />
       </form>
     </div>);

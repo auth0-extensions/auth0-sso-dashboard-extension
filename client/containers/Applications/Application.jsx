@@ -55,6 +55,7 @@ export default connectContainer(class extends Component {
       type: this.props.currentType,
       callback: applicationJSON.callback,
       connection: applicationJSON.connection ? applicationJSON.connection : '',
+      permissions: applicationJSON.permissions ? applicationJSON.permissions : '',
       response_type: applicationJSON.response_type ? applicationJSON.response_type : '',
       scope: applicationJSON.scope ? applicationJSON.scope : '',
       customURLEnabled: applicationJSON.customURLEnabled || false,
