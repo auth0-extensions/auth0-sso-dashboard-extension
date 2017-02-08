@@ -25,6 +25,7 @@ export default createForm('application', class extends Component {
     'logo',
     'callback',
     'connection',
+    'permissions',
     'enabled'
   ];
 
@@ -136,6 +137,10 @@ export default createForm('application', class extends Component {
         <InputCombo
           field={fields.connection} options={connections} fieldName="connection"
           label="Connection" ref="connection"
+        />
+        <InputText
+          field={fields.permissions} fieldName="permissions" label="Permissions" ref="permissions"
+          placeholder="Permissions"
         />
         <InputCheckBox field={fields.enabled} fieldName="enabled" label="Enabled" ref="enabled" />
       </form>
