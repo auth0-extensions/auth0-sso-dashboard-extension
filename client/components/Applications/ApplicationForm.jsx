@@ -1,6 +1,9 @@
 import React, { PropTypes, Component } from 'react';
 import { InputCombo, InputText, InputCheckBox, Error } from '../Dashboard';
+import { Multiselect } from 'auth0-extension-ui';
+import { Field } from 'redux-form';
 import _ from 'lodash';
+
 import createForm from '../../utils/createForm';
 
 export default createForm('application', class extends Component {
@@ -8,6 +11,7 @@ export default createForm('application', class extends Component {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     application: PropTypes.object.isRequired,
+    permissions: PropTypes.object.isRequired,
     clients: React.PropTypes.array.isRequired,
     connections: React.PropTypes.array.isRequired,
     onClientChange: React.PropTypes.func.isRequired,
@@ -94,6 +98,21 @@ export default createForm('application', class extends Component {
     );
   }
 
+  renderPermissions = () => {
+    if (!this.props.permissions) {
+      return null;
+    }
+
+    const permissions = _.map(this.props.permissions.toJS(), item => ({ value: item.name, text: item.name }));
+
+    return (
+      <InputCombo
+        field={this.props.fields.permissions} options={permissions} fieldName="permissions"
+        label="Permissions" ref="permissions"
+      />
+    );
+  }
+
   render() {
     if (this.props.loading) {
       return <div />;
@@ -138,10 +157,7 @@ export default createForm('application', class extends Component {
           field={fields.connection} options={connections} fieldName="connection"
           label="Connection" ref="connection"
         />
-        <InputText
-          field={fields.permissions} fieldName="permissions" label="Permissions" ref="permissions"
-          placeholder="Permissions"
-        />
+        {this.renderPermissions()}
         <InputCheckBox field={fields.enabled} fieldName="enabled" label="Enabled" ref="enabled" />
       </form>
     </div>);

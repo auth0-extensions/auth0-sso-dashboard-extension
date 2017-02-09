@@ -95,6 +95,7 @@ export default connectContainer(class extends Component {
                   onTypeChange={this.props.onTypeChange}
                   loading={loading}
                   application={applicationJSON}
+                  permissions={this.props.permissions}
                   error={this.props.updateError}
                   clients={clients}
                   currentClient={this.props.currentClient}
