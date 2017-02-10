@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import connectContainer from 'redux-static';
 import { Link } from 'react-router';
-import { applicationActions, connectionActions } from '../../actions';
+import { applicationActions, connectionActions, permissionActions } from '../../actions';
 import './Application.css';
 import { ApplicationHeader, ApplicationInfo, ApplicationForm } from '../../components/Applications';
 import { Confirm } from '../../components/Dashboard';
@@ -12,6 +12,7 @@ export default connectContainer(class extends Component {
     application: state.application.get('record'),
     clients: state.clients.get('records').toJS(),
     connections: state.connections.get('records').toJS(),
+    permissions: state.permissions.get('records'),
     error: state.application.get('error') || state.clients.get('error'),
     updateError: state.updateApplication.get('error'),
     currentClient: state.application.get('currentClient'),
@@ -23,13 +24,15 @@ export default connectContainer(class extends Component {
 
   static actionsToProps = {
     ...applicationActions,
-    ...connectionActions
+    ...connectionActions,
+    ...permissionActions
   }
 
   componentWillMount() {
     this.props.fetchApplication(this.props.params.id);
     this.props.fetchClients();
     this.props.fetchConnections();
+    this.props.fetchPermissions();
   }
 
   updateCurrentApplication = (data) => {
@@ -45,6 +48,7 @@ export default connectContainer(class extends Component {
   }
 
   render() {
+    console.log('permissions', this.props.permissions);
     const { application, loading, error, clients, connections } = this.props;
     const applicationJSON = application.toJSON();
     const initialValues = {
@@ -59,6 +63,7 @@ export default connectContainer(class extends Component {
       scope: applicationJSON.scope ? applicationJSON.scope : '',
       enabled: applicationJSON.enabled
     };
+
     return (
       <div className="user">
         <Confirm

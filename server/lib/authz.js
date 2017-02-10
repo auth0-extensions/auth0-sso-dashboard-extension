@@ -1,5 +1,6 @@
 import Promise from 'bluebird';
 import request from 'request';
+import memoizer from 'lru-memoizer';
 
 /*
  * Get authz api access token
@@ -28,14 +29,36 @@ const getToken = (config) =>
         return reject(error);
       }
 
-      console.log('token', body);
-      return resolve(body);
+      let result = null;
+
+      try {
+        const parsed = JSON.parse(body);
+        result = parsed.access_token || null;
+      } catch (e) {
+        return reject(e);
+      }
+
+      return resolve(result);
     });
   });
 
+const getTokenCached = Promise.promisify(
+  memoizer({
+      load: (config, callback) => {
+        getToken(config)
+          .then(accessToken => callback(null, accessToken))
+          .catch(err => callback(err));
+      },
+      hash: () => 'auth0-authz-apiToken',
+      max: 100,
+      maxAge: 60 * 60000
+    }
+  ));
+
+
 export const getPermissions = (config) =>
   new Promise((resolve, reject) => {
-    getToken(config)
+    getTokenCached(config)
       .then((token) => {
         if (!token) {
           return resolve(null);
@@ -43,7 +66,7 @@ export const getPermissions = (config) =>
 
         const options = {
           method: 'GET',
-          url: `${config('AUTHORIZE_API_URL')}/permissions`,
+          url: `${config('AUTHZ_API_URL')}/permissions`,
           headers: {
             Authorization: `Bearer ${token}`,
             'content-type': 'application/json'
@@ -55,16 +78,16 @@ export const getPermissions = (config) =>
             return reject(error);
           }
 
-          const fake = [
-            { name: 'test' },
-            { name: 'another' },
-            { name: 'else' }
-          ];
+          let result = null;
 
-          const permissions = (body && body.permissions) || fake;
+          try {
+            const parsed = JSON.parse(body);
+            result = parsed.permissions || null;
+          } catch (e) {
+            return reject(e);
+          }
 
-          console.log('permissions', body);
-          return resolve(permissions);
+          return resolve(result);
         });
       });
     });
