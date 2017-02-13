@@ -66,7 +66,7 @@ export const getPermissions = (config) =>
 
         const options = {
           method: 'GET',
-          url: `${config('AUTHZ_API_URL')}/permissions`,
+          url: `${config('AUTHZ_API_URL')}/permissions?field=applicationId&q=${config('EXTENSION_CLIENT_ID')}`,
           headers: {
             Authorization: `Bearer ${token}`,
             'content-type': 'application/json'
