@@ -4,7 +4,9 @@ import { Router } from 'express';
 
 import { requireScope } from '../lib/middlewares';
 import { saveApplication, deleteApplication } from '../lib/applications';
-import { hasPermissions } from '../lib/user';
+import { getRolesForUser } from '../lib/authz';
+import { hasRole } from '../lib/user';
+
 
 export default (auth0, storage) => {
   const api = Router();
@@ -22,15 +24,19 @@ export default (auth0, storage) => {
   });
 
   api.get('/', requireScope('read:applications'), (req, res, next) => {
+    let applications;
     storage.read()
       .then(apps => {
-        const metadata = req.user && req.user.app_metadata;
-        const applications = apps.applications || { };
+        applications = apps.applications || { };
+        return null;
+      })
+      .then(() => getRolesForUser(req.user.sub))
+      .then((userRoles) => {
         const result = { };
 
         Object.keys(applications).map((key) => {
           const app = applications[key];
-          if (app.enabled && app.loginUrl && (!app.permissions || hasPermissions(metadata, app.permissions))) {
+          if (app.enabled && app.loginUrl && (hasRole(userRoles, app.roles))) {
             result[key] = app;
           }
           return app;

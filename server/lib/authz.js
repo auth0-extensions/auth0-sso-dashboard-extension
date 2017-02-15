@@ -1,11 +1,14 @@
+import _ from 'lodash';
 import Promise from 'bluebird';
 import request from 'request';
 import memoizer from 'lru-memoizer';
 
+import config from '../lib/config';
+
 /*
  * Get authz api access token
  */
-const getToken = (config) =>
+const getToken = () =>
   new Promise((resolve, reject) => {
     if (!config('AUTHZ_API_CLIENT_ID') || !config('AUTHZ_API_CLIENT_SECRET') || !config('AUTHZ_API_AUDIENCE')) {
       return resolve(null);
@@ -44,8 +47,8 @@ const getToken = (config) =>
 
 const getTokenCached = Promise.promisify(
   memoizer({
-      load: (config, callback) => {
-        getToken(config)
+      load: (callback) => {
+        getToken()
           .then(accessToken => callback(null, accessToken))
           .catch(err => callback(err));
       },
@@ -55,18 +58,57 @@ const getTokenCached = Promise.promisify(
     }
   ));
 
-
-export const getPermissions = (config) =>
+export const getRolesForApp = (appId) =>
   new Promise((resolve, reject) => {
-    getTokenCached(config)
+    getTokenCached()
       .then((token) => {
         if (!token) {
           return resolve(null);
         }
 
+        const query = (appId) ? `?field=applicationId&q=${appId}` : '';
         const options = {
           method: 'GET',
-          url: `${config('AUTHZ_API_URL')}/permissions?field=applicationId&q=${config('EXTENSION_CLIENT_ID')}`,
+          url: `${config('AUTHZ_API_URL')}/roles${query}`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'content-type': 'application/json'
+          }
+        };
+
+        request(options, function (error, response, body) {
+          if (error) {
+            return reject(error);
+          }
+
+          let result = null;
+          try {
+            const parsed = JSON.parse(body);
+            result = parsed.roles || null;
+          } catch (e) {
+            return reject(e);
+          }
+
+          return resolve(result);
+        });
+      });
+    });
+
+export const getRolesForUser = (userId) =>
+  new Promise((resolve, reject) => {
+    getTokenCached()
+      .then((token) => {
+        if (!token) {
+          return resolve(null);
+        }
+
+        if (!userId) {
+          return reject(new Error('User ID is required.'));
+        }
+
+        const options = {
+          method: 'GET',
+          url: `${config('AUTHZ_API_URL')}/users/${userId}/roles/calculate`,
           headers: {
             Authorization: `Bearer ${token}`,
             'content-type': 'application/json'
@@ -82,12 +124,14 @@ export const getPermissions = (config) =>
 
           try {
             const parsed = JSON.parse(body);
-            result = parsed.permissions || null;
+            result = parsed || null;
           } catch (e) {
             return reject(e);
           }
 
-          return resolve(result);
+          const roleIDs = _.map(result || [], (item) => item._id);
+
+          return resolve(roleIDs);
         });
       });
     });
