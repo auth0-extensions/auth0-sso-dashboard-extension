@@ -7,11 +7,16 @@ import _ from 'lodash';
 import createForm from '../../utils/createForm';
 
 export default createForm('application', class extends Component {
+  static stateToProps = (state) => ({
+    roles: state.roles
+  })
+
   static propTypes = {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     application: PropTypes.object.isRequired,
-    permissions: PropTypes.object.isRequired,
+    roles: PropTypes.object.isRequired,
+    fetchRoles: PropTypes.func.isRequired,
     clients: React.PropTypes.array.isRequired,
     connections: React.PropTypes.array.isRequired,
     onClientChange: React.PropTypes.func.isRequired,
@@ -32,7 +37,7 @@ export default createForm('application', class extends Component {
     'logo',
     'callback',
     'connection',
-    'permissions',
+    'roles',
     'customURLEnabled',
     'customURL',
     'enabled'
@@ -45,6 +50,7 @@ export default createForm('application', class extends Component {
   onClientChange = (e) => {
     if (e.target.value) {
       this.props.onClientChange(e.target.value);
+      this.props.fetchRoles(e.target.value);
     } else {
       this.props.onClientChange(this.getClientById(null));
     }
@@ -130,17 +136,17 @@ export default createForm('application', class extends Component {
     );
   }
 
-  renderPermissions = () => {
-    if (!this.props.permissions) {
+  renderRoles = () => {
+    if (!this.props.roles) {
       return null;
     }
 
-    const permissions = _.map(this.props.permissions.toJS(), item => ({ value: item.name, text: item.name }));
+    const roles = _.map(this.props.roles.get('records').toJS(), item => ({ value: item._id, text: item.name }));
 
     return (
       <InputCombo
-        field={this.props.fields.permissions} options={permissions} fieldName="permissions"
-        label="Permissions" ref="permissions"
+        field={this.props.fields.roles} options={roles} fieldName="roles"
+        label="Roles" ref="roles"
       />
     );
   }
@@ -260,7 +266,7 @@ export default createForm('application', class extends Component {
           field={fields.permissions} fieldName="permissions" label="Permissions" ref="permissions"
           placeholder="Permissions"
         />
-        {this.renderPermissions()}
+        {this.renderRoles()}
       </form>
     </div>);
   }

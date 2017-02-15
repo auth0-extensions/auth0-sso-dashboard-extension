@@ -1,13 +1,13 @@
 import { Router } from 'express';
 
-import { getPermissions } from '../lib/authz';
+import { getRolesForApp } from '../lib/authz';
 import { requireScope } from '../lib/middlewares';
 
-export default (config) => {
+export default () => {
   const api = Router();
 
-  api.get('/', requireScope('manage:applications'), (req, res, next) => {
-    getPermissions(config, req.user.access_token)
+  api.get('/:appId?', requireScope('manage:applications'), (req, res, next) => {
+    getRolesForApp(req.params.appId)
       .then(permissions => res.json(permissions))
       .catch(next);
   });

@@ -3,14 +3,15 @@ import axios from 'axios';
 import * as constants from '../constants';
 
 /*
-* Load all enabled applications in an Auth0 account.
+* Load roles for application.
 */
-export function fetchPermissions() {
+export function fetchRoles(appId) {
   return (dispatch) => {
+    const url = (appId) ? `/api/roles/${appId}` : '/api/roles';
     dispatch({
-      type: constants.FETCH_PERMISSIONS,
+      type: constants.FETCH_ROLES,
       payload: {
-        promise: axios.get('/api/permissions', {
+        promise: axios.get(url, {
           responseType: 'json'
         })
       }
