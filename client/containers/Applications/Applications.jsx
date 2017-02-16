@@ -21,6 +21,7 @@ class Applications extends Component {
     this.props.fetchApplicationsAll();
     this.props.fetchClients();
     this.props.fetchConnections();
+    this.props.fetchRoles();
   }
 
   onChangeSearch = (query) => {
@@ -79,7 +80,7 @@ class Applications extends Component {
           loading={loading}
           clients={clients}
           connections={this.props.connections}
-          fetchRoles={this.props.fetchRoles}
+          roles={this.props.roles}
           createApplication={this.props.createApplication}
           fetchApplications={this.props.fetchApplicationsAll}
           requestCreateApplication={this.props.requestCreateApplication}

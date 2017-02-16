@@ -12,7 +12,7 @@ export const saveApplication = (id, body, storage) => new Promise((resolve, reje
     type: body.type,
     logo: body.logo,
     connection: body.connection,
-    permissions: body.permissions,
+    roles: body.roles,
     callback: body.callback,
     customURL: body.customURL,
     customURLEnabled: body.customURLEnabled

@@ -11,6 +11,7 @@ export default connectContainer(class extends Component {
   static stateToProps = (state) => ({
     application: state.application.get('record'),
     clients: state.clients.get('records').toJS(),
+    roles: state.roles.get('records'),
     connections: state.connections.get('records').toJS(),
     error: state.application.get('error') || state.clients.get('error'),
     updateError: state.updateApplication.get('error'),
@@ -32,6 +33,7 @@ export default connectContainer(class extends Component {
     this.props.fetchApplication(this.props.params.id);
     this.props.fetchClients();
     this.props.fetchConnections();
+    this.props.fetchRoles();
   }
 
   updateCurrentApplication = (data) => {
@@ -47,7 +49,6 @@ export default connectContainer(class extends Component {
   }
 
   render() {
-    console.log('roles', this.props.roles);
     const { application, loading, error, clients, connections } = this.props;
     const applicationJSON = application.toJSON();
     const initialValues = {
@@ -102,7 +103,7 @@ export default connectContainer(class extends Component {
                   onNameChange={this.props.onNameChange}
                   loading={loading}
                   application={applicationJSON}
-                  fetchRoles={this.props.fetchRoles}
+                  roles={this.props.roles}
                   error={this.props.updateError}
                   clients={clients}
                   currentClient={this.props.currentClient}
