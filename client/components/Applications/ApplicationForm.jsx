@@ -1,22 +1,17 @@
 import React, { PropTypes, Component } from 'react';
 import { InputCombo, InputText, InputCheckBox, Error } from '../Dashboard';
-import { Multiselect } from 'auth0-extension-ui';
-import { Field } from 'redux-form';
+import Select from 'react-select';
 import _ from 'lodash';
+import 'react-select/dist/react-select.css';
 
 import createForm from '../../utils/createForm';
 
 export default createForm('application', class extends Component {
-  static stateToProps = (state) => ({
-    roles: state.roles
-  })
-
   static propTypes = {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     application: PropTypes.object.isRequired,
-    roles: PropTypes.object.isRequired,
-    fetchRoles: PropTypes.func.isRequired,
+    roles: PropTypes.array.isRequired,
     clients: React.PropTypes.array.isRequired,
     connections: React.PropTypes.array.isRequired,
     onClientChange: React.PropTypes.func.isRequired,
@@ -41,7 +36,6 @@ export default createForm('application', class extends Component {
   onClientChange = (e) => {
     if (e.target.value) {
       this.props.onClientChange(e.target.value);
-      this.props.fetchRoles(e.target.value);
     } else {
       this.props.onClientChange(this.getClientById(null));
     }
@@ -69,6 +63,15 @@ export default createForm('application', class extends Component {
     if (client) {
       callbacks = client.callbacks ? (typeof client.callbacks === 'string' ? [ client.callbacks ] : client.callbacks) : [];
       return callbacks.map(call => ({ value: call, text: call }));
+    } else {
+      return [];
+    }
+  }
+
+  getRoles = (app) => {
+    const applicationId = this.props.currentClient || app.client;
+    if (applicationId) {
+      return _.filter(this.props.roles.toJS(), { applicationId }).map(item => ({ value: item._id, label: item.name }));
     } else {
       return [];
     }
@@ -104,19 +107,31 @@ export default createForm('application', class extends Component {
     );
   }
 
-  renderRoles = () => {
-    if (!this.props.roles) {
-      return null;
-    }
-
-    const roles = _.map(this.props.roles.get('records').toJS(), item => ({ value: item._id, text: item.name }));
+  renderRoles = (roles) => {
+    const renderer = (value) =>
+      (
+        <span>
+          <strong>{value.text}</strong>
+        </span>
+      );
 
     return (
-      <InputCombo
-        field={this.props.fields.roles} options={roles} fieldName="roles"
-        label="Roles" ref="roles"
+      <Select
+        className="roles-multiselect"
+        name="roles"
+        options={roles}
+        value={this.props.application.roles || null}
+        placeholder="Roles"
+        multi={true}
       />
     );
+
+    // return (
+    //   <InputCombo
+    //     field={this.props.fields.roles} options={roles} fieldName="roles"
+    //     label="Roles" ref="roles"
+    //   />
+    // );
   }
 
   render() {
@@ -132,6 +147,7 @@ export default createForm('application', class extends Component {
     const clients = this.props.clients.map(conn => ({ value: conn.client_id, text: conn.name }));
     const application = this.props.application;
     const callbacks = this.getCallbacks(application);
+    const roles = this.getRoles(application);
     const connections = this.props.connections.map(conn => ({ value: conn.name, text: conn.name }));
 
     return (<div>
@@ -163,7 +179,7 @@ export default createForm('application', class extends Component {
           field={fields.connection} options={connections} fieldName="connection"
           label="Connection" ref="connection"
         />
-        {this.renderRoles()}
+        {this.renderRoles(roles)}
         <InputCheckBox field={fields.enabled} fieldName="enabled" label="Enabled" ref="enabled" />
       </form>
     </div>);
