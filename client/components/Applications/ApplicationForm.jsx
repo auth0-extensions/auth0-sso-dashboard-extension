@@ -1,8 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { InputCombo, InputText, InputCheckBox, Error } from '../Dashboard';
-import Select from 'react-select';
 import _ from 'lodash';
-import 'react-select/dist/react-select.css';
 
 import createForm from '../../utils/createForm';
 
@@ -71,7 +69,7 @@ export default createForm('application', class extends Component {
   getRoles = (app) => {
     const applicationId = this.props.currentClient || app.client;
     if (applicationId) {
-      return _.filter(this.props.roles.toJS(), { applicationId }).map(item => ({ value: item._id, label: item.name }));
+      return _.filter(this.props.roles.toJS(), { applicationId }).map(item => ({ value: item._id, text: item.name }));
     } else {
       return [];
     }
@@ -108,30 +106,12 @@ export default createForm('application', class extends Component {
   }
 
   renderRoles = (roles) => {
-    const renderer = (value) =>
-      (
-        <span>
-          <strong>{value.text}</strong>
-        </span>
-      );
-
     return (
-      <Select
-        className="roles-multiselect"
-        name="roles"
-        options={roles}
-        value={this.props.application.roles || null}
-        placeholder="Roles"
-        multi={true}
+      <InputCombo
+        field={this.props.fields.roles} options={roles} fieldName="roles"
+        label="Roles" ref="roles"
       />
     );
-
-    // return (
-    //   <InputCombo
-    //     field={this.props.fields.roles} options={roles} fieldName="roles"
-    //     label="Roles" ref="roles"
-    //   />
-    // );
   }
 
   render() {

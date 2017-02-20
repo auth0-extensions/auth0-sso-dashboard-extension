@@ -12,7 +12,7 @@ export const saveApplication = (id, body, storage) => new Promise((resolve, reje
     type: body.type,
     logo: body.logo,
     connection: body.connection,
-    roles: body.roles,
+    roles: (Array.isArray(body.roles)) ? body.roles : [ body.roles ],
     callback: body.callback
   };
 
