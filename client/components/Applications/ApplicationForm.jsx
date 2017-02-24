@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { InputCombo, InputText, InputCheckBox, Error } from '../Dashboard';
 import _ from 'lodash';
+
 import createForm from '../../utils/createForm';
 
 export default createForm('application', class extends Component {
@@ -8,6 +9,7 @@ export default createForm('application', class extends Component {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     application: PropTypes.object.isRequired,
+    roles: PropTypes.array.isRequired,
     clients: React.PropTypes.array.isRequired,
     connections: React.PropTypes.array.isRequired,
     onClientChange: React.PropTypes.func.isRequired,
@@ -25,6 +27,7 @@ export default createForm('application', class extends Component {
     'logo',
     'callback',
     'connection',
+    'roles',
     'enabled'
   ];
 
@@ -63,6 +66,15 @@ export default createForm('application', class extends Component {
     }
   }
 
+  getRoles = (app) => {
+    const applicationId = this.props.currentClient || app.client;
+    if (applicationId) {
+      return _.filter(this.props.roles.toJS(), { applicationId }).map(item => ({ value: item._id, text: item.name }));
+    } else {
+      return [];
+    }
+  }
+
   getIsOpenId() {
     if (this.props.currentType) {
       return this.props.currentType === 'oidc';
@@ -93,6 +105,15 @@ export default createForm('application', class extends Component {
     );
   }
 
+  renderRoles = (roles) => {
+    return (
+      <InputCombo
+        field={this.props.fields.roles} options={roles} fieldName="roles"
+        label="Roles" ref="roles"
+      />
+    );
+  }
+
   render() {
     if (this.props.loading) {
       return <div />;
@@ -106,6 +127,7 @@ export default createForm('application', class extends Component {
     const clients = this.props.clients.map(conn => ({ value: conn.client_id, text: conn.name }));
     const application = this.props.application;
     const callbacks = this.getCallbacks(application);
+    const roles = this.getRoles(application);
     const connections = this.props.connections.map(conn => ({ value: conn.name, text: conn.name }));
 
     return (<div>
@@ -137,6 +159,7 @@ export default createForm('application', class extends Component {
           field={fields.connection} options={connections} fieldName="connection"
           label="Connection" ref="connection"
         />
+        {this.renderRoles(roles)}
         <InputCheckBox field={fields.enabled} fieldName="enabled" label="Enabled" ref="enabled" />
       </form>
     </div>);

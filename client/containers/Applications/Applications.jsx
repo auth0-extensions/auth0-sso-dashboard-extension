@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import * as actions from '../../actions/application';
+import { fetchRoles } from '../../actions/roles';
 import { ApplicationOverview, CreateApplicationDialog } from '../../components/Applications';
 import './Applications.css';
 
 class Applications extends Component {
   static actionsToProps = {
-    ...actions
+    ...actions,
+    fetchRoles
   }
 
   constructor(props) {
@@ -19,6 +21,7 @@ class Applications extends Component {
     this.props.fetchApplicationsAll();
     this.props.fetchClients();
     this.props.fetchConnections();
+    this.props.fetchRoles();
   }
 
   onChangeSearch = (query) => {
@@ -77,6 +80,7 @@ class Applications extends Component {
           loading={loading}
           clients={clients}
           connections={this.props.connections}
+          roles={this.props.roles}
           createApplication={this.props.createApplication}
           fetchApplications={this.props.fetchApplicationsAll}
           requestCreateApplication={this.props.requestCreateApplication}
@@ -97,6 +101,7 @@ function mapStateToProps(state) {
     error: state.applications.get('error'),
     loading: state.applications.get('loading'),
     applications: state.applications.get('records').toJS(),
+    roles: state.roles.get('records'),
     clients: state.clients.get('records').toJS(),
     connections: state.connections.get('records').toJS(),
     showModalCreate: state.createApplication.get('requesting'),
@@ -108,4 +113,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(Applications);
+export default connect(mapStateToProps, { ...actions, fetchRoles })(Applications);
