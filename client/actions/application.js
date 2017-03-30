@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { push } from 'react-router-redux';
 
 import * as constants from '../constants';
 
@@ -93,7 +94,10 @@ export function updateApplication(appId, data, onSuccess) {
       meta: {
         appId,
         onSuccess: () => {
-          onSuccess();
+          dispatch(push('/applications/settings'));
+          if (onSuccess) {
+            onSuccess();
+          }
         }
       },
       payload: {
