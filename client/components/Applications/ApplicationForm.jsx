@@ -100,15 +100,34 @@ export default createForm('application', class extends Component {
     );
   }
 
-  renderCustomURLField = (application) => {
+  renderCustomURLCheckbox = () => {
+    const { fields } = this.props;
+
+    if ((!this.isNotCustomApp()) && !fields.customURLEnabled.value) {
+      fields.customURLEnabled.onChange(true);
+    }
+
+    return this.isNotCustomApp() ? (
+      <InputCheckBox
+        field={fields.customURLEnabled}
+        fieldName="customURLEnabled"
+        label="Custom URL"
+        ref="customURLEnabled"
+      />
+    ) : null;
+  }
+
+  renderCustomURLField = () => {
     if (!this.props.fields.customURLEnabled.value) {
       return null;
     }
 
+    const label = this.isNotCustomApp() ? '' : 'URL';
+
     return (
       <InputText
-        field={this.props.fields.customURL} fieldName="customURL" label="" ref="customURL"
-        placeholder="Insert the custom URL"
+        field={this.props.fields.customURL} fieldName="customURL" label={label} ref="customURL"
+        placeholder="Add your customer URL here which will be invoked when users click the icon."
       />
     );
   }
@@ -164,19 +183,13 @@ export default createForm('application', class extends Component {
             />
           </div>
         }
+        {this.renderCustomURLCheckbox()}
+        {this.renderCustomURLField()}
         <InputCheckBox
-            field={fields.customURLEnabled}
-            fieldName="customURLEnabled"
-            label="Custom URL enabled"
-            ref="customURLEnabled"
-        />
-        <br/>
-        {this.renderCustomURLField(application)}
-        <InputCheckBox
-            field={fields.enabled}
-            fieldName="enabled"
-            label="Enabled"
-            ref="enabled"
+          field={fields.enabled}
+          fieldName="enabled"
+          label="Enabled"
+          ref="enabled"
         />
       </form>
     </div>);
