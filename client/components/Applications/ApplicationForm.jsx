@@ -103,10 +103,6 @@ export default createForm('application', class extends Component {
   renderCustomURLCheckbox = () => {
     const { fields } = this.props;
 
-    if ((!this.isNotCustomApp()) && !fields.customURLEnabled.value) {
-      fields.customURLEnabled.onChange(true);
-    }
-
     return this.isNotCustomApp() ? (
       <InputCheckBox
         field={fields.customURLEnabled}
@@ -130,6 +126,26 @@ export default createForm('application', class extends Component {
         placeholder="Add your customer URL here which will be invoked when users click the icon."
       />
     );
+  }
+
+  componentDidUpdate() {
+    const { fields, clients } = this.props;
+
+    // Enable custom URL if it's a custom app
+    if ((!this.isNotCustomApp()) && !fields.customURLEnabled.value) {
+      fields.customURLEnabled.onChange(true);
+    }
+
+    // Change app name when client changes
+    if ((typeof fields.name.value === 'undefined') && fields.client.value) {
+      const client = clients.find(
+        (conn) => (conn.client_id === fields.client.value)
+      );
+
+      fields.name.onChange(
+        client.name
+      );
+    }
   }
 
   render() {
