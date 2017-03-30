@@ -56,8 +56,11 @@ export default connectContainer(class extends Component {
       connection: applicationJSON.connection ? applicationJSON.connection : '',
       response_type: applicationJSON.response_type ? applicationJSON.response_type : '',
       scope: applicationJSON.scope ? applicationJSON.scope : '',
+      customURLEnabled: applicationJSON.customURLEnabled || false,
+      customURL: applicationJSON.customURL ? applicationJSON.customURL : '',
       enabled: applicationJSON.enabled
     };
+
     return (
       <div className="user">
         <Confirm

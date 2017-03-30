@@ -25,7 +25,9 @@ export default createForm('application', class extends Component {
     'logo',
     'callback',
     'connection',
-    'enabled'
+    'enabled',
+    'customURL',
+    'customURLEnabled'
   ];
 
   onClientChange = (e) => {
@@ -93,6 +95,19 @@ export default createForm('application', class extends Component {
     );
   }
 
+  renderCustomURLField = (application) => {
+    if (!this.props.fields.customURLEnabled.value) {
+      return null;
+    }
+
+    return (
+      <InputText
+        field={this.props.fields.customURL} fieldName="customURL" label="" ref="customURL"
+        placeholder="Add your customer URL here which will be invoked when users click the icon."
+      />
+    );
+  }
+
   render() {
     if (this.props.loading) {
       return <div />;
@@ -127,7 +142,7 @@ export default createForm('application', class extends Component {
         {this.renderOpenIdAdditionalFields(application)}
         <InputText
           field={fields.logo} fieldName="logo" label="Logo" ref="logo"
-          placeholder="Insert an url of an image to use as a icon"
+          placeholder="Insert an url of an image to use as an icon"
         />
         <InputCombo
           field={fields.callback} options={callbacks} fieldName="callback"
@@ -137,7 +152,20 @@ export default createForm('application', class extends Component {
           field={fields.connection} options={connections} fieldName="connection"
           label="Connection" ref="connection"
         />
-        <InputCheckBox field={fields.enabled} fieldName="enabled" label="Enabled" ref="enabled" />
+        <InputCheckBox
+          field={fields.customURLEnabled}
+          fieldName="customURLEnabled"
+          label="Custom URL"
+          ref="customURLEnabled"
+        />
+        <br />
+        {this.renderCustomURLField(application)}
+        <InputCheckBox
+          field={fields.enabled}
+          fieldName="enabled"
+          label="Enabled"
+          ref="enabled"
+        />
       </form>
     </div>);
   }
