@@ -13,7 +13,8 @@ export default createForm('application', class extends Component {
     onClientChange: React.PropTypes.func.isRequired,
     onTypeChange: React.PropTypes.func.isRequired,
     currentClient: React.PropTypes.string,
-    currentType: React.PropTypes.string
+    currentType: React.PropTypes.string,
+    fields: React.PropTypes.object
   }
 
   static formFields = [
@@ -25,8 +26,14 @@ export default createForm('application', class extends Component {
     'logo',
     'callback',
     'connection',
-    'enabled'
+    'enabled',
+    'customURL',
+    'customURLEnabled'
   ];
+
+  isNotCustomApp() {
+    return this.props.fields.type.value !== 'custom';
+  }
 
   onClientChange = (e) => {
     if (e.target.value) {
@@ -75,7 +82,7 @@ export default createForm('application', class extends Component {
       { value: 'token', text: 'Single Page Application' },
       { value: 'code', text: 'Traditional Web Application' }
     ];
-    if (!this.getIsOpenId()) {
+    if ((!this.getIsOpenId()) || (!this.isNotCustomApp())) {
       return null;
     }
     return (
@@ -93,6 +100,19 @@ export default createForm('application', class extends Component {
     );
   }
 
+  renderCustomURLField = (application) => {
+    if (!this.props.fields.customURLEnabled.value) {
+      return null;
+    }
+
+    return (
+      <InputText
+        field={this.props.fields.customURL} fieldName="customURL" label="" ref="customURL"
+        placeholder="Insert the custom URL"
+      />
+    );
+  }
+
   render() {
     if (this.props.loading) {
       return <div />;
@@ -100,7 +120,8 @@ export default createForm('application', class extends Component {
     const types = [
       { value: 'saml', text: 'SAML' },
       { value: 'oidc', text: 'OpenID-Connect' },
-      { value: 'wsfed', text: 'WS-Federation' }
+      { value: 'wsfed', text: 'WS-Federation' },
+      { value: 'custom', text: 'Custom application' }
     ];
     const fields = this.props.fields;
     const clients = this.props.clients.map(conn => ({ value: conn.client_id, text: conn.name }));
@@ -116,10 +137,12 @@ export default createForm('application', class extends Component {
       </div>
       <form className="appForm updateAppForm">
         <InputCombo field={fields.type} options={types} fieldName="type" label="Type" ref="type" />
-        <InputCombo
-          field={fields.client} options={clients} fieldName="client" label="Application"
-          ref="client"
-        />
+        {this.isNotCustomApp() &&
+          <InputCombo
+            field={fields.client} options={clients} fieldName="client" label="Application"
+            ref="client"
+          />
+        }
         <InputText
           field={fields.name} fieldName="name" label="Name" ref="name"
           placeholder="insert a name for users to see"
@@ -127,17 +150,34 @@ export default createForm('application', class extends Component {
         {this.renderOpenIdAdditionalFields(application)}
         <InputText
           field={fields.logo} fieldName="logo" label="Logo" ref="logo"
-          placeholder="Insert an url of an image to use as a icon"
+          placeholder="Insert an url of an image to use as an icon"
         />
-        <InputCombo
-          field={fields.callback} options={callbacks} fieldName="callback"
-          label="Callback" ref="callback"
+        {this.isNotCustomApp() &&
+          <div>
+            <InputCombo
+              field={fields.callback} options={callbacks} fieldName="callback"
+              label="Callback" ref="callback"
+            />
+            <InputCombo
+              field={fields.connection} options={connections} fieldName="connection"
+              label="Connection" ref="connection"
+            />
+          </div>
+        }
+        <InputCheckBox
+            field={fields.customURLEnabled}
+            fieldName="customURLEnabled"
+            label="Custom URL enabled"
+            ref="customURLEnabled"
         />
-        <InputCombo
-          field={fields.connection} options={connections} fieldName="connection"
-          label="Connection" ref="connection"
+        <br/>
+        {this.renderCustomURLField(application)}
+        <InputCheckBox
+            field={fields.enabled}
+            fieldName="enabled"
+            label="Enabled"
+            ref="enabled"
         />
-        <InputCheckBox field={fields.enabled} fieldName="enabled" label="Enabled" ref="enabled" />
       </form>
     </div>);
   }
