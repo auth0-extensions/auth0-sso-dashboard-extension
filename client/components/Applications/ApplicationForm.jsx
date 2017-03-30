@@ -102,8 +102,8 @@ export default createForm('application', class extends Component {
 
     return (
       <InputText
-        field={this.props.fields.customURL} fieldName="customURL" label="Custom URL" ref="customURL"
-        placeholder="Insert the custom URL"
+        field={this.props.fields.customURL} fieldName="customURL" label="" ref="customURL"
+        placeholder="Add your customer URL here which will be invoked when users click the icon."
       />
     );
   }
@@ -153,18 +153,18 @@ export default createForm('application', class extends Component {
           label="Connection" ref="connection"
         />
         <InputCheckBox
-            field={fields.customURLEnabled}
-            fieldName="customURLEnabled"
-            label="Custom URL enabled"
-            ref="customURLEnabled"
+          field={fields.customURLEnabled}
+          fieldName="customURLEnabled"
+          label="Custom URL"
+          ref="customURLEnabled"
         />
-        <br/>
+        <br />
         {this.renderCustomURLField(application)}
         <InputCheckBox
-            field={fields.enabled}
-            fieldName="enabled"
-            label="Enabled"
-            ref="enabled"
+          field={fields.enabled}
+          fieldName="enabled"
+          label="Enabled"
+          ref="enabled"
         />
       </form>
     </div>);
