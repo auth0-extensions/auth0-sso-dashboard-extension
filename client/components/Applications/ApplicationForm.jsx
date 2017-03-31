@@ -51,9 +51,31 @@ export default createForm('application', class extends Component {
     }
   }
 
+  onNameFocus = () => {
+    const { fields, clients } = this.props;
+
+    const client = clients.find(
+      (conn) => (conn.client_id === fields.client.value)
+    );
+
+    fields.name.onChange(
+      client.name
+    );
+  }
+
   componentDidMount = () => {
     this.refs.client.props.field.onChange = this.onClientChange;
     this.refs.type.props.field.onChange = this.onChangeType;
+    this.refs.name.props.field.onFocus = this.onNameFocus;
+  }
+
+  componentDidUpdate() {
+    const { fields } = this.props;
+
+    // Enable custom URL if it's a custom app
+    if ((!this.isNotCustomApp()) && !fields.customURLEnabled.value) {
+      fields.customURLEnabled.onChange(true);
+    }
   }
 
   getClientById = (id) => _.find(this.props.clients, (client) => client.client_id == id)
