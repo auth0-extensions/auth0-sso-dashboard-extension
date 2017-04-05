@@ -21,6 +21,10 @@ export const application = createReducer(fromJS(initialState), { // eslint-disab
     state.merge({
       currentType: action.meta.type
     }),
+  [constants.APPLICATION_NAME_CHANGE]: (state, action) =>
+    state.merge({
+      currentName: action.meta.name
+    }),
   [constants.FETCH_APPLICATION_PENDING]: (state, action) =>
     state.merge({
       loading: true,

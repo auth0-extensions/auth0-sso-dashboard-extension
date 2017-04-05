@@ -84,8 +84,10 @@ class Applications extends Component {
           showModal={showModalCreate}
           currentClient={this.props.currentClient}
           currentType={this.props.currentType}
+          currentName={this.props.currentName}
           onClientChange={this.props.onClientChange}
           onTypeChange={this.props.onTypeChange}
+          onNameChange={this.props.onNameChange}
         />
       </div>
     );
@@ -104,7 +106,8 @@ function mapStateToProps(state) {
     appId: state.deleteApplication.get('appId'),
     currentClient: state.application.get('currentClient'),
     createError: state.createApplication.get('error'),
-    currentType: state.application.get('currentType')
+    currentType: state.application.get('currentType'),
+    currentName: state.application.get('currentName')
   };
 }
 

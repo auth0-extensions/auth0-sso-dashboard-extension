@@ -200,3 +200,12 @@ export function onTypeChange(type) {
     }
   };
 }
+
+export function onNameChange(name) {
+  return {
+    type: constants.APPLICATION_NAME_CHANGE,
+    meta: {
+      name
+    }
+  };
+}

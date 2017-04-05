@@ -12,6 +12,7 @@ export default createForm('application', class extends Component {
     connections: React.PropTypes.array.isRequired,
     onClientChange: React.PropTypes.func.isRequired,
     onTypeChange: React.PropTypes.func.isRequired,
+    onNameChange: React.PropTypes.func.isRequired,
     currentClient: React.PropTypes.string,
     currentType: React.PropTypes.string,
     fields: React.PropTypes.object
@@ -26,9 +27,9 @@ export default createForm('application', class extends Component {
     'logo',
     'callback',
     'connection',
-    'enabled',
+    'customURLEnabled',
     'customURL',
-    'customURLEnabled'
+    'enabled'
   ];
 
   isNotCustomApp() {
@@ -58,9 +59,10 @@ export default createForm('application', class extends Component {
       (conn) => (conn.client_id === fields.client.value)
     );
 
-    fields.name.onChange(
-      client.name
-    );
+    if (client) {
+      this.props.onNameChange(client.name);
+      fields.name.onChange(client.name);
+    }
   }
 
   componentDidMount = () => {
@@ -140,7 +142,7 @@ export default createForm('application', class extends Component {
       return null;
     }
 
-    const label = this.isNotCustomApp() ? '' : 'URL';
+    const label = this.isNotCustomApp() ? ' ' : 'URL';
 
     return (
       <InputText

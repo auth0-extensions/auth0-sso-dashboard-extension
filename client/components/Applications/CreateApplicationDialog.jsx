@@ -17,8 +17,10 @@ export default class CreateApplicationDialog extends React.Component {
     cancelCreateApplication: React.PropTypes.func.isRequired,
     currentClient: React.PropTypes.string,
     currentType: React.PropTypes.string,
+    currentName: React.PropTypes.string,
     onClientChange: React.PropTypes.func.isRequired,
-    onTypeChange: React.PropTypes.func.isRequired
+    onTypeChange: React.PropTypes.func.isRequired,
+    onNameChange: React.PropTypes.func.isRequired
   }
 
   onConfirm = () => {
@@ -37,7 +39,11 @@ export default class CreateApplicationDialog extends React.Component {
     if (loading || error) {
       return <div />;
     }
-    const initialValues = { client: this.props.currentClient, type: this.props.currentType };
+    const initialValues = {
+      client: this.props.currentClient,
+      type: this.props.currentType,
+      name: this.props.currentName
+    };
     return (
       <div>
         <Confirm
@@ -60,12 +66,14 @@ export default class CreateApplicationDialog extends React.Component {
                 initialValues={initialValues}
                 onClientChange={this.props.onClientChange}
                 onTypeChange={this.props.onTypeChange}
+                onNameChange={this.props.onNameChange}
                 loading={loading}
                 application={{}}
                 error={this.props.createError}
                 clients={clients}
                 currentClient={this.props.currentClient}
                 currentType={this.props.currentType}
+                currentName={this.props.currentName}
                 connections={connections}
               />
             </div>
