@@ -15,7 +15,8 @@ export default createForm('application', class extends Component {
     onNameChange: React.PropTypes.func.isRequired,
     currentClient: React.PropTypes.string,
     currentType: React.PropTypes.string,
-    fields: React.PropTypes.object
+    fields: React.PropTypes.object,
+    inDialog: React.PropTypes.boolean
   }
 
   static formFields = [
@@ -142,13 +143,16 @@ export default createForm('application', class extends Component {
       return null;
     }
 
-    const label = this.isNotCustomApp() ? ' ' : 'URL';
+    const label = this.isNotCustomApp() ? '' : 'URL';
 
     return (
-      <InputText
-        field={this.props.fields.customURL} fieldName="customURL" label={label} ref="customURL"
-        placeholder="Add your customer URL here which will be invoked when users click the icon."
-      />
+      <div>
+        {this.props.inDialog && <br/>}
+        <InputText
+          field={this.props.fields.customURL} fieldName="customURL" label={label} ref="customURL"
+          placeholder="Add your customer URL here which will be invoked when users click the icon."
+        />
+      </div>
     );
   }
 
@@ -205,6 +209,7 @@ export default createForm('application', class extends Component {
         }
         {this.renderCustomURLCheckbox()}
         {this.renderCustomURLField()}
+        {(!this.props.fields.customURLEnabled.value) && this.props.inDialog && <br/>}
         <InputCheckBox
           field={fields.enabled}
           fieldName="enabled"

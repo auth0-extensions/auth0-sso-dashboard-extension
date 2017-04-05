@@ -75,6 +75,7 @@ export default class CreateApplicationDialog extends React.Component {
                 currentType={this.props.currentType}
                 currentName={this.props.currentName}
                 connections={connections}
+                inDialog={true}
               />
             </div>
           </div>
