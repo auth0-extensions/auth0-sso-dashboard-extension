@@ -24,10 +24,15 @@ export default class GroupsTable extends Component {
     deleteGroup: React.PropTypes.func.isRequired,
     updateGroup: React.PropTypes.func.isRequired,
     fetchGroup: React.PropTypes.func.isRequired,
-    requestDeleteGroup: React.PropTypes.func.isRequired,
-    cancelDeleteGroup: React.PropTypes.func.isRequired,
-    showModalDelete: React.PropTypes.bool.isRequired,
     groupId: React.PropTypes.string
+  }
+
+  constructor(props) {
+    super(props);
+      
+    this.state = {
+      showModalDelete: false
+    };
   }
 
   render() {
@@ -35,8 +40,8 @@ export default class GroupsTable extends Component {
     return (
       <div>
         <Confirm
-          title="Remove Application" show={this.props.showModalDelete} loading={false}
-          onCancel={this.props.cancelDeleteGroup} onConfirm={(e) => {
+          title="Remove Application" show={this.state.showModalDelete} loading={false}
+          onCancel={() => this.setState({ showModalDelete: false })} onConfirm={() => {
             this.props.deleteGroup(groupId);
           }}
         >

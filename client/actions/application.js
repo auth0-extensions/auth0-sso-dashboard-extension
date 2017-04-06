@@ -215,6 +215,71 @@ export function fetchGroupsAll() {
   };
 }
 
+export function createGroup(data, onSuccess) {
+  return (dispatch) => {
+    dispatch({
+      type: constants.CREATE_GROUP,
+      meta: {
+        onSuccess: () => {
+          if (onSuccess) {
+            onSuccess();
+          }
+          dispatch(fetchGroupsAll());
+        }
+      },
+      payload: {
+        promise: axios.post('/api/groups', data, {
+          responseType: 'json'
+        })
+      }
+    });
+  };
+}
+
+/*
+* Update the app details.
+*/
+export function updateGroup(groupId, data, onSuccess) {
+  return (dispatch) => {
+    dispatch({
+      type: constants.UPDATE_GROUP,
+      meta: {
+        groupId,
+        onSuccess: () => {
+          onSuccess();
+        }
+      },
+      payload: {
+        promise: axios.put(`/api/groups/${groupId}`, data, {
+          responseType: 'json'
+        })
+      }
+    });
+  };
+}
+
+export function deleteGroup(groupId, onSuccess) {
+  return (dispatch) => {
+    dispatch({
+      type: constants.DELETE_GROUP,
+      meta: {
+        onSuccess: () => {
+          if (onSuccess) {
+            onSuccess();
+          }
+          dispatch(fetchGroupsAll());
+        }
+      },
+      payload: {
+        promise: axios.delete(`/api/groups/${groupId}`, {
+          responseType: 'json'
+        })
+      }
+    });
+  };
+}
+
+
 export function onClientChange(client) {
   return {
     type: constants.APPLICATION_CLIENT_CHANGE,
