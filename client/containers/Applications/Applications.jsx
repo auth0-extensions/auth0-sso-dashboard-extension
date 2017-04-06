@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { Tabs, Tab } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import * as actions from '../../actions/application';
 import { ApplicationOverview, CreateApplicationDialog } from '../../components/Applications';
+import GroupOverview from '../../components/Groups/GroupOverview';
 import './Applications.css';
 
 class Applications extends Component {
@@ -57,20 +59,41 @@ class Applications extends Component {
           </div>
         </div>
         <div className="page-description">Change the application settings.</div>
-        <ApplicationOverview
-          onReset={this.onReset.bind(this)}
-          onChangeSearch={this.onChangeSearch.bind(this)}
-          error={error}
-          applications={apps}
-          loading={loading}
-          deleteApplication={this.props.deleteApplication}
-          updateApplication={this.props.updateApplication}
-          requestDeleteApplication={this.props.requestDeleteApplication}
-          cancelDeleteApplication={this.props.cancelDeleteApplication}
-          fetchApplications={this.props.fetchApplicationsAll}
-          showModalDelete={showModalDelete}
-          appId={appId}
-        />
+        <Tabs id="sso-app-tabs" defaultActiveKey={1} animation={false}>
+          <Tab eventKey={1} title="Applications">
+            <ApplicationOverview
+              onReset={this.onReset.bind(this)}
+              onChangeSearch={this.onChangeSearch.bind(this)}
+              error={error}
+              applications={apps}
+              loading={loading}
+              deleteApplication={this.props.deleteApplication}
+              updateApplication={this.props.updateApplication}
+              requestDeleteApplication={this.props.requestDeleteApplication}
+              cancelDeleteApplication={this.props.cancelDeleteApplication}
+              fetchApplications={this.props.fetchApplicationsAll}
+              showModalDelete={showModalDelete}
+              appId={appId}
+            />
+          </Tab>
+          <Tab eventKey={2} title="Groups">
+            <GroupOverview
+              onReset={this.onReset.bind(this)}
+              onChangeSearch={this.onChangeSearch.bind(this)}
+              error={error}
+              groups={this.props.groups}
+              loading={loading}
+              deleteApplication={this.props.deleteApplication}
+              updateApplication={this.props.updateApplication}
+              requestDeleteApplication={this.props.requestDeleteApplication}
+              cancelDeleteApplication={this.props.cancelDeleteApplication}
+              fetchApplications={this.props.fetchApplicationsAll}
+              showModalDelete={showModalDelete}
+              appId={appId}
+            />
+          </Tab>
+        </Tabs>
+        
         <CreateApplicationDialog
           error={error}
           createError={createError}
@@ -101,6 +124,7 @@ function mapStateToProps(state) {
     applications: state.applications.get('records').toJS(),
     clients: state.clients.get('records').toJS(),
     connections: state.connections.get('records').toJS(),
+    groups: state.groups.get('records').toJS(),
     showModalCreate: state.createApplication.get('requesting'),
     showModalDelete: state.deleteApplication.get('requesting'),
     appId: state.deleteApplication.get('appId'),

@@ -183,6 +183,38 @@ export function cancelApplicationSave() {
   };
 }
 
+/*
+* Load all groups with at least one application
+*/
+export function fetchGroups() {
+  return (dispatch) => {
+    dispatch({
+      type: constants.FETCH_GROUPS,
+      payload: {
+        promise: axios.get('/api/groups', {
+          responseType: 'json'
+        })
+      }
+    });
+  };
+}
+
+/*
+* Load all groups
+*/
+export function fetchGroupsAll() {
+  return (dispatch) => {
+    dispatch({
+      type: constants.FETCH_GROUPS,
+      payload: {
+        promise: axios.get('/api/groups/all', {
+          responseType: 'json'
+        })
+      }
+    });
+  };
+}
+
 export function onClientChange(client) {
   return {
     type: constants.APPLICATION_CLIENT_CHANGE,
@@ -209,3 +241,5 @@ export function onNameChange(name) {
     }
   };
 }
+
+

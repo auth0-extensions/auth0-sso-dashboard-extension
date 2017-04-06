@@ -15,6 +15,7 @@ class UserApplications extends Component {
 
   componentWillMount = () => {
     this.props.fetchApplications(true);
+    this.props.fetchGroups();
   }
 
   onChangeSearch = (query) => {
@@ -29,6 +30,7 @@ class UserApplications extends Component {
   onReset = () => {
     this.setState({ apps: [] });
     this.props.fetchApplications();
+    this.props.fetchGroups();
   }
 
   render() {
