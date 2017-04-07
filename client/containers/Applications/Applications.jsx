@@ -85,13 +85,9 @@ class Applications extends Component {
               error={error}
               groups={this.props.groups}
               loading={loading}
-              deleteApplication={this.props.deleteApplication}
-              updateApplication={this.props.updateApplication}
-              requestDeleteApplication={this.props.requestDeleteApplication}
-              cancelDeleteApplication={this.props.cancelDeleteApplication}
-              fetchApplications={this.props.fetchApplicationsAll}
-              showModalDelete={showModalDelete}
-              appId={appId}
+              deleteGroup={this.props.deleteGroup}
+              updateGroup={this.props.updateGroup}
+              fetchGroups={this.props.fetchGroupsAll}
             />
           </Tab>
         </Tabs>

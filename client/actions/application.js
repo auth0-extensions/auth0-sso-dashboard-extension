@@ -237,6 +237,26 @@ export function createGroup(data, onSuccess) {
 }
 
 /*
+* Fetch the app details.
+*/
+export function fetchGroup(groupId, onSuccess) {
+  return (dispatch) => {
+    dispatch({
+      type: constants.FETCH_GROUP,
+      meta: {
+        groupId,
+        onSuccess
+      },
+      payload: {
+        promise: axios.get(`/api/groups/${groupId}`, {
+          responseType: 'json'
+        })
+      }
+    });
+  };
+}
+
+/*
 * Update the app details.
 */
 export function updateGroup(groupId, data, onSuccess) {

@@ -6,6 +6,7 @@ import { auth } from './auth';
 import { applications } from './applications';
 import { clients } from './clients';
 import { groups } from './groups';
+import { group } from './group';
 import { application } from './application';
 import { status } from './status';
 import { connections } from './connections';
@@ -19,6 +20,7 @@ export default combineReducers({
   application,
   clients,
   groups,
+  group,
   status,
   connections,
   auth,
