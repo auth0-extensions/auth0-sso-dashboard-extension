@@ -39,7 +39,7 @@ export default class CreateGroupDialog extends React.Component {
           cancelMessage="Cancel"
           title="New Group"
           loading={loading}
-          onCancel={this.props.closeModal}
+          onCancel={this.props.onComplete}
           onConfirm={this.onConfirm}
         >
           <div className="user">
