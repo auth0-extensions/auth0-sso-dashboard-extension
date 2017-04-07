@@ -28,12 +28,17 @@ export const matchWithApps = (data, all = false) => {
  * Save the group to webtask storage.
  */
 export const saveGroup = (id, body, storage) => new Promise((resolve, reject) => {
-
+  
   // Save.
   storage.read()
     .then(originalData => {
       originalData = originalData || {};  // eslint-disable-line no-param-reassign
       originalData.groups = originalData.groups || {}; // eslint-disable-line no-param-reassign
+
+      if (typeof originalData.groups[id] === 'undefined') {
+        originalData.groups[id] = {};  // eslint-disable-line no-param-reassign
+      }
+
       originalData.groups[id].name = body.name; // eslint-disable-line no-param-reassign
 
       return storage.write(originalData)

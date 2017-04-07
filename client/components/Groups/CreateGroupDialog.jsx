@@ -1,7 +1,7 @@
 import './CreateGroupDialog.css';
 import React, { Component, PropTypes } from 'react';
 import { Error, Confirm } from '../Dashboard';
-import { GroupForm } from './GroupForm';
+import GroupForm from './GroupForm';
 
 export default class CreateGroupDialog extends React.Component {
   static propTypes = {
@@ -9,17 +9,17 @@ export default class CreateGroupDialog extends React.Component {
     createError: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     showModal: PropTypes.bool.isRequired,
+    onComplete: PropTypes.func,
     createGroup: PropTypes.func.isRequired,
     fetchGroups: PropTypes.func.isRequired,
-    groups: React.PropTypes.object.isRequired,
+    groups: React.PropTypes.object.isRequired
   }
 
   onConfirm = () => {
     this.refs.groupForm.submit();
   }
-
   createGroup = (data) => {
-    this.props.createGroup(data);
+    this.props.createGroup(data, this.props.onComplete);
   }
 
   render() {
@@ -28,7 +28,7 @@ export default class CreateGroupDialog extends React.Component {
     if (loading || error) {
       return <div />;
     }
-    
+
     return (
       <div>
         <Confirm
@@ -39,11 +39,11 @@ export default class CreateGroupDialog extends React.Component {
           cancelMessage="Cancel"
           title="New Group"
           loading={loading}
-          onCancel={this.onCancel}
+          onCancel={this.props.closeModal}
           onConfirm={this.onConfirm}
         >
           <div className="user">
-            <div className="spanTitle"><span className="username-text">Add new application</span></div>
+            <div className="spanTitle"><span className="username-text">Add new group</span></div>
             <div>
               <GroupForm
                 ref="groupForm"

@@ -17,7 +17,7 @@ export default createForm('application', class extends Component {
     currentClient: React.PropTypes.string,
     currentType: React.PropTypes.string,
     fields: React.PropTypes.object,
-    inDialog: React.PropTypes.boolean
+    inDialog: React.PropTypes.bool
   }
 
   static formFields = [

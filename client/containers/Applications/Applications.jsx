@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import * as actions from '../../actions/application';
 import { ApplicationOverview, CreateApplicationDialog } from '../../components/Applications';
+import CreateGroupDialog from '../../components/Groups/CreateGroupDialog';
 import GroupOverview from '../../components/Groups/GroupOverview';
 import './Applications.css';
 
@@ -48,7 +49,11 @@ class Applications extends Component {
   }
   
   openGroupForm = () => {
-    this.props.requestCreateApplication();
+    this.setState({ showGroupCreateDialog: true });
+  }
+
+  closeGroupForm = () => {
+    this.setState({ showGroupCreateDialog: false });
   }
 
   render() {
@@ -134,6 +139,16 @@ class Applications extends Component {
           onClientChange={this.props.onClientChange}
           onTypeChange={this.props.onTypeChange}
           onNameChange={this.props.onNameChange}
+        />
+
+        <CreateGroupDialog
+          error={error}
+          createError={createError}
+          loading={loading}
+          groups={this.props.groups}
+          createGroup={this.props.createGroup}
+          showModal={this.state.showGroupCreateDialog}
+          onComplete={this.closeGroupForm}
         />
       </div>
     );
