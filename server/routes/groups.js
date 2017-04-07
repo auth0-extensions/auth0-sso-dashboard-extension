@@ -1,35 +1,14 @@
 import uuid from 'uuid';
 import { Router } from 'express';
 
-import { saveGroup, deleteGroup } from '../lib/groups';
+import { matchWithApps, saveGroup, deleteGroup } from '../lib/groups';
 
 export default (auth0, storage) => {
   const api = Router();
 
   api.get('/', (req, res, next) => {
     storage.read()
-      .then(data => {
-        const groups = data.groups || { };
-        const apps = data.applications || { };
-        const result = {};
-
-        Object.keys(groups).map((groupKey) => {
-          const group = groups[groupKey];
-          group.apps = [];
-
-          Object.keys(apps).map((appKey) => {
-            const app = apps[appKey];
-            if (app.groupId === groupKey) group.apps.push(appKey);
-          });
-
-          if (group.apps.length > 0) {
-            result[groupKey] = group;
-          }
-          return group;
-        });
-
-        return result;
-      })
+      .then(matchWithApps)
       .then(data => res.json(data))
       .catch(next);
   });

@@ -13,6 +13,7 @@ export default class CreateApplicationDialog extends React.Component {
     createApplication: PropTypes.func.isRequired,
     fetchApplications: PropTypes.func.isRequired,
     clients: React.PropTypes.array.isRequired,
+    groups: React.PropTypes.object.isRequired,
     requestCreateApplication: React.PropTypes.func.isRequired,
     cancelCreateApplication: React.PropTypes.func.isRequired,
     currentClient: React.PropTypes.string,
@@ -71,6 +72,7 @@ export default class CreateApplicationDialog extends React.Component {
                 application={{}}
                 error={this.props.createError}
                 clients={clients}
+                groups={this.props.groups}
                 currentClient={this.props.currentClient}
                 currentType={this.props.currentType}
                 currentName={this.props.currentName}

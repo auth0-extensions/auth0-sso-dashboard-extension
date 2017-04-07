@@ -9,9 +9,9 @@ export default class GroupOverview extends React.Component {
   static propTypes = {
     onReset: React.PropTypes.func.isRequired,
     onChangeSearch: React.PropTypes.func.isRequired,
-    fetchApplications: React.PropTypes.func.isRequired,
-    deleteApplication: React.PropTypes.func.isRequired,
-    updateApplication: React.PropTypes.func.isRequired,
+    fetchGroups: React.PropTypes.func.isRequired,
+    deleteGroup: React.PropTypes.func.isRequired,
+    updateGroup: React.PropTypes.func.isRequired,
     error: React.PropTypes.object,
     groups: React.PropTypes.oneOfType([
       React.PropTypes.object,

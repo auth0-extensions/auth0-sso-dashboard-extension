@@ -40,20 +40,21 @@ export default class GroupsTable extends Component {
     return (
       <div>
         <Confirm
-          title="Remove Application" show={this.state.showModalDelete} loading={false}
+          title="Remove Group" show={this.state.showModalDelete} loading={false}
           onCancel={() => this.setState({ showModalDelete: false })} onConfirm={() => {
             this.props.deleteGroup(groupId);
           }}
         >
           <span>
-            Do you really want to remove this group?
+            Do you really want to remove this group? Doing so <strong>will not</strong> delete the associated apps.
           </span>
         </Confirm>
         <Table>
           <TableBody>
             {Object.keys(groups).map((key) => {
               const group = groups[key];
-              const name = group.name;
+              const { name, apps } = group;
+              const appCount = apps.length;
               return (
                 <TableRow key={key}>
                   <TableCell>
@@ -62,20 +63,21 @@ export default class GroupsTable extends Component {
                         <Link to={`/groups/${key}`}>
                           <span className="application-name">{name}</span>
                         </Link>
+                        <span className="group-app-count">{appCount ? appCount : 'No'} app{appCount === 1 ? '' : 's'}</span>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell className="actions">
                     <ul className="list-inline list-inline-apps">
                       <li title="Edit" data-toggle="tooltip">
-                        <Link to={`/applications/${key}`}>
+                        <Link to={`/groups/${key}`}>
                           <i className="icon-budicon-329" />
                         </Link>
                       </li>
                       <li title="Remove" data-toggle="tooltip">
                         <a
-                          href="#" onClick={(e) => {
-                            this.props.requestDeleteGroup(key);
+                          href="#" onClick={() => {
+                            this.setState({ showModalDelete: true });
                           }} className="remove-rule"
                         >
                           <i className="icon-budicon-471" />

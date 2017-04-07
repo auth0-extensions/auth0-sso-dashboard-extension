@@ -26,6 +26,10 @@ article.card-docs {
     color: #999;
 }
 
+.user-tabs a[role="tab"] {
+    outline-style: none;
+}
+
 .user-app:hover {
     border: 1px solid deepskyblue;
 }

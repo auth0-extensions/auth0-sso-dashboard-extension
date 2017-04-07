@@ -1,5 +1,29 @@
 import Promise from 'bluebird';
 
+export const matchWithApps = (data, all = false) => {
+  const groups = data.groups || { };
+  const apps = data.applications || { };
+  const result = {};
+
+
+  Object.keys(groups).map((groupKey) => {
+    const group = groups[groupKey];
+    group.apps = [];
+
+    Object.keys(apps).map((appKey) => {
+      const app = apps[appKey];
+      if (app.group === groupKey) group.apps.push(appKey);
+    });
+
+    if (group.apps.length > 0 || all) {
+      result[groupKey] = group;
+    }
+    return group;
+  });
+
+  return result;
+};
+
 /*
  * Save the group to webtask storage.
  */

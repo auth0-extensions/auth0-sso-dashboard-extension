@@ -46,7 +46,7 @@ class Applications extends Component {
     const apps = this.state.apps.length != 0 ? this.state.apps : applications;
 
     return (
-      <div className="users">
+      <div className="users user-tabs">
         <div className="row content-header">
           <div className="col-xs-12">
             <h2>Settings</h2>
@@ -58,7 +58,7 @@ class Applications extends Component {
             </button>
           </div>
         </div>
-        <div className="page-description">Change the application settings.</div>
+        <div className="page-description">Change the application or group settings.</div>
         <Tabs id="sso-app-tabs" defaultActiveKey={1} animation={false}>
           <Tab eventKey={1} title="Applications">
             <ApplicationOverview
@@ -99,6 +99,7 @@ class Applications extends Component {
           createError={createError}
           loading={loading}
           clients={clients}
+          groups={this.props.groups}
           connections={this.props.connections}
           createApplication={this.props.createApplication}
           fetchApplications={this.props.fetchApplicationsAll}
