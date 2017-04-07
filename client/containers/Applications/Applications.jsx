@@ -14,7 +14,11 @@ class Applications extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { apps: [] };
+    this.state = {
+      apps: [],
+      selectedTab: 1,
+      showGroupCreateDialog: false
+    };
   }
 
   componentWillMount = () => {
@@ -42,6 +46,10 @@ class Applications extends Component {
   openForm = () => {
     this.props.requestCreateApplication();
   }
+  
+  openGroupForm = () => {
+    this.props.requestCreateApplication();
+  }
 
   render() {
     const { loading, error, clients, applications, showModalCreate, showModalDelete, appId, createError } = this.props;
@@ -52,16 +60,32 @@ class Applications extends Component {
         <div className="row content-header">
           <div className="col-xs-12">
             <h2>Settings</h2>
-            <button
-              className="btn btn-success btn-create-app"
-              onClick={this.openForm}
-            >
-              + Create App
-            </button>
+            {this.state.selectedTab === 1 &&
+              <button
+                className="btn btn-success btn-create-app"
+                onClick={this.openForm}
+              >
+                + Create App
+              </button>
+            }
+            
+            {this.state.selectedTab === 2 &&
+              <button
+                className="btn btn-success btn-create-app"
+                onClick={this.openGroupForm}
+              >
+                + Create Group
+              </button>
+            }
           </div>
         </div>
         <div className="page-description">Change the application or group settings.</div>
-        <Tabs id="sso-app-tabs" defaultActiveKey={1} animation={false}>
+        <Tabs 
+          id="sso-app-tabs"
+          activeKey={this.state.selectedTab}
+          animation={false}
+          onSelect={(selectedTab) => this.setState({ selectedTab })}
+        >
           <Tab eventKey={1} title="Applications">
             <ApplicationOverview
               onReset={this.onReset.bind(this)}
