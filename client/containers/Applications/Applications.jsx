@@ -19,6 +19,7 @@ class Applications extends Component {
 
   componentWillMount = () => {
     this.props.fetchApplicationsAll();
+    this.props.fetchGroupsAll();
     this.props.fetchClients();
     this.props.fetchConnections();
   }
@@ -35,6 +36,7 @@ class Applications extends Component {
   onReset = () => {
     this.setState({ apps: [] });
     this.props.fetchApplicationsAll();
+    this.props.fetchGroupsAll();
   }
 
   openForm = () => {

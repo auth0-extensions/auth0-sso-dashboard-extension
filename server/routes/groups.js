@@ -18,7 +18,8 @@ export default (auth0, storage) => {
    */
   api.get('/all', (req, res, next) => {
     storage.read()
-      .then(data => res.json(data.groups || {}))
+      .then(data => matchWithApps(data, true))
+      .then(data => res.json(data))
       .catch(next);
   });
 

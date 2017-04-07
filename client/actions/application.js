@@ -200,7 +200,7 @@ export function fetchGroups() {
 }
 
 /*
-* Load all groups
+* Load all groups.
 */
 export function fetchGroupsAll() {
   return (dispatch) => {

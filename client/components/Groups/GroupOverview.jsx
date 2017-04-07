@@ -18,11 +18,7 @@ export default class GroupOverview extends React.Component {
       React.PropTypes.array
     ]).isRequired,
     loading: React.PropTypes.bool.isRequired,
-    appId: React.PropTypes.string
-  }
-
-  onChangeSearch = (e) => {
-    this.props.onChangeSearch(findDOMNode(this.refs.search).value);
+    groupId: React.PropTypes.string
   }
 
   render() {
