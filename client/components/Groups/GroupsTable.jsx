@@ -31,18 +31,26 @@ export default class GroupsTable extends Component {
     super(props);
       
     this.state = {
-      showModalDelete: false
+      showModalDelete: false,
+      deletableGroupId: ""
     };
   }
 
+  groupDeletionSuccess() {
+    this.setState({
+      showModalDelete: false,
+      deletableGroupId: ""
+    });
+  }
+
   render() {
-    const { groups, groupId } = this.props;
+    const { groups } = this.props;
     return (
       <div>
         <Confirm
           title="Remove Group" show={this.state.showModalDelete} loading={false}
           onCancel={() => this.setState({ showModalDelete: false })} onConfirm={() => {
-            this.props.deleteGroup(groupId);
+            this.props.deleteGroup(this.state.deletableGroupId, () => this.groupDeletionSuccess());
           }}
         >
           <span>
@@ -77,7 +85,7 @@ export default class GroupsTable extends Component {
                       <li title="Remove" data-toggle="tooltip">
                         <a
                           href="#" onClick={() => {
-                            this.setState({ showModalDelete: true });
+                            this.setState({ showModalDelete: true, deletableGroupId: key });
                           }} className="remove-rule"
                         >
                           <i className="icon-budicon-471" />
