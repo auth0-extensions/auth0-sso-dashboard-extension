@@ -158,6 +158,26 @@ export default createForm('application', class extends Component {
     );
   }
 
+  componentDidUpdate() {
+    const { fields, clients } = this.props;
+
+    // Enable custom URL if it's a custom app
+    if ((!this.isNotCustomApp()) && !fields.customURLEnabled.value) {
+      fields.customURLEnabled.onChange(true);
+    }
+
+    // Change app name when client changes
+    if ((typeof fields.name.value === 'undefined') && fields.client.value) {
+      const client = clients.find(
+        (conn) => (conn.client_id === fields.client.value)
+      );
+
+      fields.name.onChange(
+        client.name
+      );
+    }
+  }
+
   render() {
     if (this.props.loading) {
       return <div />;

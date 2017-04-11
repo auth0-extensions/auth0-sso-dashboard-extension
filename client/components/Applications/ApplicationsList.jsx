@@ -54,6 +54,7 @@ export default class ApplicationsList extends Component {
 
     return (
       <div>
+
         {allApps.map((group, i) => {
           if (group.apps.length > 0) {
             return (
@@ -83,6 +84,7 @@ export default class ApplicationsList extends Component {
                     </a>
                   );
                 })}
+
               </div>
             );
           }
