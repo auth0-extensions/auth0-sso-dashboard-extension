@@ -95,7 +95,7 @@ export default connectContainer(class extends Component {
                 <br />
                 <h5>Danger Zone</h5>
                 <div className="red-border">
-                  <p><strong>Warning!</strong> Once confirmed, this operation can't be undone!</p>
+                  <p><strong>Warning!</strong> Once confirmed, this operation can't be undone! All linked apps will be ungrouped.</p>
                   <p><input
                     onClick={() => this.clickRemoveButton()} type="button" value="Delete Group"
                     className="btn btn-danger delete-client "

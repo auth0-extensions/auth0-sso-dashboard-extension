@@ -58,6 +58,20 @@ export const deleteGroup = (id, storage) =>
         originalData.groups[id] = null;  // eslint-disable-line no-param-reassign
         delete originalData.groups[id];  // eslint-disable-line no-param-reassign
 
+        /**
+         * Remove the group from the apps that depends on it
+         */
+        const newApplications = {};
+        Object.keys(originalData.applications).map((appId) => {
+          const app = originalData.applications[appId];
+          if (app.group === id) app.group = '';
+          newApplications[appId] = app;
+
+          return app;
+        });
+        
+        originalData.applications = newApplications;
+
         return storage.write(originalData)
           .then(resolve)
           .catch(reject);
