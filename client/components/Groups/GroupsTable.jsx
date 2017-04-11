@@ -13,6 +13,7 @@ import {
   TableRow
 } from '../Dashboard';
 import { Link } from 'react-router';
+import './GroupsTable.css';
 
 export default class GroupsTable extends Component {
   static propTypes = {
@@ -45,6 +46,16 @@ export default class GroupsTable extends Component {
 
   render() {
     const { groups } = this.props;
+
+    if (Object.keys(groups).length === 0) {
+      return (
+        <div className="no-groups">
+          <h2>There are no groups</h2>
+          <h4>Go ahead and create one clicking the "Create group" button.</h4>
+        </div>
+      )
+    }
+
     return (
       <div>
         <Confirm
