@@ -20,7 +20,14 @@ class UserApplications extends Component {
 
   onChangeSearch = (query) => {
     if (query) {
-      const apps = _.filter(this.props.applications, (app) => app.name.toLowerCase().indexOf(query) > -1);
+    
+      let apps = Object.keys(this.props.applications)
+        .map((appId) => {
+          const app = this.props.applications[appId];
+          app.id = appId;
+          return app;
+        })
+        .filter((app) => app.name.toLowerCase().indexOf(query) > -1);
       this.setState({ apps });
     } else {
       this.onReset();
@@ -34,7 +41,7 @@ class UserApplications extends Component {
   }
 
   render() {
-    const { loading, error, applications } = this.props;
+    const { loading, error, applications, groups } = this.props;
     const apps = this.state.apps.length != 0 ? this.state.apps : applications;
 
     return (
@@ -48,6 +55,7 @@ class UserApplications extends Component {
           onReset={this.onReset.bind(this)}
           onChangeSearch={this.onChangeSearch.bind(this)}
           error={error} applications={apps} loading={loading}
+          groups={groups}
         />
       </div>
     );
@@ -59,6 +67,7 @@ function mapStateToProps(state) {
     error: state.applications.get('error'),
     loading: state.applications.get('loading'),
     applications: state.applications.get('records').toJS(),
+    groups: state.groups.get('records').toJS(),
     nextPage: state.applications.get('nextPage')
   };
 }
