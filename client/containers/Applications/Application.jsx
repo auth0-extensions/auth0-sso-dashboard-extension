@@ -32,7 +32,7 @@ export default connectContainer(class extends Component {
     this.props.fetchApplication(this.props.params.id);
     this.props.fetchClients();
     this.props.fetchConnections();
-    this.props.fetchGroups();
+    this.props.fetchGroupsAll();
   }
 
   updateCurrentApplication = (data) => {

@@ -14,7 +14,8 @@ export const saveApplication = (id, body, storage) => new Promise((resolve, reje
     connection: body.connection,
     callback: body.callback,
     customURL: body.customURL,
-    customURLEnabled: body.customURLEnabled
+    customURLEnabled: body.customURLEnabled,
+    group: body.group
   };
 
   if (body.type === 'oidc') {
