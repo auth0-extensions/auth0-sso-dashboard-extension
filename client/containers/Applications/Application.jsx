@@ -16,6 +16,7 @@ export default connectContainer(class extends Component {
     updateError: state.updateApplication.get('error'),
     currentClient: state.application.get('currentClient'),
     currentType: state.application.get('currentType'),
+    currentName: state.application.get('currentName'),
     loading: state.application.get('loading'),
     showModalCreate: state.createApplication.get('requesting'),
     showModalDelete: state.deleteApplication.get('requesting')
@@ -48,7 +49,7 @@ export default connectContainer(class extends Component {
     const { application, loading, error, clients, connections } = this.props;
     const applicationJSON = application.toJSON();
     const initialValues = {
-      name: applicationJSON.name || applicationJSON.client,
+      name: this.props.currentName || applicationJSON.name || applicationJSON.client,
       client: this.props.currentClient,
       logo: applicationJSON.logo,
       type: this.props.currentType,
@@ -95,12 +96,14 @@ export default connectContainer(class extends Component {
                   initialValues={initialValues}
                   onClientChange={this.props.onClientChange}
                   onTypeChange={this.props.onTypeChange}
+                  onNameChange={this.props.onNameChange}
                   loading={loading}
                   application={applicationJSON}
                   error={this.props.updateError}
                   clients={clients}
                   currentClient={this.props.currentClient}
                   currentType={this.props.currentType}
+                  currentName={this.props.currentName}
                   connections={connections}
                 />
                 <br />
