@@ -23,31 +23,6 @@ export default class ApplicationsList extends Component {
   render() {
     const { applications, groups } = this.props;
 
-    const unpackApp = (appId) => {
-      const app = applications[appId];
-      app.id = appId;
-      return app;
-    };
-    
-    const apps = applications.constructor == Array ? applications : Object.keys(applications).map(unpackApp);
-
-    const ungroupedApps = apps.filter(app => (typeof app.group === 'undefined' || app.group === ''));
-
-    const groupedApps = Object.keys(groups).map((groupId) => {
-      const group = { ...groups[groupId] };
-      group.apps = group.apps.map(applications.constructor == Array ? (appId, i) => {
-        const app = applications.find(application => application.id === appId);
-        return app ? app : null;
-      } : unpackApp).filter((item) => item !== null);
-
-      return group.apps.length > 0 ? group : null;
-    })
-
-    const allApps = [ ...groupedApps, {
-      name: "Ungrouped apps",
-      apps: ungroupedApps
-    }].filter((group) => group !== null);
-
     return (
       <div>
         {allApps.map((group, i) => {

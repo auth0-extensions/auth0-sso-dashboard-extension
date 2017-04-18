@@ -13,6 +13,7 @@ import { connections } from './connections';
 import { createApplication } from './createApplication';
 import { updateApplication } from './updateApplication';
 import { deleteApplication } from './deleteApplication';
+import { groupedApps } from './groupedApps';
 
 export default combineReducers({
   routing: routerReducer,
@@ -27,5 +28,6 @@ export default combineReducers({
   createApplication,
   updateApplication,
   deleteApplication,
+  groupedApps,
   form: formReducer
 });

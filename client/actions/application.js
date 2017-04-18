@@ -203,6 +203,22 @@ export function fetchGroups() {
   };
 }
 
+/**
+ * Load all groups fully matched with the apps.
+ */
+export function fetchGroupedApps() {
+  return (dispatch) => {
+    dispatch({
+        type: constants.FETCH_GROUPED_APPLICATIONS,
+        payload: {
+          promise: axios.get('/api/applications/grouped', {
+            responseType: 'json'
+          })
+        }
+    });
+  }
+}
+
 /*
 * Load all groups.
 */
