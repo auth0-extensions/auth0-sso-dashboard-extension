@@ -9,10 +9,6 @@ export default class UserApplicationOverview extends React.Component {
     onChangeSearch: React.PropTypes.func.isRequired,
     error: React.PropTypes.object,
     applications: React.PropTypes.array.isRequired,
-    groups: React.PropTypes.oneOfType([
-      React.PropTypes.object,
-      React.PropTypes.array
-    ]).isRequired,
     loading: React.PropTypes.bool.isRequired
   }
 
