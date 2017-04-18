@@ -14,8 +14,7 @@ class UserApplications extends Component {
   }
 
   componentWillMount = () => {
-    this.props.fetchApplications(true);
-    this.props.fetchGroups();
+    this.props.fetchGroupedApps();
   }
 
   onChangeSearch = (query) => {
@@ -36,13 +35,12 @@ class UserApplications extends Component {
 
   onReset = () => {
     this.setState({ apps: [] });
-    this.props.fetchApplications();
-    this.props.fetchGroups();
+    this.props.fetchGroupedApps();
   }
 
   render() {
-    const { loading, error, applications, groups } = this.props;
-    const apps = this.state.apps.length != 0 ? this.state.apps : applications;
+    const { loading, error, groupedApps, groups } = this.props;
+    const apps = this.state.apps.length != 0 ? this.state.apps : groupedApps;
 
     return (
       <div className="users">
@@ -55,7 +53,6 @@ class UserApplications extends Component {
           onReset={this.onReset.bind(this)}
           onChangeSearch={this.onChangeSearch.bind(this)}
           error={error} applications={apps} loading={loading}
-          groups={groups}
         />
       </div>
     );
@@ -66,8 +63,7 @@ function mapStateToProps(state) {
   return {
     error: state.applications.get('error'),
     loading: state.applications.get('loading'),
-    applications: state.applications.get('records').toJS(),
-    groups: state.groups.get('records').toJS(),
+    groupedApps: state.groupedApps.get('records').toJS(),
     nextPage: state.applications.get('nextPage')
   };
 }

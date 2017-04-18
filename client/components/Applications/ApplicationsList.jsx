@@ -1,31 +1,22 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import varstring from 'varstring';
 
 export default class ApplicationsList extends Component {
   static propTypes = {
-    applications: React.PropTypes.oneOfType([
-      React.PropTypes.object,
-      React.PropTypes.array
-    ]).isRequired,
-    groups: React.PropTypes.oneOfType([
-      React.PropTypes.object,
-      React.PropTypes.array
-    ]).isRequired,
+    applications: React.PropTypes.array.isRequired,
     loading: React.PropTypes.bool.isRequired
   }
 
   shouldComponentUpdate(nextProps) {
-    return (nextProps.applications !== this.props.applications) ||
-           (nextProps.groups !== this.props.groups);
+    return (nextProps.applications !== this.props.applications);
   }
 
   render() {
-    const { applications, groups } = this.props;
+    const { applications } = this.props;
 
     return (
       <div>
-        {allApps.map((group, i) => {
+        {applications.map((group, i) => {
           if (group.apps.length > 0) {
             return (
               <div className="row col-sm-12" key={i}>

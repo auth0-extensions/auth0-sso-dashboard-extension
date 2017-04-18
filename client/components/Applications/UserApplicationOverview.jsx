@@ -8,10 +8,7 @@ export default class UserApplicationOverview extends React.Component {
     onReset: React.PropTypes.func.isRequired,
     onChangeSearch: React.PropTypes.func.isRequired,
     error: React.PropTypes.object,
-    applications: React.PropTypes.oneOfType([
-      React.PropTypes.object,
-      React.PropTypes.array
-    ]).isRequired,
+    applications: React.PropTypes.array.isRequired,
     groups: React.PropTypes.oneOfType([
       React.PropTypes.object,
       React.PropTypes.array
@@ -40,7 +37,6 @@ export default class UserApplicationOverview extends React.Component {
               <ApplicationsList
                 loading={loading}
                 applications={applications} 
-                groups={groups} 
               />
             </div>
           </div>
