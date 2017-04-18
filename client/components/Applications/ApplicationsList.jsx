@@ -40,21 +40,16 @@ export default class ApplicationsList extends Component {
         return app ? app : null;
       } : unpackApp).filter((item) => item !== null);
 
-      console.log('group.apps', group.apps);
-      
       return group.apps.length > 0 ? group : null;
     })
 
     const allApps = [ ...groupedApps, {
       name: "Ungrouped apps",
       apps: ungroupedApps
-    }].filter((group) => group !== null);;
-
-    console.log('allApps', allApps);
+    }].filter((group) => group !== null);
 
     return (
       <div>
-
         {allApps.map((group, i) => {
           if (group.apps.length > 0) {
             return (

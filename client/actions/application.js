@@ -195,7 +195,7 @@ export function fetchGroups() {
     dispatch({
       type: constants.FETCH_GROUPS,
       payload: {
-        promise: axios.get('/api/groups', {
+        promise: axios.get('/api/application-groups', {
           responseType: 'json'
         })
       }
@@ -211,7 +211,7 @@ export function fetchGroupsAll() {
     dispatch({
       type: constants.FETCH_GROUPS,
       payload: {
-        promise: axios.get('/api/groups/all', {
+        promise: axios.get('/api/application-groups/all', {
           responseType: 'json'
         })
       }
@@ -232,7 +232,7 @@ export function createGroup(data, onSuccess) {
         }
       },
       payload: {
-        promise: axios.post('/api/groups', data, {
+        promise: axios.post('/api/application-groups', data, {
           responseType: 'json'
         })
       }
@@ -252,7 +252,7 @@ export function fetchGroup(groupId, onSuccess) {
         onSuccess
       },
       payload: {
-        promise: axios.get(`/api/groups/${groupId}`, {
+        promise: axios.get(`/api/application-groups/${groupId}`, {
           responseType: 'json'
         })
       }
@@ -274,7 +274,7 @@ export function updateGroup(groupId, data, onSuccess) {
         }
       },
       payload: {
-        promise: axios.put(`/api/groups/${groupId}`, data, {
+        promise: axios.put(`/api/application-groups/${groupId}`, data, {
           responseType: 'json'
         })
       }
@@ -295,7 +295,7 @@ export function deleteGroup(groupId, onSuccess) {
         }
       },
       payload: {
-        promise: axios.delete(`/api/groups/${groupId}`, {
+        promise: axios.delete(`/api/application-groups/${groupId}`, {
           responseType: 'json'
         })
       }

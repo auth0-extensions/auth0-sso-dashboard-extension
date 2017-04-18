@@ -38,7 +38,7 @@ export default (storage) => {
     domain: config('AUTH0_DOMAIN')
   });
   api.use('/applications', applications(auth0, storage));
-  api.use('/groups', groups(auth0, storage));
+  api.use('/application-groups', groups(auth0, storage));
   api.use('/connections', connections(auth0));
   api.get('/status', (req, res) => {
     res.json({ isAdmin: req.user.scope && req.user.scope.indexOf('manage:applications') > -1 });
