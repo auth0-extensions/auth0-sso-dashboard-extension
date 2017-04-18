@@ -19,7 +19,6 @@ class UserApplications extends Component {
 
   onChangeSearch = (query) => {
     if (query) {
-      console.log('query', query);
       let apps = this.props.groupedApps.map((group) => {
         group.apps = group.apps.filter((app) => app.name.toLowerCase().indexOf(query) > -1);
         return group;
