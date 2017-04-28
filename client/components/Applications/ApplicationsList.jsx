@@ -45,7 +45,6 @@ export default class ApplicationsList extends Component {
                     </a>
                   );
                 })}
-
               </div>
             );
           }
