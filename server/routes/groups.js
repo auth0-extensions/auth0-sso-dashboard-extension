@@ -1,12 +1,12 @@
 import uuid from 'uuid';
 import { Router } from 'express';
-
+import { requireScope } from '../lib/middlewares';
 import { matchWithApps, saveGroup, deleteGroup } from '../lib/groups';
 
 export default (auth0, storage) => {
   const api = Router();
 
-  api.get('/', (req, res, next) => {
+  api.get('/', requireScope('read:application-groups'), (req, res, next) => {
     storage.read()
       .then(matchWithApps)
       .then(data => res.json(data))
@@ -16,7 +16,7 @@ export default (auth0, storage) => {
   /*
    * Get all the groups.
    */
-  api.get('/all', (req, res, next) => {
+  api.get('/all', requireScope('read:application-groups'), (req, res, next) => {
     storage.read()
       .then(data => matchWithApps(data, true))
       .then(data => res.json(data))
@@ -26,7 +26,7 @@ export default (auth0, storage) => {
   /*
    * Get group.
    */
-  api.get('/:id', (req, res, next) => {
+  api.get('/:id', requireScope('read:application-groups'), (req, res, next) => {
     storage.read()
       .then(data => res.json({ group: data.groups[req.params.id] }))
       .catch(next);
@@ -35,7 +35,7 @@ export default (auth0, storage) => {
   /*
    * Update group.
    */
-  api.put('/:id', (req, res, next) => {
+  api.put('/:id', requireScope('manage:application-groups'), (req, res, next) => {
     saveGroup(req.params.id, req.body, storage)
       .then(() => res.status(204).send())
       .catch(next);
@@ -44,7 +44,7 @@ export default (auth0, storage) => {
   /*
    * Create group.
    */
-  api.post('/', (req, res, next) => {
+  api.post('/', requireScope('manage:application-groups'), (req, res, next) => {
     const id = uuid.v4();
     saveGroup(id, req.body, storage)
       .then(() => res.status(201).send({ id }))
@@ -54,7 +54,7 @@ export default (auth0, storage) => {
   /*
    * Delete group.
    */
-  api.delete('/:id', (req, res, next) => {
+  api.delete('/:id', requireScope('manage:application-groups'), (req, res, next) => {
     deleteGroup(req.params.id, storage)
       .then(() => res.status(204).send())
       .catch(next);

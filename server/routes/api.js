@@ -16,7 +16,7 @@ export default (storage) => {
     credentialsRequired: false,
     onLoginSuccess: (req, res, next) => {
       const currentRequest = req;
-      currentRequest.user.scope = [ 'read:applications' ];
+      currentRequest.user.scope = [ 'read:applications', 'read:application-groups' ];
       next();
     }
   }));
@@ -29,7 +29,12 @@ export default (storage) => {
     baseUrl: config('PUBLIC_WT_URL'),
     onLoginSuccess: (req, res, next) => {
       const currentRequest = req;
-      currentRequest.user.scope = [ 'read:applications', 'manage:applications' ];
+      currentRequest.user.scope = [
+        'read:applications',
+        'manage:applications',
+        'read:application-groups',
+        'manage:application-groups'
+      ];
       next();
     }
   }));
