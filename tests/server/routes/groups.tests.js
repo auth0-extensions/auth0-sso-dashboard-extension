@@ -74,7 +74,7 @@ describe('#logs router', () => {
         .expect(201)
         .end((err, res) => {
           const newGroupId = res.body.id;
-          expect(storage.data.applications[newGroupId].type).toEqual('oidc');
+          expect(storage.data.applications[newGroupId].name).toEqual(newGroup.name);
           if (err) throw err;
           done();
         });
