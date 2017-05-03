@@ -79,6 +79,7 @@
     "request-promise": "^2.0.1",
     "reselect": "^2.5.4",
     "semver": "^5.1.0",
+    "superagent": "^3.5.2",
     "supertest": "^2.0.0",
     "uuid": "^2.0.3",
     "varstring": "^0.2.0",

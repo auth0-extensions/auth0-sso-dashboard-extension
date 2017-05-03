@@ -4,7 +4,7 @@ import { Router } from 'express';
 
 import { requireScope } from '../lib/middlewares';
 import { saveApplication, deleteApplication } from '../lib/applications';
-import { getRolesForUser } from '../lib/authz';
+import { getGroupsForUser } from '../lib/authz';
 import { hasRole } from '../lib/user';
 
 
@@ -28,7 +28,7 @@ export default (auth0, storage) => {
         applications = apps.applications || { };
         return null;
       })
-      .then(() => getRolesForUser(req.user.sub))
+      .then(() => getGroupsForUser(req.user.sub))
       .then((userRoles) => {
         const result = { };
 

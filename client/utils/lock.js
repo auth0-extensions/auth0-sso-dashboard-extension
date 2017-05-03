@@ -2,28 +2,18 @@ let lockInstance = null;
 
 function getLock() {
   if (window.config.AUTH0_CLIENT_ID && !lockInstance) {
-    lockInstance = new Auth0Lock(window.config.AUTH0_CLIENT_ID, window.config.AUTH0_DOMAIN);  // eslint-disable-line no-undef
+    lockInstance = new Auth0Lock(config.AUTH0_CLIENT_ID, config.AUTH0_DOMAIN, {   // eslint-disable-line no-undef
+      auth: {
+        params: {
+          popup: true,
+          scope: 'openid name email nickname groups roles app_metadata authorization read:applications',
+          audience: 'urn:sso-dashboard-api'
+        }
+      }
+    });
   }
 
   return lockInstance;
-}
-
-export function getProfile(token, callback) {
-  const lock = getLock();
-  if (!lock) {
-    return;
-  }
-
-  lock.$auth0.getProfile(token, callback);
-}
-
-export function parseHash(hash) {
-  const lock = getLock();
-  if (!lock) {
-    return null;
-  }
-
-  return lock.parseHash(hash);
 }
 
 export function show(returnUrl) {
@@ -35,12 +25,11 @@ export function show(returnUrl) {
   lock.show({
     closable: false,
     disableSignupAction: true,
-    responseType: 'token',
+    responseType: 'id_token token',
     callbackURL: `${window.config.BASE_URL}/login`,
     callbackOnLocationHash: true,
     authParams: {
-      state: returnUrl,
-      scope: 'openid authorization roles'
+      state: returnUrl
     }
   });
 }

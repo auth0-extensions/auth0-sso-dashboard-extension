@@ -10,18 +10,18 @@ const initialState = {
   total: 0
 };
 
-export const roles = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
-  [constants.FETCH_ROLES_PENDING]: (state) =>
+export const groups = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
+  [constants.FETCH_GROUPS_PENDING]: (state) =>
     state.merge({
       loading: true,
       error: null
     }),
-  [constants.FETCH_ROLES_REJECTED]: (state, action) =>
+  [constants.FETCH_GROUPS_REJECTED]: (state, action) =>
     state.merge({
       loading: false,
-      error: `An error occured while loading the roles: ${action.errorMessage}`
+      error: `An error occured while loading the groups: ${action.errorMessage}`
     }),
-  [constants.FETCH_ROLES_FULFILLED]: (state, action) =>
+  [constants.FETCH_GROUPS_FULFILLED]: (state, action) =>
     state.merge({
       loading: false,
       error: null,

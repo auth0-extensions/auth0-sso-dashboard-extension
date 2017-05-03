@@ -58,7 +58,7 @@ const getTokenCached = Promise.promisify(
     }
   ));
 
-export const getRolesForApp = (appId) =>
+export const getGroups = () =>
   new Promise((resolve, reject) => {
     getTokenCached()
       .then((token) => {
@@ -66,10 +66,9 @@ export const getRolesForApp = (appId) =>
           return resolve(null);
         }
 
-        const query = (appId) ? `?field=applicationId&q=${appId}` : '';
         const options = {
           method: 'GET',
-          url: `${config('AUTHZ_API_URL')}/roles${query}`,
+          url: `${config('AUTHZ_API_URL')}/groups`,
           headers: {
             Authorization: `Bearer ${token}`,
             'content-type': 'application/json'
@@ -84,7 +83,7 @@ export const getRolesForApp = (appId) =>
           let result = null;
           try {
             const parsed = JSON.parse(body);
-            result = parsed.roles || null;
+            result = parsed.groups || null;
           } catch (e) {
             return reject(e);
           }
@@ -94,7 +93,7 @@ export const getRolesForApp = (appId) =>
       });
     });
 
-export const getRolesForUser = (userId) =>
+export const getGroupsForUser = (userId) =>
   new Promise((resolve, reject) => {
     getTokenCached()
       .then((token) => {
@@ -108,7 +107,7 @@ export const getRolesForUser = (userId) =>
 
         const options = {
           method: 'GET',
-          url: `${config('AUTHZ_API_URL')}/users/${userId}/roles/calculate`,
+          url: `${config('AUTHZ_API_URL')}/users/${userId}/groups/calculate`,
           headers: {
             Authorization: `Bearer ${token}`,
             'content-type': 'application/json'
@@ -129,9 +128,9 @@ export const getRolesForUser = (userId) =>
             return reject(e);
           }
 
-          const roleIDs = _.map(result || [], (item) => item._id);
+          const groupIDs = _.map(result || [], (item) => item._id);
 
-          return resolve(roleIDs);
+          return resolve(groupIDs);
         });
       });
     });

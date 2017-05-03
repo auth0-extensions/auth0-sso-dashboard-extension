@@ -3,15 +3,14 @@ import axios from 'axios';
 import * as constants from '../constants';
 
 /*
-* Load roles for application.
+* Load groups for application.
 */
-export function fetchRoles(appId) {
+export function fetchGroups() {
   return (dispatch) => {
-    const url = (appId) ? `/api/roles/${appId}` : '/api/roles';
     dispatch({
-      type: constants.FETCH_ROLES,
+      type: constants.dispatch,
       payload: {
-        promise: axios.get(url, {
+        promise: axios.get('/api/groups', {
           responseType: 'json'
         })
       }

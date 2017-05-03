@@ -1,25 +1,32 @@
+import url from 'url';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
+import { show as showLock } from '../utils/lock';
 import * as constants from '../constants';
 
-const auth0 = new Auth0({ // eslint-disable-line no-undef
+const webAuth = new auth0.WebAuth({ // eslint-disable-line no-undef
   domain: window.config.AUTH0_DOMAIN,
   clientID: window.config.AUTH0_CLIENT_ID,
+  responseType: 'id_token token',
+  scope: 'openid name email nickname groups roles app_metadata authorization read:applications',
+  audience: 'urn:sso-dashboard-api',
   callbackURL: `${window.config.BASE_URL}/login`,
   callbackOnLocationHash: true
 });
 
 export function login(returnUrl) {
-  auth0.login({
-    state: returnUrl,
-    scope: 'openid name email nickname groups roles app_metadata authorization'
-  });
+  showLock(returnUrl);
 
   return {
     type: constants.SHOW_LOGIN
   };
 }
+
+function tokenExpired(expTime) {
+  return !(expTime > (new Date().getTime() + 1000));
+}
+
 
 function isExpired(decodedToken) {
   if (typeof decodedToken.exp === 'undefined') {
@@ -35,6 +42,9 @@ function isExpired(decodedToken) {
 export function logout() {
   return (dispatch, getState) => {
     sessionStorage.removeItem('sso-dashboard:apiToken');
+    sessionStorage.removeItem('sso-dashboard:tokenExpire');
+    sessionStorage.removeItem('sso-dashboard:accessToken');
+    sessionStorage.removeItem('sso-dashboard:userProfile');
 
     const isAdmin = getState().status.get('isAdmin');
     if (isAdmin) {
@@ -49,39 +59,103 @@ export function logout() {
 
 export function loadCredentials() {
   return (dispatch) => {
-    const token = sessionStorage.getItem('sso-dashboard:apiToken');
-    if (token || window.location.hash) {
-      let apiToken = token;
+    const apiToken = sessionStorage.getItem('sso-dashboard:apiToken');
+    const tokenExpire = sessionStorage.getItem('sso-dashboard:tokenExpire');
+    const accessToken = sessionStorage.getItem('sso-dashboard:accessToken');
+    const userProfile = sessionStorage.getItem('sso-dashboard:userProfile');
 
-      const hash = auth0.parseHash(window.location.hash);
-      if (hash && hash.idToken) {
-        apiToken = hash.idToken;
+    if (apiToken) {
+      const decodedToken = jwtDecode(apiToken);
+      if (isExpired(decodedToken)) {
+        return;
       }
 
-      if (apiToken) {
-        const decodedToken = jwtDecode(apiToken);
-        if (isExpired(decodedToken)) {
-          return;
+      axios.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
+
+      dispatch({
+        type: constants.LOADED_TOKEN,
+        payload: {
+          token: apiToken
+        }
+      });
+
+      dispatch({
+        type: constants.LOGIN_SUCCESS,
+        payload: {
+          token: apiToken,
+          decodedToken,
+          user: decodedToken,
+          issuer: url.parse(decodedToken.iss).hostname
+        }
+      });
+    }
+
+    if (accessToken && !tokenExpired(tokenExpire)) {
+      axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+      let user;
+
+      try {
+        user = JSON.parse(userProfile);
+      } catch (e) {
+        user = {};
+      }
+
+      dispatch({
+        type: constants.LOADED_TOKEN,
+        payload: {
+          token: accessToken
+        }
+      });
+
+      dispatch({
+        type: constants.LOGIN_SUCCESS,
+        payload: {
+          token: accessToken,
+          decodedToken: user,
+          user: user,
+          issuer: user.email
+        }
+      });
+    }
+
+    if (window.location.hash) {
+      webAuth.parseHash(window.location.hash, function(parseErr, hash) {
+        if (parseErr) {
+          return console.log(parseErr);
         }
 
-        axios.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
-
-        dispatch({
-          type: constants.LOADED_TOKEN,
-          payload: {
-            token: apiToken
+        webAuth.client.userInfo(hash.accessToken, function(infoErr, user) {
+          if (infoErr) {
+            return console.log(infoErr);
           }
-        });
 
-        dispatch({
-          type: constants.LOGIN_SUCCESS,
-          payload: {
-            token: apiToken,
-            decodedToken,
-            user: decodedToken
-          }
+          sessionStorage.setItem('sso-dashboard:tokenExpire', new Date().setSeconds(hash.expiresIn));
+          sessionStorage.setItem('sso-dashboard:accessToken', hash.accessToken);
+          sessionStorage.setItem('sso-dashboard:userProfile', JSON.stringify(user));
+
+          axios.defaults.headers.common.Authorization = `Bearer ${hash.accessToken}`;
+
+          dispatch({
+            type: constants.LOADED_TOKEN,
+            payload: {
+              token: hash.accessToken
+            }
+          });
+
+          dispatch({
+            type: constants.LOGIN_SUCCESS,
+            payload: {
+              token: hash.accessToken,
+              decodedToken: user,
+              user,
+              issuer: user.email
+            }
+          });
+
+          window.location.href = '/applications';
         });
-      }
+      });
     }
   };
 }
