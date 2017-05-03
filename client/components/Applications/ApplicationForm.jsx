@@ -258,10 +258,6 @@ export default createForm('application', class extends Component {
           label="Enabled"
           ref="enabled"
         />
-        <InputText
-          field={fields.permissions} fieldName="permissions" label="Permissions" ref="permissions"
-          placeholder="Permissions"
-        />
         {this.renderRoles(roles)}
       </form>
     </div>);
