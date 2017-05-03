@@ -14,7 +14,10 @@ Update the configuration file under `./server/config.json`:
 
 ```json
 {
-  "AUTHORIZE_API_KEY": "mysecret",
+  "AUTHZ_API_CLIENT_ID": "optional. client id of authz api client",
+  "AUTHZ_API_CLIENT_SECRET": "optional. client secret of authz api client",
+  "AUTHZ_API_AUDIENCE": "optional. urn:auth0-authz-api",
+  "AUTHZ_API_URL": "optional. auth0-authz-extension api url [https://your.webtask.io/auth0-authz-extension/api]",
   "EXTENSION_CLIENT_ID": "client id of my app",
   "WT_URL": "http://localhost:3000/",
   "AUTH0_DOMAIN": "me.auth0.com",
