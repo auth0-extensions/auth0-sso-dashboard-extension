@@ -1,4 +1,3 @@
-import url from 'url';
 import { fromJS } from 'immutable';
 
 import * as constants from '../constants';
@@ -32,7 +31,7 @@ export const auth = createReducer(fromJS(initialState), { // eslint-disable-line
       user: action.payload.user,
       token: action.payload.token,
       decodedToken: action.payload.decodedToken,
-      issuer: url.parse(action.payload.decodedToken.iss).hostname
+      issuer: action.payload.issuer
     }),
   [constants.LOGOUT_SUCCESS]: (state) =>
     state.merge({

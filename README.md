@@ -14,7 +14,6 @@ Update the configuration file under `./server/config.json`:
 
 ```json
 {
-  "AUTHORIZE_API_KEY": "mysecret",
   "EXTENSION_CLIENT_ID": "client id of my app",
   "WT_URL": "http://localhost:3000/",
   "AUTH0_DOMAIN": "me.auth0.com",
