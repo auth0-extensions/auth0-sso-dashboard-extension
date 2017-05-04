@@ -30,13 +30,13 @@ export default () => {
         return Promise.resolve();
       })
       .then(() => {
-        logger.debug('Resource server for the Box Platform extension created.');
+        logger.debug('Resource server for the SSO Dashboard extension created.');
       })
       .then(() => {
         res.sendStatus(204);
       })
       .catch((err) => {
-        logger.debug('Error deploying resources for the Box Platform extension.');
+        logger.debug('Error deploying resources for the SSO Dashboard extension.');
         logger.error(err);
 
         // Even if deleting fails, we need to be able to uninstall the extension.
@@ -54,13 +54,13 @@ export default () => {
         return Promise.resolve();
       })
       .then(() => {
-        logger.debug('Resource server for the Box Platform extension created.');
+        logger.debug('Resource server for the SSO Dashboard extension created.');
       })
       .then(() => {
         res.sendStatus(204);
       })
       .catch((err) => {
-        logger.debug('Error deploying resources for the Box Platform extension.');
+        logger.debug('Error deploying resources for the SSO Dashboard extension.');
         logger.error(err);
 
         res.sendStatus(400);

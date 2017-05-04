@@ -2,7 +2,6 @@ import url from 'url';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
-import { show as showLock } from '../utils/lock';
 import * as constants from '../constants';
 
 const webAuth = new auth0.WebAuth({ // eslint-disable-line no-undef
@@ -10,13 +9,13 @@ const webAuth = new auth0.WebAuth({ // eslint-disable-line no-undef
   clientID: window.config.AUTH0_CLIENT_ID,
   responseType: 'id_token token',
   scope: 'openid name email nickname groups roles app_metadata authorization read:applications',
-  audience: 'urn:sso-dashboard-api',
+  audience: 'urn:auth0-sso-dashboard',
   callbackURL: `${window.config.BASE_URL}/login`,
   callbackOnLocationHash: true
 });
 
-export function login(returnUrl) {
-  showLock(returnUrl);
+export function login() {
+  webAuth.authorize({ redirect_uri: `${window.config.BASE_URL}/login` });
 
   return {
     type: constants.SHOW_LOGIN
@@ -24,7 +23,7 @@ export function login(returnUrl) {
 }
 
 function tokenExpired(expTime) {
-  return !(expTime > (new Date().getTime() + 1000));
+  return parseInt(expTime) < (new Date().getTime() + (5 * 60000));
 }
 
 
@@ -42,7 +41,7 @@ function isExpired(decodedToken) {
 export function logout() {
   return (dispatch, getState) => {
     sessionStorage.removeItem('sso-dashboard:apiToken');
-    sessionStorage.removeItem('sso-dashboard:tokenExpire');
+    sessionStorage.removeItem('sso-dashboard:tokenExpirationDate');
     sessionStorage.removeItem('sso-dashboard:accessToken');
     sessionStorage.removeItem('sso-dashboard:userProfile');
 
@@ -60,7 +59,7 @@ export function logout() {
 export function loadCredentials() {
   return (dispatch) => {
     const apiToken = sessionStorage.getItem('sso-dashboard:apiToken');
-    const tokenExpire = sessionStorage.getItem('sso-dashboard:tokenExpire');
+    const tokenExpirationDate = sessionStorage.getItem('sso-dashboard:tokenExpirationDate');
     const accessToken = sessionStorage.getItem('sso-dashboard:accessToken');
     const userProfile = sessionStorage.getItem('sso-dashboard:userProfile');
 
@@ -90,7 +89,8 @@ export function loadCredentials() {
       });
     }
 
-    if (accessToken && !tokenExpired(tokenExpire)) {
+    console.log('tokenExpired', tokenExpired(tokenExpirationDate));
+    if (accessToken && !tokenExpired(tokenExpirationDate)) {
       axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
       let user;
@@ -130,7 +130,7 @@ export function loadCredentials() {
             return console.log(infoErr);
           }
 
-          sessionStorage.setItem('sso-dashboard:tokenExpire', new Date().setSeconds(hash.expiresIn));
+          sessionStorage.setItem('sso-dashboard:tokenExpirationDate', new Date().setSeconds(hash.expiresIn));
           sessionStorage.setItem('sso-dashboard:accessToken', hash.accessToken);
           sessionStorage.setItem('sso-dashboard:userProfile', JSON.stringify(user));
 

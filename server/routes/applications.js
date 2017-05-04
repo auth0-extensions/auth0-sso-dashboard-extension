@@ -4,8 +4,8 @@ import { Router } from 'express';
 
 import { requireScope } from '../lib/middlewares';
 import { saveApplication, deleteApplication } from '../lib/applications';
-import { getGroupsForUser } from '../lib/authz';
-import { hasRole } from '../lib/user';
+import { getGroupsForUser } from '../lib/queries';
+import { hasGroup } from '../lib/user';
 
 
 export default (auth0, storage) => {
@@ -29,12 +29,12 @@ export default (auth0, storage) => {
         return null;
       })
       .then(() => getGroupsForUser(req.user.sub))
-      .then((userRoles) => {
+      .then((userGroups) => {
         const result = { };
 
         Object.keys(applications).map((key) => {
           const app = applications[key];
-          if (app.enabled && app.loginUrl && (hasRole(userRoles, app.roles))) {
+          if (app.enabled && app.loginUrl && (hasGroup(userGroups, app.groups))) {
             result[key] = app;
           }
           return app;

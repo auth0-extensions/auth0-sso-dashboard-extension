@@ -8,7 +8,7 @@ import * as constants from '../constants';
 export function fetchGroups() {
   return (dispatch) => {
     dispatch({
-      type: constants.dispatch,
+      type: constants.FETCH_GROUPS,
       payload: {
         promise: axios.get('/api/groups', {
           responseType: 'json'
