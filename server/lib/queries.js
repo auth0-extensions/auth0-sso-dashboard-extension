@@ -144,10 +144,10 @@ const makeRequest = (req, path, method, payload) =>
   }),
 );
 
-export const getResourceServer = req =>
+export const getResourceServer = (req, audience) =>
   makeRequest(req, 'resource-servers', 'GET')
     .then((apis) => {
-      const api = apis.filter(item => item.identifier === (config('API_AUDIENCE') || 'urn:auth0-sso-dashboard'));
+      const api = apis.filter(item => item.identifier === audience);
       return api.length && api[0];
     });
 
@@ -175,3 +175,13 @@ export const deleteResourceServer = req =>
 
       return Promise.resolve();
     });
+
+export const addGrant = req =>
+  makeRequest(req, '/api/v2/client-grants', 'POST', {
+    client_id: config('AUTH0_CLIENT_ID'),
+    audience: 'urn:auth0-authz-api',
+    scope: [ 'read:users', 'read:groups' ]
+  });
+
+export const removeGrant = (req, id) =>
+  makeRequest(req, `/api/v2/client-grants/${id}`, 'DELETE');

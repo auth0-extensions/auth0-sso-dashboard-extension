@@ -5,6 +5,7 @@ import config from '../lib/config';
 import connections from './connections';
 import applications from './applications';
 import groups from './groups';
+import authz from './authz';
 
 export default (storage) => {
   const api = Router();
@@ -39,9 +40,16 @@ export default (storage) => {
   });
   api.use('/applications', applications(auth0, storage));
   api.use('/groups', groups());
+  api.use('/authz', authz(storage));
   api.use('/connections', connections(auth0));
-  api.get('/status', (req, res) => {
-    res.json({ isAdmin: req.user.scope && req.user.scope.indexOf('manage:applications') > -1 });
+  api.get('/status', (req, res, next) => {
+    storage.read()
+      .then(data => {
+        const isAdmin = req.user.scope && req.user.scope.indexOf('manage:applications') > -1;
+        const authzEnabled = data.authzEnabled;
+        return res.json({ isAdmin, authzEnabled });
+      })
+      .catch(next);
   });
   return api;
 };

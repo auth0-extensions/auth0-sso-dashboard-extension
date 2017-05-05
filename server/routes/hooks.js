@@ -21,7 +21,7 @@ export default () => {
   }));
 
   hooks.post('/on-install', (req, res) => {
-    getResourceServer(req)
+    getResourceServer(req, config('API_AUDIENCE') || 'urn:auth0-sso-dashboard')
       .then((resourceServer) => {
         if (!resourceServer) {
           return createResourceServer(req);
@@ -45,7 +45,7 @@ export default () => {
   });
 
   hooks.put('/on-update', (req, res) => {
-    getResourceServer(req)
+    getResourceServer(req, config('API_AUDIENCE') || 'urn:auth0-sso-dashboard')
       .then((resourceServer) => {
         if (!resourceServer) {
           return createResourceServer(req);
@@ -69,7 +69,7 @@ export default () => {
 
   hooks.delete('/on-uninstall', (req, res) => {
     const clientId = config('AUTH0_CLIENT_ID');
-    getResourceServer(req)
+    getResourceServer(req, config('API_AUDIENCE') || 'urn:auth0-sso-dashboard')
       .then((resourceServer) => {
         if (resourceServer) {
           return deleteResourceServer(req);
