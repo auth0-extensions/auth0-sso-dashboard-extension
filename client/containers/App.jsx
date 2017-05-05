@@ -42,7 +42,8 @@ function select(state) {
     issuer: state.auth.get('issuer'),
     user: state.auth.get('user'),
     ruleStatus: state.ruleStatus,
-    isAdmin: state.status.get('isAdmin')
+    isAdmin: state.status.get('isAdmin'),
+    authzEnabled: state.status.get('authzEnabled')
   };
 }
 

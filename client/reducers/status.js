@@ -9,16 +9,19 @@ const initialState = {
 export const status = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
   [constants.FETCH_STATUS_PENDING]: (state) =>
     state.merge({
-      isAdmin: false
+      isAdmin: false,
+      authzEnabled: false
     }),
   [constants.FETCH_STATUS_REJECTED]: (state) =>
     state.merge({
-      isAdmin: false
+      isAdmin: false,
+      authzEnabled: false
     }),
   [constants.FETCH_STATUS_FULFILLED]: (state, action) => {
     const { data } = action.payload;
     return state.merge({
-      isAdmin: data.isAdmin
+      isAdmin: data.isAdmin,
+      authzEnabled: data.authzEnabled
     });
   }
 });

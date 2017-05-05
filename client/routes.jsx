@@ -10,6 +10,7 @@ export default (history) =>
       <Route path="applications" component={containers.UserApplications} />
       <Route path="applications/settings" component={containers.Applications} />
       <Route path="applications/:id" component={containers.Application} />
+      <Route path="authz-integration" component={containers.AuthzIntegration} />
     </Route>
     <Route path="/login" component={containers.Login} />
   </Router>;
