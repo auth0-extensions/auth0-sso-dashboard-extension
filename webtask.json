@@ -18,7 +18,7 @@
     "onUninstallPath": "/.extensions/on-uninstall",
     "onInstallPath": "/.extensions/on-install",
     "onUpdatePath": "/.extensions/on-update",
-    "scopes": "read:clients delete:clients read:connections"
+    "scopes": "read:clients delete:clients read:connections read:resource_servers create:resource_servers create:client_grants delete:client_grants"
   },
   "secrets": {
     "EXTENSION_CLIENT_ID": {

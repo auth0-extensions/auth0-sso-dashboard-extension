@@ -115,11 +115,11 @@ export const getGroupsForUser = (userId) =>
 
 
 const getToken = (req) => {
-  const isAdministrator = req.user && req.user.access_token &&
-    req.user.access_token.length;
-  if (isAdministrator) {
-    return Promise.resolve(req.user.access_token);
-  }
+  // const isAdministrator = req.user && req.user.access_token &&
+  //   req.user.access_token.length;
+  // if (isAdministrator) {
+  //   return Promise.resolve(req.user.access_token);
+  // }
 
   return managementApi.getAccessTokenCached(
     config('AUTH0_DOMAIN'),
@@ -176,12 +176,25 @@ export const deleteResourceServer = req =>
       return Promise.resolve();
     });
 
+const getGrantId = req =>
+  makeRequest(req, 'client-grants', 'GET')
+    .then(grants => grants.filter(item => (item.client_id === config('AUTH0_CLIENT_ID') && item.audience === 'urn:auth0-authz-api')))
+    .then(grants => grants[0] && grants[0].id);
+
+
 export const addGrant = req =>
-  makeRequest(req, '/api/v2/client-grants', 'POST', {
+  makeRequest(req, 'client-grants', 'POST', {
     client_id: config('AUTH0_CLIENT_ID'),
     audience: 'urn:auth0-authz-api',
     scope: [ 'read:users', 'read:groups' ]
   });
 
-export const removeGrant = (req, id) =>
-  makeRequest(req, `/api/v2/client-grants/${id}`, 'DELETE');
+export const removeGrant = (req) =>
+  getGrantId(req)
+    .then(id => {
+      if (id) {
+        return makeRequest(req, `client-grants/${id}`, 'DELETE');
+      }
+
+      return Promise.resolve();
+    });

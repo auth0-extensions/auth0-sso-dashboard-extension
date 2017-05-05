@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { logout } from '../actions/auth';
-import { applicationActions, connectionActions, statusActions, groupsActions } from '../actions';
+import { applicationActions, connectionActions, statusActions, groupsActions, authzActions } from '../actions';
 
 import Header from '../components/Header';
 
@@ -42,9 +42,8 @@ function select(state) {
     issuer: state.auth.get('issuer'),
     user: state.auth.get('user'),
     ruleStatus: state.ruleStatus,
-    isAdmin: state.status.get('isAdmin'),
-    authzEnabled: state.status.get('authzEnabled')
+    isAdmin: state.status.get('isAdmin')
   };
 }
 
-export default connect(select, { logout, ...applicationActions, ...connectionActions, ...statusActions, ...groupsActions })(App);
+export default connect(select, { logout, ...applicationActions, ...connectionActions, ...statusActions, ...groupsActions, ...authzActions })(App);

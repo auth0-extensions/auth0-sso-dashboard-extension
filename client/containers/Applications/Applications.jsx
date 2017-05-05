@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import * as actions from '../../actions/application';
 import { fetchGroups } from '../../actions/groups';
-import { fetchStatus } from '../../actions/status';
+import { fetchAuthzStatus } from '../../actions/authz';
 import { ApplicationOverview, CreateApplicationDialog } from '../../components/Applications';
 import './Applications.css';
 
@@ -11,7 +11,7 @@ class Applications extends Component {
   static actionsToProps = {
     ...actions,
     fetchGroups,
-    fetchStatus
+    fetchAuthzStatus
   }
 
   constructor(props) {
@@ -24,7 +24,7 @@ class Applications extends Component {
     this.props.fetchClients();
     this.props.fetchConnections();
     this.props.fetchGroups();
-    this.props.fetchStatus();
+    this.props.fetchAuthzStatus();
   }
 
   onChangeSearch = (query) => {
@@ -84,7 +84,7 @@ class Applications extends Component {
           clients={clients}
           connections={this.props.connections}
           groups={this.props.groups}
-          authzEnabled={this.props.status}
+          authzEnabled={this.props.authz}
           createApplication={this.props.createApplication}
           fetchApplications={this.props.fetchApplicationsAll}
           requestCreateApplication={this.props.requestCreateApplication}
@@ -107,7 +107,7 @@ function mapStateToProps(state) {
     error: state.applications.get('error'),
     loading: state.applications.get('loading'),
     applications: state.applications.get('records').toJS(),
-    status: state.status.get('authzEnabled'),
+    authz: state.authz.get('authzEnabled'),
     groups: state.groups.get('records'),
     clients: state.clients.get('records').toJS(),
     connections: state.connections.get('records').toJS(),
@@ -121,4 +121,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { ...actions, fetchGroups, fetchStatus })(Applications);
+export default connect(mapStateToProps, { ...actions, fetchGroups, fetchAuthzStatus })(Applications);

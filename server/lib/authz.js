@@ -18,9 +18,8 @@ export const enable = (req, storage) =>
           }
 
           return addGrant(req)
-            .then((grant) => {
+            .then(() => {
               data.authzEnabled = true;
-              data.authzGrantId = grant._id;
               return storage.write(data);
             });
         });
@@ -33,10 +32,9 @@ export const disable = (req, storage) =>
         return Promise.resolve();
       }
 
-      return removeGrant(req, data.authzGrantId)
+      return removeGrant(req)
         .then(() => {
           data.authzEnabled = false;
-          data.authzGrantId = null;
           return storage.write(data);
         })
     });
