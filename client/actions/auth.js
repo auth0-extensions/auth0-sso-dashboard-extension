@@ -152,7 +152,7 @@ export function loadCredentials() {
             }
           });
 
-          window.location.href = '/applications';
+          window.location.href = `${window.config.BASE_URL}/applications`;
         });
       });
     }
