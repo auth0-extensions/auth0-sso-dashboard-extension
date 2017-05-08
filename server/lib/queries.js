@@ -195,7 +195,7 @@ export const addGrant = req =>
   });
 
 export const removeGrant = req =>
-  getGrantId()
+  getGrantId(req)
     .then(id => {
       if (id) {
         return makeRequest(req, `client-grants/${id}`, 'DELETE');
