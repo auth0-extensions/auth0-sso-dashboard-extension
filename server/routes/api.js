@@ -39,7 +39,7 @@ export default (storage) => {
     domain: config('AUTH0_DOMAIN')
   });
   api.use('/applications', applications(auth0, storage));
-  api.use('/groups', groups());
+  api.use('/groups', groups(storage));
   api.use('/authz', authz(storage));
   api.use('/connections', connections(auth0));
   api.get('/status', (req, res) => {
