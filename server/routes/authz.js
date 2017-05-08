@@ -19,7 +19,7 @@ export default (storage) => {
   });
 
   api.delete('/', requireScope('manage:applications'), (req, res, next) => {
-    authz.disable(req, storage)
+    authz.disable(storage)
       .then(() => res.json({ enabled: false }))
       .catch(next);
   });

@@ -89,7 +89,6 @@ export function loadCredentials() {
       });
     }
 
-    console.log('tokenExpired', tokenExpired(tokenExpirationDate));
     if (accessToken && !tokenExpired(tokenExpirationDate)) {
       axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
