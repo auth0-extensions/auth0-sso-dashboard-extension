@@ -17,7 +17,7 @@ export const enable = (req, storage) =>
             return Promise.reject(error);
           }
 
-          return addGrant()
+          return addGrant(req)
             .then(() => {
               data.authzEnabled = true;
               return storage.write(data);
@@ -25,14 +25,14 @@ export const enable = (req, storage) =>
         });
     });
 
-export const disable = (storage) =>
+export const disable = (req, storage) =>
   storage.read()
     .then((data) => {
       if (!data.authzEnabled) {
         return Promise.resolve();
       }
 
-      return removeGrant()
+      return removeGrant(req)
         .then(() => {
           data.authzEnabled = false;
           return storage.write(data);

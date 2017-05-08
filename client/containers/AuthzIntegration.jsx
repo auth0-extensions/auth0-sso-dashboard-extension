@@ -65,6 +65,13 @@ class AuthzIntegration extends Component {
           <h2>
             Authz integration is {(authzStatus) ? 'Enabled' : 'Disabled'}.
           </h2>
+          <p>
+            You may setup authz-extension integration here.
+          </p>
+          <p>
+            To enable authz-itegration you need to install and configure auth0-authz-extension, enable authz-api.<br/>
+            It will allow you to manage apps, using groups fron your authz-extension.
+          </p>
           {this.renderButton()}
         </div>
       </LoadingPanel>

@@ -4,6 +4,7 @@ import request from 'superagent';
 import memoizer from 'lru-memoizer';
 import { managementApi } from 'auth0-extension-tools';
 import config from './config';
+import logger from './logger';
 
 
 const getAuthzApiUrl = () => {
@@ -43,6 +44,7 @@ const getAuthzToken = () =>
       .set('Content-Type', 'application/json')
       .end((err, res) => {
         if (err || !res.body || !res.body.access_token) {
+          logger.error(res.body);
           return reject(err);
         }
 
@@ -76,6 +78,7 @@ export const getGroups = () =>
           .set('Authorization', `Bearer ${token}`)
           .end((err, res) => {
             if (err) {
+              logger.error(res.body);
               return reject(err);
             }
 
@@ -102,6 +105,7 @@ export const getGroupsForUser = (userId) =>
           .set('Authorization', `Bearer ${token}`)
           .end((err, res) => {
             if (err) {
+              logger.error(res.body);
               return reject(err);
             }
 
@@ -136,6 +140,7 @@ const makeRequest = (req, path, method, payload) =>
       .set('Authorization', `Bearer ${token}`)
       .end((err, res) => {
         if (err) {
+          logger.error(res.body);
           return reject(err);
         }
 
@@ -176,24 +181,24 @@ export const deleteResourceServer = req =>
       return Promise.resolve();
     });
 
-const getGrantId = () =>
-  makeRequest({}, 'client-grants', 'GET')
+const getGrantId = req =>
+  makeRequest(req, 'client-grants', 'GET')
     .then(grants => grants.filter(item => (item.client_id === config('AUTH0_CLIENT_ID') && item.audience === 'urn:auth0-authz-api')))
     .then(grants => grants[0] && grants[0].id);
 
 
-export const addGrant = () =>
-  makeRequest({}, 'client-grants', 'POST', {
+export const addGrant = req =>
+  makeRequest(req, 'client-grants', 'POST', {
     client_id: config('AUTH0_CLIENT_ID'),
     audience: 'urn:auth0-authz-api',
     scope: [ 'read:users', 'read:groups' ]
   });
 
-export const removeGrant = () =>
+export const removeGrant = req =>
   getGrantId()
     .then(id => {
       if (id) {
-        return makeRequest({}, `client-grants/${id}`, 'DELETE');
+        return makeRequest(req, `client-grants/${id}`, 'DELETE');
       }
 
       return Promise.resolve();

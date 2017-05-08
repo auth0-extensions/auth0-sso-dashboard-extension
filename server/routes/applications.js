@@ -28,7 +28,14 @@ export default (auth0, storage) => {
         applications = apps.applications || { };
         return null;
       })
-      .then(() => getGroupsForUser(req.user.sub))
+      .then(() => storage.read())
+      .then((data) => {
+        if (data.authzEnabled) {
+          return getGroupsForUser(req.user.sub);
+        }
+
+        return null;
+      })
       .then((userGroups) => {
         const result = { };
 
