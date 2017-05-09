@@ -10,12 +10,11 @@ const webAuth = new auth0.WebAuth({ // eslint-disable-line no-undef
   responseType: 'id_token token',
   scope: 'openid name email nickname groups roles app_metadata authorization read:applications',
   audience: 'urn:auth0-sso-dashboard',
-  callbackURL: `${window.config.BASE_URL}/login`,
-  callbackOnLocationHash: true
+  callbackURL: `${window.config.BASE_URL}/login`
 });
 
-export function login() {
-  webAuth.authorize({ redirect_uri: `${window.config.BASE_URL}/login` });
+export function login(redirectUrl) {
+  webAuth.authorize({ redirect_uri: `${window.config.BASE_URL}/${redirectUrl}` });
 
   return {
     type: constants.SHOW_LOGIN
@@ -25,7 +24,6 @@ export function login() {
 function tokenExpired(expTime) {
   return parseInt(expTime) < (new Date().getTime() + (5 * 60000));
 }
-
 
 function isExpired(decodedToken) {
   if (typeof decodedToken.exp === 'undefined') {
@@ -72,13 +70,6 @@ export function loadCredentials() {
       axios.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
 
       dispatch({
-        type: constants.LOADED_TOKEN,
-        payload: {
-          token: apiToken
-        }
-      });
-
-      dispatch({
         type: constants.LOGIN_SUCCESS,
         payload: {
           token: apiToken,
@@ -99,13 +90,6 @@ export function loadCredentials() {
       } catch (e) {
         user = {};
       }
-
-      dispatch({
-        type: constants.LOADED_TOKEN,
-        payload: {
-          token: accessToken
-        }
-      });
 
       dispatch({
         type: constants.LOGIN_SUCCESS,
@@ -136,13 +120,6 @@ export function loadCredentials() {
           axios.defaults.headers.common.Authorization = `Bearer ${hash.accessToken}`;
 
           dispatch({
-            type: constants.LOADED_TOKEN,
-            payload: {
-              token: hash.accessToken
-            }
-          });
-
-          dispatch({
             type: constants.LOGIN_SUCCESS,
             payload: {
               token: hash.accessToken,
@@ -152,7 +129,7 @@ export function loadCredentials() {
             }
           });
 
-          window.location.href = `${window.config.BASE_URL}/applications`;
+          window.location.href = window.config.BASE_URL;
         });
       });
     }
