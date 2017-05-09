@@ -13,8 +13,8 @@ const webAuth = new auth0.WebAuth({ // eslint-disable-line no-undef
   callbackURL: `${window.config.BASE_URL}/login`
 });
 
-export function login(redirectUrl) {
-  webAuth.authorize({ redirect_uri: `${window.config.BASE_URL}/${redirectUrl}` });
+export function login() {
+  webAuth.authorize({ redirect_uri: `${window.config.BASE_URL}/login` });
 
   return {
     type: constants.SHOW_LOGIN
