@@ -9,8 +9,8 @@ import { application } from './application';
 import { status } from './status';
 import { connections } from './connections';
 import { groups } from './groups';
-import { authz } from './authz';
-import { updateAuthz } from './updateAuthz';
+import { authorization } from './authorization';
+import { updateAuthorization } from './updateAuthorization';
 import { createApplication } from './createApplication';
 import { updateApplication } from './updateApplication';
 import { deleteApplication } from './deleteApplication';
@@ -24,8 +24,8 @@ export default combineReducers({
   connections,
   auth,
   groups,
-  authz,
-  updateAuthz,
+  authorization,
+  updateAuthorization,
   createApplication,
   updateApplication,
   deleteApplication,

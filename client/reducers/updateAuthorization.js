@@ -9,20 +9,20 @@ const initialState = {
   status: null
 };
 
-export const updateAuthz = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
-  [constants.UPDATE_AUTHZ_STATUS_PENDING]: (state) =>
+export const updateAuthorization = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
+  [constants.UPDATE_AUTHORIZATION_STATUS_PENDING]: (state) =>
     state.merge({
       loading: true,
       error: null,
       status: null
     }),
-  [constants.UPDATE_AUTHZ_STATUS_REJECTED]: (state, action) =>
+  [constants.UPDATE_AUTHORIZATION_STATUS_REJECTED]: (state, action) =>
     state.merge({
       loading: false,
-      error: `An error occurred while updating authz integration status: ${action.errorMessage}`,
+      error: `An error occurred while updating authorization status: ${action.errorMessage}`,
       status: null
     }),
-  [constants.UPDATE_AUTHZ_STATUS_FULFILLED]: (state, action) => {
+  [constants.UPDATE_AUTHORIZATION_STATUS_FULFILLED]: (state, action) => {
     return state.merge({
       loading: false,
       error: null,

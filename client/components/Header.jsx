@@ -56,8 +56,8 @@ export default class Header extends Component {
                      : ''}
                     { isAdmin ?
                       <li role="presentation">
-                        <Link role="menuitem" tabIndex="0" to="/authz-integration">
-                          Authz Integration
+                        <Link role="menuitem" tabIndex="0" to="/authorization">
+                          Authorization
                         </Link>
                       </li>
                       : ''}

@@ -2,12 +2,12 @@ import axios from 'axios';
 
 import * as constants from '../constants';
 
-export function fetchAuthzStatus() {
+export function fetchAuthorizationStatus() {
   return (dispatch) => {
     dispatch({
-      type: constants.FETCH_AUTHZ_STATUS,
+      type: constants.FETCH_AUTHORIZATION_STATUS,
       payload: {
-        promise: axios.get('/api/authz', {
+        promise: axios.get('/api/authorization', {
           responseType: 'json'
         })
       }
@@ -15,13 +15,13 @@ export function fetchAuthzStatus() {
   };
 }
 
-export function updateAuthzStatus(enable) {
+export function updateAuthorizationStatus(enable) {
   return (dispatch) => {
     const method = (enable) ? 'post' : 'delete';
     dispatch({
-      type: constants.UPDATE_AUTHZ_STATUS,
+      type: constants.UPDATE_AUTHORIZATION_STATUS,
       payload: {
-        promise: axios[method]('/api/authz', {
+        promise: axios[method]('/api/authorization', {
           responseType: 'json'
         })
       }

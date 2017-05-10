@@ -30,7 +30,7 @@ export default (auth0, storage) => {
       })
       .then(() => storage.read())
       .then((data) => {
-        if (data.authzEnabled) {
+        if (data.authorizationEnabled) {
           return getGroupsForUser(req.user.sub);
         }
 

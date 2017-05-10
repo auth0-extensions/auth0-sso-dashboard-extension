@@ -9,7 +9,7 @@ export default createForm('application', class extends Component {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     application: PropTypes.object.isRequired,
-    authzEnabled: PropTypes.bool.authzEnabled,
+    authorizationEnabled: PropTypes.bool.authorizationEnabled,
     groups: PropTypes.array.isRequired,
     clients: React.PropTypes.array.isRequired,
     connections: React.PropTypes.array.isRequired,
@@ -134,7 +134,7 @@ export default createForm('application', class extends Component {
   }
 
   renderGroups = (groups) => {
-    if (!this.props.authzEnabled) {
+    if (!this.props.authorizationEnabled) {
       return '';
     }
 

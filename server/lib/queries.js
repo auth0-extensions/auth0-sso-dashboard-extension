@@ -2,12 +2,13 @@ import _ from 'lodash';
 import Promise from 'bluebird';
 import request from 'superagent';
 import memoizer from 'lru-memoizer';
-import { managementApi } from 'auth0-extension-tools';
+import { managementApi, ValidationError } from 'auth0-extension-tools';
+
 import config from './config';
 import logger from './logger';
 
 
-const getAuthzApiUrl = () => {
+const getAuthorizationApiUrl = () => {
   if (config('AUTHZ_API_URL')) {
     return config('AUTHZ_API_URL');
   }
@@ -18,11 +19,10 @@ const getAuthzApiUrl = () => {
     publicUrl[publicUrl.length - 1] = '';
   }
 
-
-  const authzApiUrl = 'adf6e2f2b84784b57522e3b19dfc9201/api';
+  const authorizationApiUrl = process.env.AUTHZ_API_URL; //'adf6e2f2b84784b57522e3b19dfc9201/api';
   const splittedUrl = publicUrl.split('/');
 
-  splittedUrl[splittedUrl.length - 1] = authzApiUrl;
+  splittedUrl[splittedUrl.length - 1] = authorizationApiUrl;
 
   return splittedUrl.join('/');
 };
@@ -30,7 +30,7 @@ const getAuthzApiUrl = () => {
 /*
  * Get authz api access token
  */
-const getAuthzToken = () =>
+const getAuthorizationToken = () =>
   new Promise((resolve, reject) => {
     const body = {
       client_id: config('AUTH0_CLIENT_ID'),
@@ -52,10 +52,10 @@ const getAuthzToken = () =>
       });
   });
 
-const getAuthzTokenCached = Promise.promisify(
+const getAuthorizationTokenCached = Promise.promisify(
   memoizer({
       load: (callback) => {
-        getAuthzToken()
+        getAuthorizationToken()
           .then(accessToken => callback(null, accessToken))
           .catch(err => callback(err));
       },
@@ -67,13 +67,13 @@ const getAuthzTokenCached = Promise.promisify(
 
 export const getGroups = () =>
   new Promise((resolve, reject) => {
-    getAuthzTokenCached()
+    getAuthorizationTokenCached()
       .then((token) => {
         if (!token) {
           return resolve(null);
         }
 
-        request('GET', `${getAuthzApiUrl()}/groups`)
+        request('GET', `${getAuthorizationApiUrl()}/groups`)
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`)
           .end((err, res) => {
@@ -90,17 +90,17 @@ export const getGroups = () =>
 
 export const getGroupsForUser = (userId) =>
   new Promise((resolve, reject) => {
-    getAuthzTokenCached()
+    getAuthorizationTokenCached()
       .then((token) => {
         if (!token) {
           return resolve(null);
         }
 
         if (!userId) {
-          return reject(new Error('User ID is required.'));
+          return reject(new ValidationError('User ID is required.'));
         }
 
-        request('GET', `${getAuthzApiUrl()}/users/${userId}/groups/calculate`)
+        request('GET', `${getAuthorizationApiUrl()}/users/${userId}/groups/calculate`)
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`)
           .end((err, res) => {

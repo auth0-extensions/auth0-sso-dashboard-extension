@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import * as actions from '../../actions/application';
 import { fetchGroups } from '../../actions/groups';
-import { fetchAuthzStatus } from '../../actions/authz';
+import { fetchAuthorizationStatus } from '../../actions/authorization';
 import { ApplicationOverview, CreateApplicationDialog } from '../../components/Applications';
 import './Applications.css';
 
@@ -11,7 +11,7 @@ class Applications extends Component {
   static actionsToProps = {
     ...actions,
     fetchGroups,
-    fetchAuthzStatus
+    fetchAuthorizationStatus
   }
 
   constructor(props) {
@@ -24,7 +24,7 @@ class Applications extends Component {
     this.props.fetchClients();
     this.props.fetchConnections();
     this.props.fetchGroups();
-    this.props.fetchAuthzStatus();
+    this.props.fetchAuthorizationStatus();
   }
 
   onChangeSearch = (query) => {
@@ -84,7 +84,7 @@ class Applications extends Component {
           clients={clients}
           connections={this.props.connections}
           groups={this.props.groups}
-          authzEnabled={this.props.authz}
+          authorizationEnabled={this.props.authorization}
           createApplication={this.props.createApplication}
           fetchApplications={this.props.fetchApplicationsAll}
           requestCreateApplication={this.props.requestCreateApplication}
@@ -107,7 +107,7 @@ function mapStateToProps(state) {
     error: state.applications.get('error'),
     loading: state.applications.get('loading'),
     applications: state.applications.get('records').toJS(),
-    authz: state.authz.get('authzEnabled'),
+    authorization: state.authorization.get('authorizationEnabled'),
     groups: state.groups.get('records'),
     clients: state.clients.get('records').toJS(),
     connections: state.connections.get('records').toJS(),
@@ -121,4 +121,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { ...actions, fetchGroups, fetchAuthzStatus })(Applications);
+export default connect(mapStateToProps, { ...actions, fetchGroups, fetchAuthorizationStatus })(Applications);

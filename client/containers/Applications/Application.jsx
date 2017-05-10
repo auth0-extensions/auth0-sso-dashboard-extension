@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import connectContainer from 'redux-static';
 import { Link } from 'react-router';
-import { applicationActions, connectionActions, groupsActions, authzActions } from '../../actions';
+import { applicationActions, connectionActions, groupsActions, authorizationActions } from '../../actions';
 import './Application.css';
 import { ApplicationHeader, ApplicationInfo, ApplicationForm } from '../../components/Applications';
 import { Confirm } from '../../components/Dashboard';
@@ -12,7 +12,7 @@ export default connectContainer(class extends Component {
     application: state.application.get('record'),
     clients: state.clients.get('records').toJS(),
     groups: state.groups.get('records'),
-    authz: state.authz.get('authzEnabled'),
+    authorization: state.authorization.get('authorizationEnabled'),
     connections: state.connections.get('records').toJS(),
     error: state.application.get('error') || state.clients.get('error'),
     updateError: state.updateApplication.get('error'),
@@ -28,7 +28,7 @@ export default connectContainer(class extends Component {
     ...applicationActions,
     ...connectionActions,
     ...groupsActions,
-    ...authzActions
+    ...authorizationActions
   }
 
   componentWillMount() {
@@ -36,7 +36,7 @@ export default connectContainer(class extends Component {
     this.props.fetchClients();
     this.props.fetchConnections();
     this.props.fetchGroups();
-    this.props.fetchAuthzStatus();
+    this.props.fetchAuthorizationStatus();
   }
 
   updateCurrentApplication = (data) => {
@@ -107,7 +107,7 @@ export default connectContainer(class extends Component {
                   loading={loading}
                   application={applicationJSON}
                   groups={this.props.groups}
-                  authzEnabled={this.props.authz}
+                  authorizationEnabled={this.props.authorization}
                   error={this.props.updateError}
                   clients={clients}
                   currentClient={this.props.currentClient}
