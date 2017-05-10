@@ -14,7 +14,6 @@ const webAuth = new auth0.WebAuth({ // eslint-disable-line no-undef
 
 export function login() {
   if (!window.location.hash) {
-    console.log('STARTING LOGIN');
     webAuth.authorize({ redirect_uri: `${window.config.BASE_URL}/login` });
   }
 
