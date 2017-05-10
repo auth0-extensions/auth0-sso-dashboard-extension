@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { ForbiddenError } from 'auth0-extension-tools';
 import { middlewares } from 'auth0-extension-express-tools';
 
 import config from '../lib/config';
@@ -16,9 +17,11 @@ export default (storage) => {
     audience: config('API_AUDIENCE') || 'urn:auth0-sso-dashboard',
     credentialsRequired: false,
     onLoginSuccess: (req, res, next) => {
-      const currentRequest = req;
-      currentRequest.user.scope = [ 'read:applications' ];
-      next();
+      if (req.user.scope && req.user.scope.indexOf('manage:applications') > -1 && !req.user.sub.endsWith('@client')) {
+        return next(new ForbiddenError('"manage:applications" scope is not allowed for endusers.'));
+      }
+
+      return next();
     }
   }));
 
@@ -30,7 +33,7 @@ export default (storage) => {
     baseUrl: config('PUBLIC_WT_URL'),
     onLoginSuccess: (req, res, next) => {
       const currentRequest = req;
-      currentRequest.user.scope = [ 'read:applications', 'manage:applications' ];
+      currentRequest.user.scope = [ 'read:applications', 'manage:applications', 'manage:authorization' ];
       next();
     }
   }));
