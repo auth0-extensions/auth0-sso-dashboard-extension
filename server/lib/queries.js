@@ -9,8 +9,8 @@ import logger from './logger';
 
 
 const getAuthorizationApiUrl = () => {
-  if (config('AUTHZ_API_URL')) {
-    return config('AUTHZ_API_URL');
+  if (config('AUTHZ_API_DEV_URL')) {
+    return config('AUTHZ_API_DEV_URL');
   }
 
   let publicUrl = config('PUBLIC_WT_URL');
@@ -19,7 +19,7 @@ const getAuthorizationApiUrl = () => {
     publicUrl[publicUrl.length - 1] = '';
   }
 
-  const authorizationApiUrl = process.env.AUTHZ_API_URL; //'adf6e2f2b84784b57522e3b19dfc9201/api';
+  const authorizationApiUrl = process.env.AUTHZ_API_URL;
   const splittedUrl = publicUrl.split('/');
 
   splittedUrl[splittedUrl.length - 1] = authorizationApiUrl;
