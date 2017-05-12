@@ -69,14 +69,7 @@ export default () => {
 
   hooks.delete('/on-uninstall', (req, res) => {
     const clientId = config('AUTH0_CLIENT_ID');
-    getResourceServer(req, 'urn:auth0-sso-dashboard')
-      .then((resourceServer) => {
-        if (resourceServer) {
-          return deleteResourceServer(req);
-        }
-
-        return Promise.resolve();
-      })
+    deleteResourceServer(req)
       .then(() => req.auth0.clients.delete({ client_id: clientId }))
       .then(() => {
         logger.debug(`Deleted client ${clientId}`);

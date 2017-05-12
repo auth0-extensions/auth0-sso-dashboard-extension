@@ -172,7 +172,7 @@ export const createResourceServer = (req) => {
 };
 
 export const deleteResourceServer = req =>
-  getResourceServer(req)
+  getResourceServer(req, 'urn:auth0-sso-dashboard')
     .then((api) => {
       if (api.id) {
         return makeRequest(req, `resource-servers/${api.id}`, 'DELETE');
