@@ -56,11 +56,11 @@ class Authorization extends Component {
       return (
         <div>
           <p>
-            You may setup autt0-authz-extension integration here.
+            You may setup authorization for SSO-Dashboard here.
           </p>
           <p>
             To enable authorization - just press button below.<br/>
-            It will allow you to manage apps, using groups from your authz-extension.
+            It will allow you to manage apps, using groups from your auth0-authz-extension.
           </p>
         </div>
       );
@@ -69,11 +69,11 @@ class Authorization extends Component {
     return (
       <div>
         <p>
-          You may setup autt0-authz-extension integration here.
+          You may setup authorization for SSO-Dashboard here.
         </p>
         <p>
-          To enable authorization you need to install and configure auth0-authz-extension, enable authz-api.<br/>
-          It will allow you to manage apps, using groups from your authz-extension.
+          To enable authorization you need to install and configure auth0-authz-extension, enable authz-extension-api.<br/>
+          It will allow you to manage apps, using groups from your auth0-authz-extension.
         </p>
       </div>
     );
@@ -92,7 +92,7 @@ class Authorization extends Component {
         </div>
         <div className="authz">
           <h2>
-            Authz integration is {(authorizationStatus) ? 'Enabled' : 'Disabled'}.
+            Authorization is {(authorizationStatus) ? 'Enabled' : 'Disabled'}.
           </h2>
           {this.renderHelpText()}
           {this.renderButton()}
