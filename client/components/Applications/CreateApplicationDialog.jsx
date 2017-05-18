@@ -10,6 +10,8 @@ export default class CreateApplicationDialog extends React.Component {
     loading: PropTypes.bool.isRequired,
     showModal: PropTypes.bool.isRequired,
     connections: PropTypes.array.isRequired,
+    authorizationEnabled: PropTypes.bool.isRequired,
+    groups: PropTypes.object.isRequired,
     createApplication: PropTypes.func.isRequired,
     fetchApplications: PropTypes.func.isRequired,
     clients: React.PropTypes.array.isRequired,
@@ -69,6 +71,8 @@ export default class CreateApplicationDialog extends React.Component {
                 onNameChange={this.props.onNameChange}
                 loading={loading}
                 application={{}}
+                groups={this.props.groups}
+                authorizationEnabled={this.props.authorizationEnabled}
                 error={this.props.createError}
                 clients={clients}
                 currentClient={this.props.currentClient}

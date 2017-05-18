@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { logout } from '../actions/auth';
-import { applicationActions, connectionActions, statusActions } from '../actions';
+import { applicationActions, connectionActions, statusActions, groupsActions, authorizationActions } from '../actions';
 
 import Header from '../components/Header';
 
@@ -46,4 +46,4 @@ function select(state) {
   };
 }
 
-export default connect(select, { logout, ...applicationActions, ...connectionActions, ...statusActions })(App);
+export default connect(select, { logout, ...applicationActions, ...connectionActions, ...statusActions, ...groupsActions, ...authorizationActions })(App);
