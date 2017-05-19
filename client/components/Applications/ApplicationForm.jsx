@@ -213,7 +213,6 @@ export default createForm('application', class extends Component {
     const clients = this.props.clients.map(conn => ({ value: conn.client_id, text: conn.name }));
     const application = this.props.application;
     const callbacks = this.getCallbacks(application);
-    const groups = this.getGroups();
     const connections = this.props.connections.map(conn => ({ value: conn.name, text: conn.name }));
     const groups = Object.keys(this.props.groups).map((groupKey) => {
       const group = this.props.groups[groupKey];

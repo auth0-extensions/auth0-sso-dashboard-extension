@@ -78,7 +78,7 @@ describe('#logs router', () => {
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use('/applications', fakeApiClient, addUserToReq, applications(storage));
+  app.use('/applications', fakeApiClient, addUserToReq, applications(fakeApiClient, storage));
 
   describe('#Applications', () => {
     it('should return list of clients from auth0', (done) => {

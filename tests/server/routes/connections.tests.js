@@ -34,7 +34,7 @@ describe('#logs router', () => {
   };
 
   const app = express();
-  app.use('/connections', fakeApiClient, addUserToReq, connections());
+  app.use('/connections', fakeApiClient, addUserToReq, connections(fakeApiClient));
 
   describe('#Connections', () => {
     it('should return list of connections', (done) => {

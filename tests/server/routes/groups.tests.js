@@ -24,6 +24,16 @@ describe('#logs router', () => {
     req.user = { };
     next();
   };
+  
+  const fakeApiClient = (req, res, next) => {
+    req.auth0 = {
+      clients: {
+        getAll: () => Promise.resolve(defaultClients)
+      }
+    };
+
+    next();
+  };
 
   const storage = {
     read: () => Promise.resolve(storage.data),
@@ -40,7 +50,7 @@ describe('#logs router', () => {
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use('/application-groups', addUserToReq, groups(storage));
+  app.use('/application-groups', addUserToReq, groups(fakeApiClient, storage));
 
   describe('#Applications', () => {
     it('should return list of applications from storage', (done) => {
