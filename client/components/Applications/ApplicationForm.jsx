@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { InputCombo, InputText, InputCheckBox, Error } from '../Dashboard';
 import _ from 'lodash';
+
 import createForm from '../../utils/createForm';
 
 export default createForm('application', class extends Component {
@@ -8,6 +9,8 @@ export default createForm('application', class extends Component {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     application: PropTypes.object.isRequired,
+    authorizationEnabled: PropTypes.bool.authorizationEnabled,
+    groups: PropTypes.array.isRequired,
     clients: React.PropTypes.array.isRequired,
     groups: React.PropTypes.object.isRequired,
     connections: React.PropTypes.array.isRequired,
@@ -30,6 +33,7 @@ export default createForm('application', class extends Component {
     'logo',
     'callback',
     'connection',
+    'groups',
     'customURLEnabled',
     'customURL',
     'enabled'
@@ -97,6 +101,10 @@ export default createForm('application', class extends Component {
     }
   }
 
+  getGroups = () => {
+    return this.props.groups.toJS().map(item => ({ value: item._id, text: item.name }));
+  }
+
   getIsOpenId() {
     if (this.props.currentType) {
       return this.props.currentType === 'oidc';
@@ -124,6 +132,19 @@ export default createForm('application', class extends Component {
           ref="response_type"
         />
       </div>
+    );
+  }
+
+  renderGroups = (groups) => {
+    if (!this.props.authorizationEnabled) {
+      return '';
+    }
+
+    return (
+      <InputCombo
+        field={this.props.fields.groups} options={groups} fieldName="groups"
+        label="Groups" ref="groups"
+      />
     );
   }
 
@@ -192,6 +213,7 @@ export default createForm('application', class extends Component {
     const clients = this.props.clients.map(conn => ({ value: conn.client_id, text: conn.name }));
     const application = this.props.application;
     const callbacks = this.getCallbacks(application);
+    const groups = this.getGroups();
     const connections = this.props.connections.map(conn => ({ value: conn.name, text: conn.name }));
     const groups = Object.keys(this.props.groups).map((groupKey) => {
       const group = this.props.groups[groupKey];
@@ -238,6 +260,7 @@ export default createForm('application', class extends Component {
             />
           </div>
         }
+        {this.renderGroups(groups)}
         {this.renderCustomURLCheckbox()}
         {this.renderCustomURLField()}
         {(!this.props.fields.customURLEnabled.value) && this.props.inDialog && <br/>}

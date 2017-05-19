@@ -5,6 +5,8 @@ import { Router } from 'express';
 import { requireScope } from '../lib/middlewares';
 import { saveApplication, deleteApplication } from '../lib/applications';
 import { matchWithApps } from '../lib/groups';
+import { getGroupsForUser } from '../lib/queries';
+import { hasGroup } from '../lib/user';
 
 export default (auth0, storage) => {
   const api = Router();
@@ -20,14 +22,26 @@ export default (auth0, storage) => {
   });
 
   api.get('/', requireScope('read:applications'), (req, res, next) => {
+    let applications;
     storage.read()
       .then(apps => {
-        const applications = apps.applications || { };
+        applications = apps.applications || { };
+        return null;
+      })
+      .then(() => storage.read())
+      .then((data) => {
+        if (data.authorizationEnabled) {
+          return getGroupsForUser(req.user.sub);
+        }
+
+        return null;
+      })
+      .then((userGroups) => {
         const result = { };
 
         Object.keys(applications).map((key) => {
           const app = applications[key];
-          if (app.enabled && app.loginUrl) {
+          if (app.enabled && app.loginUrl && (hasGroup(userGroups, app.groups))) {
             result[key] = app;
           }
           return app;
@@ -72,7 +86,7 @@ export default (auth0, storage) => {
   /*
    * Get a list of applications.
    */
-  api.get('/all', requireScope('read:applications'), (req, res, next) => {
+  api.get('/all', requireScope('manage:applications'), (req, res, next) => {
     storage.read()
       .then(apps => res.json(apps.applications || {}))
       .catch(next);
@@ -81,7 +95,7 @@ export default (auth0, storage) => {
   /*
    * Get application.
    */
-  api.get('/:id', requireScope('read:applications'), (req, res, next) => {
+  api.get('/:id', requireScope('manage:applications'), (req, res, next) => {
     storage.read()
       .then(apps => res.json({ application: apps.applications[req.params.id] }))
       .catch(next);

@@ -1,24 +1,29 @@
+import url from 'url';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
 import * as constants from '../constants';
 
-const auth0 = new Auth0({ // eslint-disable-line no-undef
+const webAuth = new auth0.WebAuth({ // eslint-disable-line no-undef
   domain: window.config.AUTH0_DOMAIN,
   clientID: window.config.AUTH0_CLIENT_ID,
-  callbackURL: `${window.config.BASE_URL}/login`,
-  callbackOnLocationHash: true
+  responseType: 'id_token token',
+  scope: 'openid name email nickname read:applications manage:applications',
+  audience: 'urn:auth0-sso-dashboard'
 });
 
-export function login(returnUrl) {
-  auth0.login({
-    state: returnUrl,
-    scope: 'openid name email nickname groups roles app_metadata authorization'
-  });
+export function login() {
+  if (!window.location.hash) {
+    webAuth.authorize({ redirect_uri: `${window.config.BASE_URL}/login` });
+  }
 
   return {
-    type: constants.SHOW_LOGIN
+    type: constants.LOGIN_PENDING
   };
+}
+
+function tokenExpired(expTime) {
+  return parseInt(expTime) < (new Date().getTime() + (5 * 60000));
 }
 
 function isExpired(decodedToken) {
@@ -32,56 +37,121 @@ function isExpired(decodedToken) {
   return !(d.valueOf() > (new Date().valueOf() + (1000)));
 }
 
+function loadForAdmin() {
+  const apiToken = sessionStorage.getItem('sso-dashboard:apiToken');
+
+  if (apiToken) {
+    const decodedToken = jwtDecode(apiToken);
+    if (!decodedToken || isExpired(decodedToken)) {
+      return false;
+    }
+
+    return {
+      token: apiToken,
+      user: decodedToken,
+      issuer: url.parse(decodedToken.iss).hostname
+    };
+  }
+
+  return false;
+}
+
+function loadForUser() {
+  const tokenExpirationDate = sessionStorage.getItem('sso-dashboard:tokenExpirationDate');
+  const accessToken = sessionStorage.getItem('sso-dashboard:accessToken');
+  const userProfile = sessionStorage.getItem('sso-dashboard:userProfile');
+
+  if (accessToken && !tokenExpired(tokenExpirationDate)) {
+    let user;
+
+    try {
+      user = JSON.parse(userProfile);
+    } catch (e) {
+      user = {};
+    }
+
+    return {
+      token: accessToken,
+      user: user,
+      issuer: user.name || user.username || user.nickname || user.email
+    };
+  }
+
+  return false;
+}
+
 export function logout() {
   return (dispatch, getState) => {
     sessionStorage.removeItem('sso-dashboard:apiToken');
+    sessionStorage.removeItem('sso-dashboard:tokenExpirationDate');
+    sessionStorage.removeItem('sso-dashboard:accessToken');
+    sessionStorage.removeItem('sso-dashboard:userProfile');
 
     const isAdmin = getState().status.get('isAdmin');
     if (isAdmin) {
       window.location.href = `${window.config.AUTH0_MANAGE_URL}/#/extensions`;
     } else {
-      dispatch({
-        type: constants.LOGOUT_SUCCESS
-      });
+      webAuth.logout({ returnTo: window.config.BASE_URL, client_id: window.config.AUTH0_CLIENT_ID });
     }
   };
 }
 
 export function loadCredentials() {
   return (dispatch) => {
-    const token = sessionStorage.getItem('sso-dashboard:apiToken');
-    if (token || window.location.hash) {
-      let apiToken = token;
+    const credentials = loadForAdmin() || loadForUser();
 
-      const hash = auth0.parseHash(window.location.hash);
-      if (hash && hash.idToken) {
-        apiToken = hash.idToken;
-      }
+    if (credentials) {
+      axios.defaults.headers.common.Authorization = `Bearer ${credentials.token}`;
 
-      if (apiToken) {
-        const decodedToken = jwtDecode(apiToken);
-        if (isExpired(decodedToken)) {
-          return;
+      dispatch({
+        type: constants.LOGIN_SUCCESS,
+        payload: {
+          token: credentials.token,
+          decodedToken: credentials.user,
+          user: credentials.user,
+          issuer: credentials.issuer
+        }
+      });
+    }
+
+    if (window.location.hash) {
+      webAuth.parseHash(window.location.hash, function(parseErr, hash) {
+        if (parseErr) {
+          return dispatch({
+            type: constants.LOGIN_FAILED,
+            payload: {
+              error: infoErr
+            }
+          });
         }
 
-        axios.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
-
-        dispatch({
-          type: constants.LOADED_TOKEN,
-          payload: {
-            token: apiToken
+        webAuth.client.userInfo(hash.accessToken, function(infoErr, user) {
+          if (infoErr) {
+            return dispatch({
+              type: constants.LOGIN_FAILED,
+              payload: {
+                error: infoErr
+              }
+            });
           }
-        });
 
-        dispatch({
-          type: constants.LOGIN_SUCCESS,
-          payload: {
-            token: apiToken,
-            decodedToken,
-            user: decodedToken
-          }
+          sessionStorage.setItem('sso-dashboard:tokenExpirationDate', new Date().setSeconds(hash.expiresIn));
+          sessionStorage.setItem('sso-dashboard:accessToken', hash.accessToken);
+          sessionStorage.setItem('sso-dashboard:userProfile', JSON.stringify(user));
+
+          axios.defaults.headers.common.Authorization = `Bearer ${hash.accessToken}`;
+
+          dispatch({
+            type: constants.LOGIN_SUCCESS,
+            payload: {
+              token: hash.accessToken,
+              decodedToken: user,
+              user,
+              issuer: user.email
+            }
+          });
         });
-      }
+      });
     }
   };
 }

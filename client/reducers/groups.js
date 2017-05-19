@@ -6,7 +6,8 @@ import createReducer from '../utils/createReducer';
 const initialState = {
   loading: false,
   error: null,
-  records: []
+  records: [],
+  total: 0
 };
 
 export const groups = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
@@ -18,7 +19,7 @@ export const groups = createReducer(fromJS(initialState), { // eslint-disable-li
   [constants.FETCH_GROUPS_REJECTED]: (state, action) =>
     state.merge({
       loading: false,
-      error: `An error occured while loading the client: ${action.errorMessage}`
+      error: `An error occured while loading the groups: ${action.errorMessage}`
     }),
   [constants.FETCH_GROUPS_FULFILLED]: (state, action) =>
     state.merge({

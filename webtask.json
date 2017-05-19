@@ -16,7 +16,9 @@
   "auth0": {
     "createClient": true,
     "onUninstallPath": "/.extensions/on-uninstall",
-    "scopes": "read:clients delete:clients read:connections"
+    "onInstallPath": "/.extensions/on-install",
+    "onUpdatePath": "/.extensions/on-update",
+    "scopes": "read:clients delete:clients read:connections read:resource_servers create:resource_servers read:client_grants create:client_grants delete:client_grants"
   },
   "secrets": {
     "EXTENSION_CLIENT_ID": {

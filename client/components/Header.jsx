@@ -50,10 +50,17 @@ export default class Header extends Component {
                     { isAdmin ?
                       <li role="presentation">
                         <Link role="menuitem" tabIndex="0" to="/applications/settings">
-                        Settings
-                      </Link>
+                          Settings
+                        </Link>
                       </li>
                      : ''}
+                    { isAdmin ?
+                      <li role="presentation">
+                        <Link role="menuitem" tabIndex="0" to="/authorization">
+                          Authorization
+                        </Link>
+                      </li>
+                      : ''}
                     <li role="presentation">
                       <a href="#" role="menuitem" tabIndex="-1" onClick={onLogout}>
                         Logout

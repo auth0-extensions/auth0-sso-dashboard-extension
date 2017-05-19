@@ -37,7 +37,7 @@ module.exports = (configProvider, storageProvider) => {
     clientName: 'SSO Dashboard',
     urlPrefix: '/admins',
     sessionStorageKey: 'sso-dashboard:apiToken',
-    scopes: 'read:clients read:connections'
+    scopes: 'read:clients delete:clients read:connections read:resource_servers create:resource_servers read:client_grants create:client_grants delete:client_grants'
   }));
 
   // Configure routes.

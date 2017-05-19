@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import connectContainer from 'redux-static';
 import { Link } from 'react-router';
-import { applicationActions, connectionActions } from '../../actions';
+import { applicationActions, connectionActions, groupsActions, authorizationActions } from '../../actions';
 import './Application.css';
 import { ApplicationHeader, ApplicationInfo, ApplicationForm } from '../../components/Applications';
 import { Confirm } from '../../components/Dashboard';
@@ -11,6 +11,8 @@ export default connectContainer(class extends Component {
   static stateToProps = (state) => ({
     application: state.application.get('record'),
     clients: state.clients.get('records').toJS(),
+    groups: state.groups.get('records'),
+    authorization: state.authorization.get('authorizationEnabled'),
     connections: state.connections.get('records').toJS(),
     error: state.application.get('error') || state.clients.get('error'),
     updateError: state.updateApplication.get('error'),
@@ -25,7 +27,9 @@ export default connectContainer(class extends Component {
 
   static actionsToProps = {
     ...applicationActions,
-    ...connectionActions
+    ...connectionActions,
+    ...groupsActions,
+    ...authorizationActions
   }
 
   componentWillMount() {
@@ -33,6 +37,7 @@ export default connectContainer(class extends Component {
     this.props.fetchClients();
     this.props.fetchConnections();
     this.props.fetchGroupsAll();
+    this.props.fetchAuthorizationStatus();
   }
 
   updateCurrentApplication = (data) => {
@@ -58,6 +63,7 @@ export default connectContainer(class extends Component {
       type: this.props.currentType,
       callback: applicationJSON.callback,
       connection: applicationJSON.connection ? applicationJSON.connection : '',
+      groups: applicationJSON.groups ? applicationJSON.groups : '',
       response_type: applicationJSON.response_type ? applicationJSON.response_type : '',
       scope: applicationJSON.scope ? applicationJSON.scope : '',
       customURLEnabled: applicationJSON.customURLEnabled || false,
@@ -102,6 +108,8 @@ export default connectContainer(class extends Component {
                   onNameChange={this.props.onNameChange}
                   loading={loading}
                   application={applicationJSON}
+                  groups={this.props.groups}
+                  authorizationEnabled={this.props.authorization}
                   error={this.props.updateError}
                   clients={clients}
                   groups={this.props.groups}

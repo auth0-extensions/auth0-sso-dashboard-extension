@@ -1,3 +1,4 @@
+
 import uuid from 'uuid';
 import { Router } from 'express';
 import { requireScope } from '../lib/middlewares';
@@ -59,5 +60,6 @@ export default (auth0, storage) => {
       .then(() => res.status(204).send())
       .catch(next);
   });
+
   return api;
 };

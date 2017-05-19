@@ -11,6 +11,7 @@ export default (history) =>
       <Route path="applications/settings" component={containers.Applications} />
       <Route path="applications/:id" component={containers.Application} />
       <Route path="groups/:id" component={containers.Group} />
+      <Route path="authorization" component={containers.Authorization} />
     </Route>
     <Route path="/login" component={containers.Login} />
   </Router>;
