@@ -1,0 +1,13 @@
+.list-inline-apps {
+    float: right;
+}
+
+.list-inline-apps li {
+    background-color: #F1F1F1;
+    line-height: 38px;
+    padding-top: 4px;
+    min-width: 33px;
+    margin-left: 5px;
+    text-align: center;
+    border-radius: 3px;
+}

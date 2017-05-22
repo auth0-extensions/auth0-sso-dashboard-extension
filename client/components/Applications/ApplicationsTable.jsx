@@ -1,3 +1,4 @@
+import './ApplicationsTable.css';
 import React, { Component } from 'react';
 
 import {
@@ -11,7 +12,7 @@ import {
   TableHeader,
   TableColumn,
   TableRow
-} from '../Dashboard';
+} from 'auth0-extension-ui';
 import { Link } from 'react-router';
 
 export default class ApplicationsTable extends Component {

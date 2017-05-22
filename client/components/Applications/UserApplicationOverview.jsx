@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ApplicationsList, SearchBar } from './';
-import { Error, LoadingPanel, TableTotals } from '../Dashboard';
+import { Error, LoadingPanel, TableTotals } from 'auth0-extension-ui';
 
 export default class UserApplicationOverview extends React.Component {
   static propTypes = {
