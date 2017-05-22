@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
-import { InputCombo, InputText, InputCheckBox, Error } from '../Dashboard';
+import { InputCombo, InputText, InputCheckBox } from '../Dashboard';
+import { Error } from 'auth0-extension-ui';
 import { Field } from 'redux-form';
 import _ from 'lodash';
 
