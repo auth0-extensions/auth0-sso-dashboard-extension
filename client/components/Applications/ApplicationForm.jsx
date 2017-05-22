@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { InputCombo, InputText, InputCheckBox, Error } from '../Dashboard';
 import _ from 'lodash';
+
 import createForm from '../../utils/createForm';
 
 export default createForm('application', class extends Component {
@@ -8,13 +9,17 @@ export default createForm('application', class extends Component {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     application: PropTypes.object.isRequired,
+    authorizationEnabled: PropTypes.bool.authorizationEnabled,
+    groups: PropTypes.array.isRequired,
     clients: React.PropTypes.array.isRequired,
     connections: React.PropTypes.array.isRequired,
     onClientChange: React.PropTypes.func.isRequired,
     onTypeChange: React.PropTypes.func.isRequired,
+    onNameChange: React.PropTypes.func.isRequired,
     currentClient: React.PropTypes.string,
     currentType: React.PropTypes.string,
-    fields: React.PropTypes.object
+    fields: React.PropTypes.object,
+    inDialog: React.PropTypes.boolean
   }
 
   static formFields = [
@@ -26,9 +31,10 @@ export default createForm('application', class extends Component {
     'logo',
     'callback',
     'connection',
-    'enabled',
+    'groups',
+    'customURLEnabled',
     'customURL',
-    'customURLEnabled'
+    'enabled'
   ];
 
   isNotCustomApp() {
@@ -58,9 +64,10 @@ export default createForm('application', class extends Component {
       (conn) => (conn.client_id === fields.client.value)
     );
 
-    fields.name.onChange(
-      client.name
-    );
+    if (client) {
+      this.props.onNameChange(client.name);
+      fields.name.onChange(client.name);
+    }
   }
 
   componentDidMount = () => {
@@ -90,6 +97,10 @@ export default createForm('application', class extends Component {
     } else {
       return [];
     }
+  }
+
+  getGroups = () => {
+    return this.props.groups.toJS().map(item => ({ value: item._id, text: item.name }));
   }
 
   getIsOpenId() {
@@ -122,6 +133,19 @@ export default createForm('application', class extends Component {
     );
   }
 
+  renderGroups = (groups) => {
+    if (!this.props.authorizationEnabled) {
+      return '';
+    }
+
+    return (
+      <InputCombo
+        field={this.props.fields.groups} options={groups} fieldName="groups"
+        label="Groups" ref="groups"
+      />
+    );
+  }
+
   renderCustomURLCheckbox = () => {
     const { fields } = this.props;
 
@@ -143,10 +167,13 @@ export default createForm('application', class extends Component {
     const label = this.isNotCustomApp() ? '' : 'URL';
 
     return (
-      <InputText
-        field={this.props.fields.customURL} fieldName="customURL" label={label} ref="customURL"
-        placeholder="Add your customer URL here which will be invoked when users click the icon."
-      />
+      <div>
+        {this.props.inDialog && <br/>}
+        <InputText
+          field={this.props.fields.customURL} fieldName="customURL" label={label} ref="customURL"
+          placeholder="Add your customer URL here which will be invoked when users click the icon."
+        />
+      </div>
     );
   }
 
@@ -184,6 +211,7 @@ export default createForm('application', class extends Component {
     const clients = this.props.clients.map(conn => ({ value: conn.client_id, text: conn.name }));
     const application = this.props.application;
     const callbacks = this.getCallbacks(application);
+    const groups = this.getGroups();
     const connections = this.props.connections.map(conn => ({ value: conn.name, text: conn.name }));
 
     return (<div>
@@ -221,8 +249,10 @@ export default createForm('application', class extends Component {
             />
           </div>
         }
+        {this.renderGroups(groups)}
         {this.renderCustomURLCheckbox()}
         {this.renderCustomURLField()}
+        {(!this.props.fields.customURLEnabled.value) && this.props.inDialog && <br/>}
         <InputCheckBox
           field={fields.enabled}
           fieldName="enabled"
