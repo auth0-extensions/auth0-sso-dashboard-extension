@@ -1,3 +1,4 @@
+import './Authorization.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Error, LoadingPanel } from '../components/Dashboard';
@@ -90,9 +91,11 @@ class Authorization extends Component {
             <Error message={error} />
           </div>
         </div>
+
+        <h2 className="title">Authorization</h2>
         <div className="authz">
           <h2>
-            Authorization is {(authorizationStatus) ? 'Enabled' : 'Disabled'}.
+            Authorization is {(authorizationStatus) ? 'Enabled' : 'Disabled'} <span className="status disabled"></span>
           </h2>
           {this.renderHelpText()}
           {this.renderButton()}

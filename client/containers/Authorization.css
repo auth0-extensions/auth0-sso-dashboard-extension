@@ -1,0 +1,33 @@
+.title {
+    /* Reset margin, padding */
+    margin: 0;
+    padding: 0;
+
+    /* Set custom values */
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e3e5e7;
+}
+
+.authz {
+    text-align: center;
+    background-color: #F5F7F9;
+    border-radius: 5px;
+    padding: 1px 0 30px 0;
+
+    color: #222228;
+}
+
+.status {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+.status.disabled {
+    background-color: #FF3E00;
+}
+
+.status.enabled {
+    background-color: #7ED321;
+}
