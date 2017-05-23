@@ -1,7 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { InputCombo, InputText, InputCheckBox } from '../Dashboard';
-import { Error } from 'auth0-extension-ui';
-import { Field } from 'redux-form';
+import { InputCombo, InputText, InputCheckBox, Error } from '../Dashboard';
 import _ from 'lodash';
 
 import createForm from '../../utils/createForm';
@@ -11,20 +9,17 @@ export default createForm('application', class extends Component {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     application: PropTypes.object.isRequired,
-    authorizationEnabled: PropTypes.bool,
-    groups: PropTypes.oneOfType([
-      PropTypes.array,
-      PropTypes.object
-    ]).isRequired,
-    clients: PropTypes.array.isRequired,
-    connections: PropTypes.array.isRequired,
-    onClientChange: PropTypes.func.isRequired,
-    onTypeChange: PropTypes.func.isRequired,
-    onNameChange: PropTypes.func.isRequired,
-    currentClient: PropTypes.string,
-    currentType: PropTypes.string,
-    fields: PropTypes.object,
-    inDialog: PropTypes.boolean
+    authorizationEnabled: PropTypes.bool.authorizationEnabled,
+    groups: PropTypes.array.isRequired,
+    clients: React.PropTypes.array.isRequired,
+    connections: React.PropTypes.array.isRequired,
+    onClientChange: React.PropTypes.func.isRequired,
+    onTypeChange: React.PropTypes.func.isRequired,
+    onNameChange: React.PropTypes.func.isRequired,
+    currentClient: React.PropTypes.string,
+    currentType: React.PropTypes.string,
+    fields: React.PropTypes.object,
+    inDialog: React.PropTypes.boolean
   }
 
   static formFields = [

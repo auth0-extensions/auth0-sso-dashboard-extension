@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { Error, Json, LoadingPanel } from 'auth0-extension-ui';
+import { Error, Json, LoadingPanel } from '../Dashboard';
 
 export default class ApplicationInfo extends Component {
   static propTypes = {
