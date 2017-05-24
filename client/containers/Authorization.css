@@ -5,8 +5,6 @@
 
     /* Set custom values */
     margin-bottom: 15px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #e3e5e7;
 }
 
 .authz {
@@ -19,15 +17,11 @@
 }
 
 .status {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-}
-
-.status.disabled {
-    background-color: #FF3E00;
-}
-
-.status.enabled {
-    background-color: #7ED321;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    background-color: #F0F2F4;
+    color: #BBBBBB;
+    padding: 4px 7px 4px 10px;
+    border-radius: 5px;
 }

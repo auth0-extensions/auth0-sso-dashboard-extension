@@ -92,11 +92,11 @@ class Authorization extends Component {
           </div>
         </div>
 
-        <h2 className="title">Authorization</h2>
+        <h2 className="title">
+          Authorization 
+          {!authorizationStatus && <span className="status">Disabled</span>}
+        </h2> 
         <div className="authz">
-          <h2>
-            Authorization is {(authorizationStatus) ? 'Enabled' : 'Disabled'} <span className="status disabled"></span>
-          </h2>
           {this.renderHelpText()}
           {this.renderButton()}
         </div>
