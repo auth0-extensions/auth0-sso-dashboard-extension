@@ -10,7 +10,7 @@
 .authz {
     text-align: center;
     background-color: #F5F7F9;
-    border-radius: 5px;
+    border-radius: 3px;
     padding: 30px 0;
 
     color: #222228;
@@ -23,6 +23,6 @@
     background-color: #F0F2F4;
     color: #BBBBBB;
     padding: 4px 7px 4px 10px;
-    border-radius: 5px;
+    border-radius: 1px;
     margin-left: 10px;
 }
