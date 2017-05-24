@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 
 import { SearchBar, ApplicationsTable } from './';
-import { Error, LoadingPanel } from '../Dashboard';
+import { Error, LoadingPanel } from 'auth0-extension-ui';
 import { Link } from 'react-router';
 
 export default class ApplicationOverview extends React.Component {

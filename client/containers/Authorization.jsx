@@ -1,7 +1,7 @@
 import './Authorization.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Error, LoadingPanel } from '../components/Dashboard';
+import { Error, LoadingPanel } from 'auth0-extension-ui';
 import { authorizationActions } from '../actions';
 import './Applications/Applications.css';
 

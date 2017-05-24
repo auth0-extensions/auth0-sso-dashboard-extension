@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { applicationActions, connectionActions, groupsActions, authorizationActions } from '../../actions';
 import './Application.css';
 import { ApplicationHeader, ApplicationInfo, ApplicationForm } from '../../components/Applications';
-import { Confirm } from '../../components/Dashboard';
+import { Confirm } from 'auth0-extension-ui';
 
 export default connectContainer(class extends Component {
   static stateToProps = (state) => ({
