@@ -3,14 +3,9 @@ import React, { Component } from 'react';
 
 import {
   Confirm,
-  TableActionCell,
   Table,
   TableCell,
-  TableRouteCell,
   TableBody,
-  TableTextCell,
-  TableHeader,
-  TableColumn,
   TableRow
 } from 'auth0-extension-ui';
 import { Link } from 'react-router';
