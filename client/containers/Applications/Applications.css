@@ -127,18 +127,6 @@ article.card-docs {
     margin-top: -5px;
 }
 
-.appForm label {
-    float: left !important;
-    display: block;
-    width: 100px;
-    text-align: right;
-    padding-top: 14px;
-}
-
-.appForm .col-xs-10 {
-    float: right !important;
-}
-
 #app_enabled {
     margin-left: 10px;
     margin-top: 14px;
@@ -149,19 +137,6 @@ article.card-docs {
     font-size: 12px;
     margin-top: 7px;
     margin-bottom: -3px;
-}
-
-.updateAppForm #app_enabled {
-    margin-top: 16px;
-}
-
-.updateAppForm label {
-    width: 170px;
-    padding-top: 10px;
-}
-
-.updateAppScreen .btn-div {
-    text-align: center;
 }
 
 .updateAppScreen h5 {

@@ -1,19 +1,19 @@
+import './ApplicationForm.css';
+
 import React, { PropTypes, Component } from 'react';
-import { InputCombo, InputText, InputCheckBox } from '../Dashboard';
-import { Error } from 'auth0-extension-ui';
+import { Error, InputCombo, InputText, InputCheckBox } from 'auth0-extension-ui';
+import { Field, reduxForm, formValueSelector, change } from 'redux-form';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import createForm from '../../utils/createForm';
-
-export default createForm('application', class extends Component {
+class ApplicationForm extends Component {
   static propTypes = {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     application: PropTypes.object.isRequired,
-    authorizationEnabled: PropTypes.bool.authorizationEnabled,
+    authorizationEnabled: PropTypes.bool,
     groups: PropTypes.array.isRequired,
     clients: React.PropTypes.array.isRequired,
-    groups: React.PropTypes.object.isRequired,
     connections: React.PropTypes.array.isRequired,
     onClientChange: React.PropTypes.func.isRequired,
     onTypeChange: React.PropTypes.func.isRequired,
@@ -21,27 +21,12 @@ export default createForm('application', class extends Component {
     currentClient: React.PropTypes.string,
     currentType: React.PropTypes.string,
     fields: React.PropTypes.object,
-    inDialog: React.PropTypes.bool
-  }
-
-  static formFields = [
-    'client',
-    'name',
-    'group',
-    'type',
-    'scope',
-    'response_type',
-    'logo',
-    'callback',
-    'connection',
-    'groups',
-    'customURLEnabled',
-    'customURL',
-    'enabled'
-  ];
-
-  isNotCustomApp() {
-    return this.props.fields.type.value !== 'custom';
+    inDialog: React.PropTypes.bool,
+    isNotCustomApp: React.PropTypes.bool,
+    customURLEnabled: React.PropTypes.bool,
+    changeFieldValue: React.PropTypes.func,
+    name: React.PropTypes.string,
+    client: React.PropTypes.string
   }
 
   onClientChange = (e) => {
@@ -73,21 +58,6 @@ export default createForm('application', class extends Component {
     }
   }
 
-  componentDidMount = () => {
-    this.refs.client.props.field.onChange = this.onClientChange;
-    this.refs.type.props.field.onChange = this.onChangeType;
-    this.refs.name.props.field.onFocus = this.onNameFocus;
-  }
-
-  componentDidUpdate() {
-    const { fields } = this.props;
-
-    // Enable custom URL if it's a custom app
-    if ((!this.isNotCustomApp()) && !fields.customURLEnabled.value) {
-      fields.customURLEnabled.onChange(true);
-    }
-  }
-
   getClientById = (id) => _.find(this.props.clients, (client) => client.client_id == id)
 
   getCallbacks = (app) => {
@@ -97,9 +67,9 @@ export default createForm('application', class extends Component {
     if (client) {
       callbacks = client.callbacks ? (typeof client.callbacks === 'string' ? [ client.callbacks ] : client.callbacks) : [];
       return callbacks.map(call => ({ value: call, text: call }));
-    } else {
-      return [];
     }
+    
+    return [];
   }
 
   getGroups = () => {
@@ -118,19 +88,20 @@ export default createForm('application', class extends Component {
       { value: 'token', text: 'Single Page Application' },
       { value: 'code', text: 'Traditional Web Application' }
     ];
-    if ((!this.getIsOpenId()) || (!this.isNotCustomApp())) {
+    if ((!this.getIsOpenId()) || (!this.props.isNotCustomApp)) {
       return null;
     }
     return (
       <div>
-        <InputText
-          field={this.props.fields.scope} fieldName="scope" label="Scope" ref="scope"
+        <Field
+          component={InputText}
+          name="scope" label="Scope"
           placeholder="Insert a scope"
         />
-        <InputCombo
-          field={this.props.fields.response_type} options={responseTypes}
-          fieldName="response_type" label="Response Type"
-          ref="response_type"
+        <Field
+          component={InputCombo}
+          options={responseTypes}
+          name="response_type" label="Response Type"
         />
       </div>
     );
@@ -142,38 +113,37 @@ export default createForm('application', class extends Component {
     }
 
     return (
-      <InputCombo
-        field={this.props.fields.groups} options={groups} fieldName="groups"
-        label="Groups" ref="groups"
+      <Field
+        component={InputCombo}
+        options={groups} name="groups"
+        label="Groups"
       />
     );
   }
 
   renderCustomURLCheckbox = () => {
-    const { fields } = this.props;
-
-    return this.isNotCustomApp() ? (
-      <InputCheckBox
-        field={fields.customURLEnabled}
-        fieldName="customURLEnabled"
+    return this.props.isNotCustomApp ? (
+      <Field
+        component={InputCheckBox}
+        name="customURLEnabled"
         label="Custom URL"
-        ref="customURLEnabled"
       />
     ) : null;
   }
 
   renderCustomURLField = () => {
-    if (!this.props.fields.customURLEnabled.value) {
+    if (!this.props.customURLEnabled) {
       return null;
     }
 
-    const label = this.isNotCustomApp() ? '' : 'URL';
+    const label = this.props.isNotCustomApp ? 'URL' : 'URL';
 
     return (
       <div>
-        {this.props.inDialog && <br/>}
-        <InputText
-          field={this.props.fields.customURL} fieldName="customURL" label={label} ref="customURL"
+        {this.props.inDialog && <br />}
+        <Field
+          component={InputText}
+          name="customURL" label={label}
           placeholder="Add your customer URL here which will be invoked when users click the icon."
         />
       </div>
@@ -181,22 +151,24 @@ export default createForm('application', class extends Component {
   }
 
   componentDidUpdate() {
-    const { fields, clients } = this.props;
+    const { name, client, isNotCustomApp, customURLEnabled, clients } = this.props;
 
     // Enable custom URL if it's a custom app
-    if ((!this.isNotCustomApp()) && !fields.customURLEnabled.value) {
-      fields.customURLEnabled.onChange(true);
+    if ((!isNotCustomApp) && !customURLEnabled) {
+      this.props.changeFieldValue('customURLEnabled', true);
     }
 
     // Change app name when client changes
-    if ((typeof fields.name.value === 'undefined') && fields.client.value) {
-      const client = clients.find(
-        (conn) => (conn.client_id === fields.client.value)
-      );
+    if ((typeof name === 'undefined') && client) {
+      const clientObj = clients.find(
+        (conn) => (conn.client_id === client)
+      );  
+      this.props.changeFieldValue('name', clientObj.name);
+    }
 
-      fields.name.onChange(
-        client.name
-      );
+    // Enable custom URL if it's a custom app
+    if ((!isNotCustomApp) && !customURLEnabled) {
+      this.props.changeFieldValue('customURLEnabled', true);
     }
   }
 
@@ -210,14 +182,12 @@ export default createForm('application', class extends Component {
       { value: 'wsfed', text: 'WS-Federation' },
       { value: 'custom', text: 'Custom application' }
     ];
-    const fields = this.props.fields;
     const clients = this.props.clients.map(conn => ({ value: conn.client_id, text: conn.name }));
     const application = this.props.application;
     const callbacks = this.getCallbacks(application);
     const connections = this.props.connections.map(conn => ({ value: conn.name, text: conn.name }));
     const groups = Object.keys(this.props.groups).map((groupKey) => {
       const group = this.props.groups[groupKey];
-      console.log(group);
       return { value: groupKey, text: group.name };
     });
 
@@ -228,49 +198,80 @@ export default createForm('application', class extends Component {
         </div>
       </div>
       <form className="appForm updateAppForm">
-        <InputCombo field={fields.type} options={types} fieldName="type" label="Type" ref="type" />
-        {this.isNotCustomApp() &&
-          <InputCombo
-            field={fields.client} options={clients} fieldName="client" label="Application"
-            ref="client"
+        <Field
+          component={InputCombo}
+          options={types}
+          name="type"
+          label="Type"
+          onChange={this.onChangeType}
+        />
+        {this.props.isNotCustomApp &&
+          <Field
+            component={InputCombo}
+            options={clients} name="client" label="Application"
+            onChange={this.onClientChange}
           />
         }
-        <InputText
-          field={fields.name} fieldName="name" label="Name" ref="name"
+        <Field
+          component={InputText}
+          name="name" label="Name" onChange={this.onNameFocus}
           placeholder="insert a name for users to see"
         />
-        <InputCombo
-          field={fields.group} options={groups} fieldName="group"
-          label="Group" ref="group"
+        <Field
+          component={InputCombo}
+          options={groups} name="group"
+          label="Group"
         />
         {this.renderOpenIdAdditionalFields(application)}
-        <InputText
-          field={fields.logo} fieldName="logo" label="Logo" ref="logo"
+        <Field
+          component={InputText}
+          name="logo" label="Logo"
           placeholder="Insert an url of an image to use as an icon"
         />
-        {this.isNotCustomApp() &&
+        {this.props.isNotCustomApp &&
           <div>
-            <InputCombo
-              field={fields.callback} options={callbacks} fieldName="callback"
-              label="Callback" ref="callback"
+            <Field
+              component={InputCombo}
+              options={callbacks} name="callback"
+              label="Callback"
             />
-            <InputCombo
-              field={fields.connection} options={connections} fieldName="connection"
-              label="Connection" ref="connection"
+            <Field
+              component={InputCombo}
+              options={connections} name="connection"
+              label="Connection"
             />
           </div>
         }
         {this.renderGroups(groups)}
         {this.renderCustomURLCheckbox()}
         {this.renderCustomURLField()}
-        {(!this.props.fields.customURLEnabled.value) && this.props.inDialog && <br/>}
-        <InputCheckBox
-          field={fields.enabled}
-          fieldName="enabled"
+        {(!this.props.customURLEnabled) && this.props.inDialog && <br />}
+        <Field
+          component={InputCheckBox}
+          name="enabled"
           label="Enabled"
-          ref="enabled"
         />
       </form>
     </div>);
   }
+}
+
+const formName = 'application';
+const form = reduxForm({
+  form: formName
+})(ApplicationForm);
+
+const selector = formValueSelector(formName);
+const mapStateToProps = state => ({
+  isNotCustomApp: selector(state, 'type') !== 'custom',
+  customURLEnabled: selector(state, 'customURLEnabled'),
+  name: selector(state, 'name'),
+  client: selector(state, 'client')
 });
+const mapDispatchToProps = dispatch => ({
+  changeFieldValue: (field, value) => dispatch(change(formName, field, value))
+});
+
+const connectedForm = connect(mapStateToProps, mapDispatchToProps)(form);
+
+export default connectedForm;

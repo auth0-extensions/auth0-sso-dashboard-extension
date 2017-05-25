@@ -73,71 +73,7 @@ export default connectContainer(class extends Component {
 
     return (
       <div className="user">
-        <Confirm
-          title="Remove Application" show={this.props.showModalDelete} loading={false}
-          onCancel={this.props.cancelDeleteApplication}
-          onConfirm={(e) => {
-            this.props.deleteApplication(this.props.params.id, () => {
-              history.back();
-            });
-          }}
-        >
-          <span>
-            Do you really want to remove this application?
-          </span>
-        </Confirm>
-        <div className="row content-header">
-          <div className="col-xs-12">
-            <h2 className="settings-header">{application.get('name') || 'Application Settings'}</h2>
-            <Link className="btn btn-transparent back-to-apps pull-right" to="/applications/settings">
-              <span className="btn-icon icon-budicon-521" />
-              Go back to Applications
-            </Link>
-          </div>
-        </div>
-        <div className="row user-tabs">
-          <div className="col-xs-12">
-            <Tabs id="sso-app-tabs" defaultActiveKey={1} animation={false}>
-              <Tab eventKey={1} title="Settings">
-                <ApplicationForm
-                  ref="app_form"
-                  onSubmit={this.updateCurrentApplication}
-                  initialValues={initialValues}
-                  onClientChange={this.props.onClientChange}
-                  onTypeChange={this.props.onTypeChange}
-                  onNameChange={this.props.onNameChange}
-                  loading={loading}
-                  application={applicationJSON}
-                  groups={this.props.groups}
-                  authorizationEnabled={this.props.authorization}
-                  error={this.props.updateError}
-                  clients={clients}
-                  groups={this.props.groups}
-                  currentClient={this.props.currentClient}
-                  currentType={this.props.currentType}
-                  currentName={this.props.currentName}
-                  connections={connections}
-                />
-                <br />
-                <div className="btn-div">
-                  <button className="btn btn-info" onClick={this.clickSubmitButton}>Save Settings</button>
-                </div>
-                <br />
-                <h5>Danger Zone</h5>
-                <div className="red-border">
-                  <p><strong>Warning!</strong> Once confirmed, this operation can't be undone!</p>
-                  <p><input
-                    onClick={this.clickRemoveButton} type="button" value="Delete Application"
-                    className="btn btn-danger delete-client "
-                  /></p>
-                </div>
-              </Tab>
-              <Tab eventKey={2} title="Info">
-                <ApplicationInfo loading={loading} application={application} error={error} />
-              </Tab>
-            </Tabs>
-          </div>
-        </div>
+        
       </div>
     );
   }
