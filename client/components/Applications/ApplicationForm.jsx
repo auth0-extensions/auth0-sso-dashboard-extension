@@ -136,14 +136,21 @@ class ApplicationForm extends Component {
       return null;
     }
 
-    const label = this.props.isNotCustomApp ? '' : 'URL';
-
     return (
-        <Field
-          component={InputText}
-          name="customURL" label={label}
-          placeholder="Add your customer URL here which will be invoked when users click the icon."
-        />
+      <div className="form-group">
+        {!this.props.isNotCustomApp &&
+          <label htmlFor="customURL" className="control-label col-xs-2">
+            URL
+          </label>
+        }
+        <div className={`col-xs-9 ${this.props.isNotCustomApp ? 'col-xs-offset-2' : ''}`}>
+          <Field
+            component={InputText}
+            name="customURL"
+            placeholder="Add your customer URL here which will be invoked when users click the icon."
+          />
+        </div>
+      </div>
     );
   }
 
@@ -242,12 +249,13 @@ class ApplicationForm extends Component {
         {this.renderGroups(groups)}
         {this.renderCustomURLCheckbox()}
         {this.renderCustomURLField()}
-        {(!this.props.customURLEnabled) && this.props.inDialog && <br />}
-        <Field
-          component={InputCheckBox}
-          name="enabled"
-          label="Enabled"
-        />
+        <div className="row">
+          <Field
+            component={InputCheckBox}
+            name="enabled"
+            label="Enabled"
+          />
+        </div>
       </form>
     </div>);
   }
