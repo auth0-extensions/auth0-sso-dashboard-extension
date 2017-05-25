@@ -136,17 +136,14 @@ class ApplicationForm extends Component {
       return null;
     }
 
-    const label = this.props.isNotCustomApp ? 'URL' : 'URL';
+    const label = this.props.isNotCustomApp ? '' : 'URL';
 
     return (
-      <div>
-        {this.props.inDialog && <br />}
         <Field
           component={InputText}
           name="customURL" label={label}
           placeholder="Add your customer URL here which will be invoked when users click the icon."
         />
-      </div>
     );
   }
 

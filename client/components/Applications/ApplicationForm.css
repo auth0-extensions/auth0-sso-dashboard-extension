@@ -3,3 +3,8 @@
 .form-group input, .form-group select {
     margin-bottom: 12px;
 }
+
+.form-group  {
+    display: block;
+    width: 100% !important;
+}
