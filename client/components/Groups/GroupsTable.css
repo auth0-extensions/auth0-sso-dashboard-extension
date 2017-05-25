@@ -1,0 +1,10 @@
+.no-groups {
+    background-color: #F5F7F9;
+    text-align: center;
+    border-radius: 5px;
+    padding: 20px 0 50px 0;
+}
+
+.no-groups h2, .no-groups h4 {
+    color: rgba(0,0,0,0.54);
+}

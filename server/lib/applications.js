@@ -15,7 +15,8 @@ export const saveApplication = (id, body, storage) => new Promise((resolve, reje
     groups: (Array.isArray(body.groups)) ? body.groups : [ body.groups ],
     callback: body.callback,
     customURL: body.customURL,
-    customURLEnabled: body.customURLEnabled
+    customURLEnabled: body.customURLEnabled,
+    group: body.group
   };
 
   if (body.type === 'oidc') {

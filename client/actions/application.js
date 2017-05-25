@@ -187,6 +187,139 @@ export function cancelApplicationSave() {
   };
 }
 
+/*
+* Load all groups with at least one application
+*/
+export function fetchGroups() {
+  return (dispatch) => {
+    dispatch({
+      type: constants.FETCH_GROUPS,
+      payload: {
+        promise: axios.get('/api/application-groups', {
+          responseType: 'json'
+        })
+      }
+    });
+  };
+}
+
+/**
+ * Load all groups fully matched with the apps.
+ */
+export function fetchGroupedApps() {
+  return (dispatch) => {
+    dispatch({
+        type: constants.FETCH_GROUPED_APPLICATIONS,
+        payload: {
+          promise: axios.get('/api/applications/grouped', {
+            responseType: 'json'
+          })
+        }
+    });
+  }
+}
+
+/*
+* Load all groups.
+*/
+export function fetchGroupsAll() {
+  return (dispatch) => {
+    dispatch({
+      type: constants.FETCH_GROUPS,
+      payload: {
+        promise: axios.get('/api/application-groups/all', {
+          responseType: 'json'
+        })
+      }
+    });
+  };
+}
+
+export function createGroup(data, onSuccess) {
+  return (dispatch) => {
+    dispatch({
+      type: constants.CREATE_GROUP,
+      meta: {
+        onSuccess: () => {
+          if (onSuccess) {
+            onSuccess();
+          }
+          dispatch(fetchGroupsAll());
+        }
+      },
+      payload: {
+        promise: axios.post('/api/application-groups', data, {
+          responseType: 'json'
+        })
+      }
+    });
+  };
+}
+
+/*
+* Fetch the app details.
+*/
+export function fetchGroup(groupId, onSuccess) {
+  return (dispatch) => {
+    dispatch({
+      type: constants.FETCH_GROUP,
+      meta: {
+        groupId,
+        onSuccess
+      },
+      payload: {
+        promise: axios.get(`/api/application-groups/${groupId}`, {
+          responseType: 'json'
+        })
+      }
+    });
+  };
+}
+
+/*
+* Update the app details.
+*/
+export function updateGroup(groupId, data, onSuccess) {
+  return (dispatch) => {
+    dispatch({
+      type: constants.UPDATE_GROUP,
+      meta: {
+        groupId,
+        onSuccess: () => {
+          onSuccess();
+        }
+      },
+      payload: {
+        promise: axios.put(`/api/application-groups/${groupId}`, data, {
+          responseType: 'json'
+        })
+      }
+    });
+  };
+}
+
+export function deleteGroup(groupId, onSuccess) {
+  return (dispatch) => {
+    dispatch({
+      type: constants.DELETE_GROUP,
+      meta: {
+        onSuccess: () => {
+          if (onSuccess) {
+            onSuccess();
+          }
+          dispatch(fetchGroupsAll());
+        }
+      },
+      payload: {
+        promise: axios.delete(`/api/application-groups/${groupId}`, {
+          responseType: 'json'
+        })
+      }
+    });
+  };
+}
+
+
 export function onClientChange(client) {
   return {
     type: constants.APPLICATION_CLIENT_CHANGE,
@@ -213,3 +346,5 @@ export function onNameChange(name) {
     }
   };
 }
+
+

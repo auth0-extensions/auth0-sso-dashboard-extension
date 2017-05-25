@@ -13,6 +13,7 @@ export default createForm('application', class extends Component {
     authorizationEnabled: PropTypes.bool.authorizationEnabled,
     groups: PropTypes.array.isRequired,
     clients: React.PropTypes.array.isRequired,
+    groups: React.PropTypes.object.isRequired,
     connections: React.PropTypes.array.isRequired,
     onClientChange: React.PropTypes.func.isRequired,
     onTypeChange: React.PropTypes.func.isRequired,
@@ -20,12 +21,13 @@ export default createForm('application', class extends Component {
     currentClient: React.PropTypes.string,
     currentType: React.PropTypes.string,
     fields: React.PropTypes.object,
-    inDialog: React.PropTypes.boolean
+    inDialog: React.PropTypes.bool
   }
 
   static formFields = [
     'client',
     'name',
+    'group',
     'type',
     'scope',
     'response_type',
@@ -212,8 +214,12 @@ export default createForm('application', class extends Component {
     const clients = this.props.clients.map(conn => ({ value: conn.client_id, text: conn.name }));
     const application = this.props.application;
     const callbacks = this.getCallbacks(application);
-    const groups = this.getGroups();
     const connections = this.props.connections.map(conn => ({ value: conn.name, text: conn.name }));
+    const groups = Object.keys(this.props.groups).map((groupKey) => {
+      const group = this.props.groups[groupKey];
+      console.log(group);
+      return { value: groupKey, text: group.name };
+    });
 
     return (<div>
       <div className="row">
@@ -232,6 +238,10 @@ export default createForm('application', class extends Component {
         <InputText
           field={fields.name} fieldName="name" label="Name" ref="name"
           placeholder="insert a name for users to see"
+        />
+        <InputCombo
+          field={fields.group} options={groups} fieldName="group"
+          label="Group" ref="group"
         />
         {this.renderOpenIdAdditionalFields(application)}
         <InputText

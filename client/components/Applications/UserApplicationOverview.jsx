@@ -8,15 +8,12 @@ export default class UserApplicationOverview extends React.Component {
     onReset: React.PropTypes.func.isRequired,
     onChangeSearch: React.PropTypes.func.isRequired,
     error: React.PropTypes.object,
-    applications: React.PropTypes.oneOfType([
-      React.PropTypes.object,
-      React.PropTypes.array
-    ]).isRequired,
+    applications: React.PropTypes.array.isRequired,
     loading: React.PropTypes.bool.isRequired
   }
 
   render() {
-    const { loading, error, applications, total } = this.props;
+    const { loading, error, applications, groups, total } = this.props;
 
     return (
       <div>
@@ -33,7 +30,10 @@ export default class UserApplicationOverview extends React.Component {
           />
           <div className="row">
             <div className="col-xs-12">
-              <ApplicationsList loading={loading} applications={applications} />
+              <ApplicationsList
+                loading={loading}
+                applications={applications} 
+              />
             </div>
           </div>
         </LoadingPanel>

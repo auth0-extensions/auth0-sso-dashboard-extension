@@ -8,6 +8,7 @@ import applications from './applications';
 import groups from './groups';
 import authorization from './authorization';
 
+
 export default (storage) => {
   const api = Router();
 
@@ -17,11 +18,16 @@ export default (storage) => {
     audience: config('API_AUDIENCE') || 'urn:auth0-sso-dashboard',
     credentialsRequired: false,
     onLoginSuccess: (req, res, next) => {
+
+      const currentRequest = req;
+      currentRequest.user.scope = [ 'read:applications', 'read:application-groups' ];
+      
       if (req.user.scope && req.user.scope.indexOf('manage:applications') > -1 && !req.user.sub.endsWith('@client')) {
         return next(new ForbiddenError('"manage:applications" scope is not allowed for endusers.'));
       }
 
       return next();
+
     }
   }));
 
@@ -33,7 +39,13 @@ export default (storage) => {
     baseUrl: config('PUBLIC_WT_URL'),
     onLoginSuccess: (req, res, next) => {
       const currentRequest = req;
-      currentRequest.user.scope = [ 'read:applications', 'manage:applications', 'manage:authorization' ];
+      currentRequest.user.scope = [
+        'read:applications',
+        'manage:applications',
+        'read:application-groups',
+        'manage:application-groups',
+        'manage:authorization'
+      ];
       next();
     }
   }));
@@ -42,7 +54,7 @@ export default (storage) => {
     domain: config('AUTH0_DOMAIN')
   });
   api.use('/applications', applications(auth0, storage));
-  api.use('/groups', groups(storage));
+  api.use('/application-groups', groups(auth0, storage));
   api.use('/authorization', authorization(storage));
   api.use('/connections', connections(auth0));
   api.get('/status', (req, res) => {

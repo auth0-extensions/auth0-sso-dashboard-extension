@@ -20,6 +20,7 @@ export default connectContainer(class extends Component {
     currentType: state.application.get('currentType'),
     currentName: state.application.get('currentName'),
     loading: state.application.get('loading'),
+    groups: state.groups.get('records').toJS(),
     showModalCreate: state.createApplication.get('requesting'),
     showModalDelete: state.deleteApplication.get('requesting')
   })
@@ -35,7 +36,7 @@ export default connectContainer(class extends Component {
     this.props.fetchApplication(this.props.params.id);
     this.props.fetchClients();
     this.props.fetchConnections();
-    this.props.fetchGroups();
+    this.props.fetchGroupsAll();
     this.props.fetchAuthorizationStatus();
   }
 
@@ -56,6 +57,7 @@ export default connectContainer(class extends Component {
     const applicationJSON = application.toJSON();
     const initialValues = {
       name: this.props.currentName || applicationJSON.name || applicationJSON.client,
+      group: applicationJSON.group ? applicationJSON.group : '',
       client: this.props.currentClient,
       logo: applicationJSON.logo,
       type: this.props.currentType,
@@ -110,6 +112,7 @@ export default connectContainer(class extends Component {
                   authorizationEnabled={this.props.authorization}
                   error={this.props.updateError}
                   clients={clients}
+                  groups={this.props.groups}
                   currentClient={this.props.currentClient}
                   currentType={this.props.currentType}
                   currentName={this.props.currentName}

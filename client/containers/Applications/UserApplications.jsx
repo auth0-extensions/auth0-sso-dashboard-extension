@@ -14,12 +14,16 @@ class UserApplications extends Component {
   }
 
   componentWillMount = () => {
-    this.props.fetchApplications(true);
+    this.props.fetchGroupedApps();
   }
 
   onChangeSearch = (query) => {
     if (query) {
-      const apps = _.filter(this.props.applications, (app) => app.name.toLowerCase().indexOf(query) > -1);
+      let apps = this.props.groupedApps.map((group) => {
+        group.apps = group.apps.filter((app) => app.name.toLowerCase().indexOf(query) > -1);
+        return group;
+      })
+    
       this.setState({ apps });
     } else {
       this.onReset();
@@ -28,12 +32,12 @@ class UserApplications extends Component {
 
   onReset = () => {
     this.setState({ apps: [] });
-    this.props.fetchApplications();
+    this.props.fetchGroupedApps();
   }
 
   render() {
-    const { loading, error, applications } = this.props;
-    const apps = this.state.apps.length != 0 ? this.state.apps : applications;
+    const { loading, error, groupedApps } = this.props;
+    const apps = this.state.apps.length != 0 ? this.state.apps : groupedApps;
 
     return (
       <div className="users">
@@ -56,7 +60,7 @@ function mapStateToProps(state) {
   return {
     error: state.applications.get('error'),
     loading: state.applications.get('loading'),
-    applications: state.applications.get('records').toJS(),
+    groupedApps: state.groupedApps.get('records').toJS(),
     nextPage: state.applications.get('nextPage')
   };
 }

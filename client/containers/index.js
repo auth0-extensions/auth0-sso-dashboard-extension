@@ -5,3 +5,4 @@ export Authorization from './Authorization';
 export Applications from './Applications/Applications';
 export UserApplications from './Applications/UserApplications';
 export Application from './Applications/Application';
+export Group from './Groups/Group';
