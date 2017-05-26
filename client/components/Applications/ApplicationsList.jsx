@@ -32,8 +32,6 @@ export default class ApplicationsList extends Component {
                     callback: app.callback
                   }) : app.loginUrl;
 
-                  console.log('link', link);
-
                   return (
                     <a href={link} target="_blank" key={i}>
                       <div className="user-app">
