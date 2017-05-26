@@ -261,7 +261,8 @@ class ApplicationForm extends Component {
 
 const formName = 'application';
 const form = reduxForm({
-  form: formName
+  form: formName,
+  enableReinitialize: true
 })(ApplicationForm);
 
 const selector = formValueSelector(formName);

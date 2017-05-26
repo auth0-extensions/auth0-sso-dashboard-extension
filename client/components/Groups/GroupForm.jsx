@@ -26,7 +26,6 @@ class GroupForm extends Component {
           component={InputText}
           name="name" label="Name"
           placeholder="Insert a name for users to see"
-          defaultValue={this.props.group.name}
         />
       </form>
     </div>);
@@ -34,4 +33,7 @@ class GroupForm extends Component {
 }
 
 const formName = 'group';
-export default reduxForm({ form: formName })(GroupForm);
+export default reduxForm({
+  form: formName,
+  enableReinitialize: true
+})(GroupForm);
