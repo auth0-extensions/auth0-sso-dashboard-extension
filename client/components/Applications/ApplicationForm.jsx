@@ -249,13 +249,11 @@ class ApplicationForm extends Component {
         {this.renderGroups(groups)}
         {this.renderCustomURLCheckbox()}
         {this.renderCustomURLField()}
-        <div className="row">
-          <Field
-            component={InputCheckBox}
-            name="enabled"
-            label="Enabled"
-          />
-        </div>
+        <Field
+          component={InputCheckBox}
+          name="enabled"
+          label="Enabled"
+        />
       </form>
     </div>);
   }

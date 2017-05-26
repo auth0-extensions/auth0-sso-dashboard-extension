@@ -1,6 +1,12 @@
-
-
 .form-group input, .form-group select {
+    width: 100% !important;
     margin-bottom: 12px;
 }
 
+.form-group input[name='customURLEnabled'] {
+    margin-bottom: 35px;
+}
+
+.form-group input[name='customURL'] {
+    margin-left: -27px;
+}
