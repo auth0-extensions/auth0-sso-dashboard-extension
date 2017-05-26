@@ -20,7 +20,6 @@ class ApplicationForm extends Component {
     onNameChange: React.PropTypes.func.isRequired,
     currentClient: React.PropTypes.string,
     currentType: React.PropTypes.string,
-    fields: React.PropTypes.object,
     inDialog: React.PropTypes.bool,
     isNotCustomApp: React.PropTypes.bool,
     customURLEnabled: React.PropTypes.bool,
@@ -46,15 +45,15 @@ class ApplicationForm extends Component {
   }
 
   onNameFocus = () => {
-    const { fields, clients } = this.props;
+    const { clients } = this.props;
 
     const client = clients.find(
-      (conn) => (conn.client_id === fields.client.value)
+      (conn) => (conn.client_id === this.props.client.value)
     );
 
     if (client) {
       this.props.onNameChange(client.name);
-      fields.name.onChange(client.name);
+      this.props.changeFieldValue('name', client.name);
     }
   }
 
@@ -260,10 +259,6 @@ class ApplicationForm extends Component {
 }
 
 const formName = 'application';
-const form = reduxForm({
-  form: formName,
-  enableReinitialize: true
-})(ApplicationForm);
 
 const selector = formValueSelector(formName);
 const mapStateToProps = state => ({
@@ -276,6 +271,11 @@ const mapDispatchToProps = dispatch => ({
   changeFieldValue: (field, value) => dispatch(change(formName, field, value))
 });
 
-const connectedForm = connect(mapStateToProps, mapDispatchToProps)(form);
+const form = connect(mapStateToProps, mapDispatchToProps)(ApplicationForm);
+
+const connectedForm = reduxForm({
+  form: formName,
+  enableReinitialize: true
+})(form);
 
 export default connectedForm;
