@@ -1,24 +1,19 @@
 import React, { PropTypes, Component } from 'react';
-import { InputText, Error } from '../Dashboard';
-import createForm from '../../utils/createForm';
+import { InputText, Error } from 'auth0-extension-ui';
+import { Field, reduxForm } from 'redux-form';
 
-export default createForm('group', class extends Component {
+
+class GroupForm extends Component {
   static propTypes = {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
-    group: PropTypes.object.isRequired,
-    fields: React.PropTypes.object
+    group: PropTypes.object.isRequired
   }
-
-  static formFields = [
-    'name'
-  ];
 
   render() {
     if (this.props.loading) {
       return <div />;
     }
-    const { fields } = this.props;
 
     return (<div>
       <div className="row">
@@ -27,11 +22,15 @@ export default createForm('group', class extends Component {
         </div>
       </div>
       <form className="appForm updateAppForm">
-        <InputText
-          field={fields.name} fieldName="name" label="Name" ref="name"
-          placeholder="insert a name for users to see"
+        <Field
+          component={InputText}
+          name="name" label="Name"
+          placeholder="Insert a name for users to see"
         />
       </form>
     </div>);
   }
-});
+}
+
+const formName = 'group';
+export default reduxForm({ form: formName })(GroupForm);
