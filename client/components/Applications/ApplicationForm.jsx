@@ -143,7 +143,7 @@ class ApplicationForm extends Component {
             URL
           </label>
         }
-        <div className={`col-xs-9 ${this.props.isNotCustomApp ? 'col-xs-offset-2' : ''}`}>
+        <div className={`col-xs-9 ${this.props.isNotCustomApp ? 'col-xs-offset-2' : ''} ${this.props.inDialog ? 'in-dialog' : ''}`}>
           <Field
             component={InputText}
             name="customURL"

@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { applicationActions, connectionActions } from '../../actions';
 import './Group.css';
 import { GroupInfo, GroupForm } from '../../components/Groups';
-import { Confirm } from '../../components/Dashboard';
+import { Confirm } from 'auth0-extension-ui';
 
 export default connectContainer(class extends Component {
   static stateToProps = (state) => ({

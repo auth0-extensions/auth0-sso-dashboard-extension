@@ -10,3 +10,7 @@
 .form-group input[name='customURL'] {
     margin-left: -27px;
 }
+
+.in-dialog input[name='customURL']{
+    margin-left: -18px !important;
+}
