@@ -2,16 +2,11 @@ import React, { Component } from 'react';
 
 import {
   Confirm,
-  TableActionCell,
   Table,
   TableCell,
-  TableRouteCell,
   TableBody,
-  TableTextCell,
-  TableHeader,
-  TableColumn,
   TableRow
-} from '../Dashboard';
+} from 'auth0-extension-ui';
 import { Link } from 'react-router';
 import './GroupsTable.css';
 

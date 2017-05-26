@@ -1,6 +1,6 @@
 import './CreateGroupDialog.css';
 import React, { Component, PropTypes } from 'react';
-import { Error, Confirm } from '../Dashboard';
+import { Error, Confirm } from 'auth0-extension-ui';
 import GroupForm from './GroupForm';
 
 export default class CreateGroupDialog extends React.Component {

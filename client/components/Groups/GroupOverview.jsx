@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 
 import GroupsTable from './GroupsTable';
-import { Error, LoadingPanel } from '../Dashboard';
+import { Error, LoadingPanel } from 'auth0-extension-ui';
 import { Link } from 'react-router';
 
 export default class GroupOverview extends React.Component {
