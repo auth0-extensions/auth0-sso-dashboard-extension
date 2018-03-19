@@ -1,5 +1,6 @@
-import { expect } from 'chai';
-import config, { setProvider } from '../../../server/lib/config';
+const { expect } = require('chai');
+const config = require('../../../server/lib/config');
+const { setProvider } = require('../../../server/lib/config');
 
 describe('config', () => {
   describe('#get', () => {

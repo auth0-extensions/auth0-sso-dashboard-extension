@@ -1,12 +1,12 @@
-import { Router as router } from 'express';
-import { middlewares } from 'auth0-extension-express-tools';
+const { Router } = require('express');
+const { middlewares } = require('auth0-extension-express-tools');
 
-import config from '../lib/config';
-import logger from '../lib/logger';
-import { getResourceServer, createResourceServer, deleteResourceServer } from '../lib/queries';
+const config = require('../lib/config');
+const logger = require('../lib/logger');
+const { getResourceServer, createResourceServer, deleteResourceServer } = require('../lib/queries');
 
-export default () => {
-  const hooks = router();
+module.exports = () => {
+  const hooks = Router();
   const hookValidator = middlewares
     .validateHookToken(config('AUTH0_DOMAIN'), config('WT_URL'), config('EXTENSION_SECRET'));
 

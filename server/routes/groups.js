@@ -1,9 +1,9 @@
-import { Router } from 'express';
+const { Router } = require('express');
 
-import { getGroups } from '../lib/queries';
-import { requireScope } from '../lib/middlewares';
+const { getGroups } = require('../lib/queries');
+const { requireScope } = require('../lib/middlewares');
 
-export default (storage) => {
+module.exports = (storage) => {
   const api = Router();
 
   api.get('/', requireScope('manage:applications'), (req, res, next) => {

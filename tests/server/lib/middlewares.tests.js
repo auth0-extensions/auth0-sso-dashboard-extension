@@ -1,8 +1,8 @@
-import expect from 'expect';
-import request from 'supertest';
-import express from 'express';
+const expect = require('expect');
+const request = require('supertest');
+const express = require('express');
 
-import * as middlewares from '../../../server/lib/middlewares';
+const middlewares = require('../../../server/lib/middlewares');
 
 
 describe('#middlewares', () => {

@@ -1,9 +1,9 @@
-import _ from 'lodash';
+const _ = require('lodash');
 
 /*
  * Determine if user has required group to access to application.
  */
-export const hasGroup = (userGroups, appGroups) => {
+const hasGroup = (userGroups, appGroups) => {
   if (!userGroups || !appGroups || !appGroups.length) {
     return true;
   }
@@ -11,3 +11,7 @@ export const hasGroup = (userGroups, appGroups) => {
   const intersection = _.intersection(userGroups, appGroups);
   return intersection && intersection.length >= 1;
 };
+
+module.exports = {
+  hasGroup,
+}

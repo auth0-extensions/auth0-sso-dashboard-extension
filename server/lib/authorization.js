@@ -1,9 +1,9 @@
-import Promise from 'bluebird';
-import { ValidationError } from 'auth0-extension-tools';
+const Promise = require('bluebird');
+const { ValidationError } = require('auth0-extension-tools');
 
-import { addGrant, removeGrant, getResourceServer } from './queries';
+const { addGrant, removeGrant, getResourceServer } = require('./queries');
 
-export const getStatus = (req, storage) =>
+const getStatus = (req, storage) =>
   storage.read()
     .then((data) => {
       const result = { authorizationEnabled: data.authorizationEnabled };
@@ -16,7 +16,7 @@ export const getStatus = (req, storage) =>
         });
     });
 
-export const enable = (req, storage) =>
+const enable = (req, storage) =>
   storage.read()
     .then((data) => {
       if (data.authorizationEnabled) {
@@ -39,7 +39,7 @@ export const enable = (req, storage) =>
         });
     });
 
-export const disable = (req, storage) =>
+const disable = (req, storage) =>
   storage.read()
     .then((data) => {
       if (!data.authorizationEnabled) {
@@ -50,5 +50,11 @@ export const disable = (req, storage) =>
         .then(() => {
           data.authorizationEnabled = false;
           return storage.write(data);
-        })
+        });
     });
+
+module.exports = {
+  getStatus,
+  enable,
+  disable
+};

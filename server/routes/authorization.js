@@ -1,9 +1,9 @@
-import { Router } from 'express';
+const { Router } = require('express');
 
-import * as authorization from '../lib/authorization';
-import { requireScope } from '../lib/middlewares';
+const authorization = require('../lib/authorization');
+const { requireScope } = require('../lib/middlewares');
 
-export default (storage) => {
+module.exports = (storage) => {
   const api = Router();
 
   api.get('/', requireScope('manage:authorization'), (req, res, next) => {

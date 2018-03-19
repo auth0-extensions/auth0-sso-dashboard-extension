@@ -1,10 +1,10 @@
-import Promise from 'bluebird';
-import authenticationUrl from './authenticationUrl';
+const Promise = require('bluebird');
+const authenticationUrl = require('./authenticationUrl');
 
 /*
  * Save the application to webtask storage.
  */
-export const saveApplication = (id, body, storage) => new Promise((resolve, reject) => {
+const saveApplication = (id, body, storage) => new Promise((resolve, reject) => {
   const data = {
     name: body.name,
     client: body.client,
@@ -43,7 +43,7 @@ export const saveApplication = (id, body, storage) => new Promise((resolve, reje
 /*
  * Delete the application from webtask storage.
  */
-export const deleteApplication = (id, storage) =>
+const deleteApplication = (id, storage) =>
   new Promise((resolve, reject) => {
     storage.read()
       .then(originalData => {
@@ -56,3 +56,9 @@ export const deleteApplication = (id, storage) =>
       })
       .catch(reject);
   });
+
+module.exports = {
+  saveApplication,
+  deleteApplication,
+};
+
