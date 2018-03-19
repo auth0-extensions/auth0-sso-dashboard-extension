@@ -7,3 +7,5 @@ server/data.json
 node_modules
 npm-debug.log
 dist
+*.swp
+yarn-error.log
