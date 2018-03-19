@@ -1,4 +1,4 @@
-import url from 'url';
+import { URL } from 'url';
 import expect from 'expect';
 import { auth } from '../../../client/reducers/auth';
 import * as constants from '../../../client/constants';
@@ -84,9 +84,7 @@ describe('auth reducer', () => {
         payload: {
           user: { name: 'test' },
           token: 'test token',
-          decodedToken: {
-            iss: 'https://roman-test.eu.auth0.com/'
-          }
+          issuer: 'roman-test.eu.auth0.com'
         }
       }).toJSON()
     ).toEqual(
@@ -94,11 +92,9 @@ describe('auth reducer', () => {
         error: null,
         isAuthenticated: true,
         isAuthenticating: false,
-        issuer: url.parse('https://roman-test.eu.auth0.com/').hostname,
+        issuer: new URL('https://roman-test.eu.auth0.com/').hostname,
         token: 'test token',
-        decodedToken: {
-          iss: 'https://roman-test.eu.auth0.com/'
-        },
+        decodedToken: undefined,
         user: { name: 'test' }
       }
     );
