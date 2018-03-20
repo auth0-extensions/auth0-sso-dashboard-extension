@@ -49,6 +49,7 @@ describe('#logs router', () => {
   };
 
   const fakeApiClient = (req, res, next) => {
+    // eslint-disable-next-line no-param-reassign
     req.auth0 = {
       clients: {
         getAll: () => Promise.resolve(defaultClients)
@@ -59,7 +60,8 @@ describe('#logs router', () => {
   };
 
   const addUserToReq = (req, res, next) => {
-    req.user = {scope: ['manage:applications', 'read:applications']};
+    // eslint-disable-next-line no-param-reassign
+    req.user = { scope: [ 'manage:applications', 'read:applications' ] };
     next();
   };
 

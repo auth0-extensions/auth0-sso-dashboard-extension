@@ -2,7 +2,7 @@ const _ = require('lodash');
 const Promise = require('bluebird');
 const request = require('superagent');
 const memoizer = require('lru-memoizer');
-const { ValidationError } = require('auth0-extension-tools');
+const { managementApi, ValidationError } = require('auth0-extension-tools');
 
 const config = require('./config');
 const logger = require('./logger');
@@ -13,7 +13,7 @@ const getAuthorizationApiUrl = () => {
     return config('AUTHZ_API_DEV_URL');
   }
 
-  let publicUrl = config('PUBLIC_WT_URL');
+  const publicUrl = config('PUBLIC_WT_URL');
 
   if (publicUrl[publicUrl.length - 1] === '/') {
     publicUrl[publicUrl.length - 1] = '';
@@ -54,15 +54,15 @@ const getAuthorizationToken = () =>
 
 const getAuthorizationTokenCached = Promise.promisify(
   memoizer({
-      load: (callback) => {
-        getAuthorizationToken()
-          .then(accessToken => callback(null, accessToken))
-          .catch(err => callback(err));
-      },
-      hash: () => 'auth0-authz-apiToken',
-      max: 100,
-      maxAge: 60 * 60000
-    }
+    load: (callback) => {
+      getAuthorizationToken()
+        .then(accessToken => callback(null, accessToken))
+        .catch(err => callback(err));
+    },
+    hash: () => 'auth0-authz-apiToken',
+    max: 100,
+    maxAge: 60 * 60000
+  }
   ));
 
 const getGroups = () =>
@@ -73,7 +73,7 @@ const getGroups = () =>
           return resolve(null);
         }
 
-        request('GET', `${getAuthorizationApiUrl()}/groups`)
+        return request('GET', `${getAuthorizationApiUrl()}/groups`)
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`)
           .end((err, res) => {
@@ -100,7 +100,7 @@ const getGroupsForUser = (userId) =>
           return reject(new ValidationError('User ID is required.'));
         }
 
-        request('GET', `${getAuthorizationApiUrl()}/users/${userId}/groups/calculate`)
+        return request('GET', `${getAuthorizationApiUrl()}/users/${userId}/groups/calculate`)
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`)
           .end((err, res) => {
@@ -109,6 +109,7 @@ const getGroupsForUser = (userId) =>
               return reject(err);
             }
 
+            // eslint-disable-next-line no-underscore-dangle
             const groupIDs = _.map(res.body || [], (item) => item._id);
 
             return resolve(groupIDs);
@@ -211,5 +212,5 @@ module.exports = {
   createResourceServer,
   deleteResourceServer,
   addGrant,
-  removeGrant,
-}
+  removeGrant
+};

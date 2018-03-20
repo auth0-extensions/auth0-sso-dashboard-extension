@@ -33,6 +33,7 @@ const enable = (req, storage) =>
 
           return addGrant(req)
             .then(() => {
+              // eslint-disable-next-line no-param-reassign
               data.authorizationEnabled = true;
               return storage.write(data);
             });
@@ -48,6 +49,7 @@ const disable = (req, storage) =>
 
       return removeGrant(req)
         .then(() => {
+          // eslint-disable-next-line no-param-reassign
           data.authorizationEnabled = false;
           return storage.write(data);
         });

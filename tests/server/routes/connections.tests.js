@@ -16,6 +16,7 @@ describe('#logs router', () => {
   ];
 
   const fakeApiClient = (req, res, next) => {
+    // eslint-disable-next-line no-param-reassign
     req.auth0 = {
       connections: {
         getAll: () => Promise.resolve(defaultConnections)
@@ -26,7 +27,8 @@ describe('#logs router', () => {
   };
 
   const addUserToReq = (req, res, next) => {
-    req.user = {scope: ['manage:applications']};
+    // eslint-disable-next-line no-param-reassign
+    req.user = { scope: [ 'manage:applications' ] };
     next();
   };
   const auth0 = (req, res, next) => next();
@@ -38,7 +40,7 @@ describe('#logs router', () => {
     it('should return list of connections', (done) => {
       request(app)
         .get('/connections')
-//        .expect('Content-Type', /json/)
+        .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
           if (err) throw err;

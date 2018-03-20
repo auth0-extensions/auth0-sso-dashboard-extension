@@ -13,5 +13,5 @@ const hasGroup = (userGroups, appGroups) => {
 };
 
 module.exports = {
-  hasGroup,
-}
+  hasGroup
+};

@@ -59,6 +59,6 @@ const deleteApplication = (id, storage) =>
 
 module.exports = {
   saveApplication,
-  deleteApplication,
+  deleteApplication
 };
 
