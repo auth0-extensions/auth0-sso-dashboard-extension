@@ -1,8 +1,8 @@
-import _ from 'lodash';
-import { Router } from 'express';
-import { requireScope } from '../lib/middlewares';
+const _ = require('lodash');
+const { Router } = require('express');
+const { requireScope } = require('../lib/middlewares');
 
-export default (auth0) => {
+module.exports = (auth0) => {
   const api = Router();
   api.get('/', auth0, requireScope('manage:applications'), (req, res, next) => {
     req.auth0.connections.getAll({ fields: 'name' })

@@ -3,7 +3,7 @@ const { ForbiddenError } = require('auth0-extension-tools');
 const { middlewares } = require('auth0-extension-express-tools');
 
 const config = require('../lib/config');
-const connections = requie('./connections');
+const connections = require('./connections');
 const applications = require('./applications');
 const groups = require('./groups');
 const authorization = require('./authorization');

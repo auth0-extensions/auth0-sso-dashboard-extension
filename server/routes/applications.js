@@ -1,14 +1,14 @@
-import _ from 'lodash';
-import uuid from 'uuid';
-import { Router } from 'express';
+const _ = require('lodash');
+const uuid = require('uuid');
+const { Router } = require('express');
 
-import { requireScope } from '../lib/middlewares';
-import { saveApplication, deleteApplication } from '../lib/applications';
-import { getGroupsForUser } from '../lib/queries';
-import { hasGroup } from '../lib/user';
+const { requireScope } = require('../lib/middlewares');
+const { saveApplication, deleteApplication } = require('../lib/applications');
+const { getGroupsForUser } = require('../lib/queries');
+const { hasGroup } = require('../lib/user');
 
 
-export default (auth0, storage) => {
+module.exports = (auth0, storage) => {
   const api = Router();
   api.get('/clients', auth0, requireScope('manage:applications'), (req, res, next) => {
     req.auth0.clients.getAll({ fields: 'client_id,name,callbacks,global,app_type' })

@@ -14,7 +14,7 @@ module.exports = (storage) => {
             .then(groups => res.json(groups));
         }
 
-        return res.json([])
+        return res.json([]);
       })
       .catch(next);
   });

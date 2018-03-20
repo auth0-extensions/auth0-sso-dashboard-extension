@@ -1,10 +1,10 @@
-import expect from 'expect';
-import Promise from 'bluebird';
-import request from 'supertest';
-import express from 'express';
-import bodyParser from 'body-parser';
+const expect = require('expect');
+const Promise = require('bluebird');
+const request = require('supertest');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-import applications from '../../../server/routes/applications';
+const applications = require('../../../server/routes/applications');
 
 describe('#logs router', () => {
   const defaultClients = [
@@ -59,7 +59,7 @@ describe('#logs router', () => {
   };
 
   const addUserToReq = (req, res, next) => {
-    req.user = { };
+    req.user = {scope: ['manage:applications', 'read:applications']};
     next();
   };
 
@@ -73,12 +73,13 @@ describe('#logs router', () => {
       applications: defaultApps
     }
   };
+  const auth0 = (req, res, next) => next();
 
   const app = express();
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use('/applications', fakeApiClient, addUserToReq, applications(storage));
+  app.use('/applications', fakeApiClient, addUserToReq, applications(auth0, storage));
 
   describe('#Applications', () => {
     it('should return list of clients from auth0', (done) => {
