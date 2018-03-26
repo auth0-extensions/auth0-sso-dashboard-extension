@@ -24,6 +24,7 @@ export default class Header extends Component {
 
   render() {
     const { user, issuer, onLogout, isAdmin } = this.props;
+    const allowAuthz = window.config.ALLOW_AUTHZ;
     return (
       <header className="dashboard-header">
         <nav role="navigation" className="navbar navbar-default">
@@ -54,7 +55,7 @@ export default class Header extends Component {
                         </Link>
                       </li>
                      : ''}
-                    { isAdmin ?
+                    { isAdmin && allowAuthz ?
                       <li role="presentation">
                         <Link role="menuitem" tabIndex="0" to="/authorization">
                           Authorization

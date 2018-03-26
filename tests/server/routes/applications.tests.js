@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 
 import applications from '../../../server/routes/applications';
 
-describe('#logs router', () => {
+describe('#applications router', () => {
   const defaultClients = [
     {
       name: 'Client 1',
@@ -59,7 +59,9 @@ describe('#logs router', () => {
   };
 
   const addUserToReq = (req, res, next) => {
-    req.user = { };
+    req.user = {
+      scope: [ 'read:applications', 'manage:applications' ]
+    };
     next();
   };
 
@@ -78,7 +80,7 @@ describe('#logs router', () => {
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use('/applications', fakeApiClient, addUserToReq, applications(storage));
+  app.use('/applications', addUserToReq, applications(fakeApiClient, storage));
 
   describe('#Applications', () => {
     it('should return list of clients from auth0', (done) => {

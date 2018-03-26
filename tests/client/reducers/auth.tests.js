@@ -84,6 +84,7 @@ describe('auth reducer', () => {
         payload: {
           user: { name: 'test' },
           token: 'test token',
+          issuer: 'test-issuer',
           decodedToken: {
             iss: 'https://roman-test.eu.auth0.com/'
           }
@@ -94,7 +95,7 @@ describe('auth reducer', () => {
         error: null,
         isAuthenticated: true,
         isAuthenticating: false,
-        issuer: url.parse('https://roman-test.eu.auth0.com/').hostname,
+        issuer: 'test-issuer',
         token: 'test token',
         decodedToken: {
           iss: 'https://roman-test.eu.auth0.com/'
