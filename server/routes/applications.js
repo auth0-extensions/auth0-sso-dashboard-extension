@@ -2,6 +2,7 @@ import _ from 'lodash';
 import uuid from 'uuid';
 import { Router } from 'express';
 
+import config from '../lib/config';
 import { requireScope } from '../lib/middlewares';
 import { saveApplication, deleteApplication } from '../lib/applications';
 import { getGroupsForUser } from '../lib/queries';
@@ -30,7 +31,7 @@ export default (auth0, storage) => {
       })
       .then(() => storage.read())
       .then((data) => {
-        if (data.authorizationEnabled) {
+        if (config('ALLOW_AUTHZ') && data.authorizationEnabled) {
           return getGroupsForUser(req.user.sub);
         }
 
