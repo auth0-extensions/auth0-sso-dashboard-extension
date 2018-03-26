@@ -5,7 +5,7 @@ const express = require('express');
 
 const connections = require('../../../server/routes/connections');
 
-describe('#logs router', () => {
+describe('#connections router', () => {
   const defaultConnections = [
     {
       name: 'connection-a'
@@ -28,13 +28,15 @@ describe('#logs router', () => {
 
   const addUserToReq = (req, res, next) => {
     // eslint-disable-next-line no-param-reassign
-    req.user = { scope: [ 'manage:applications' ] };
+    req.user = {
+      scope: [ 'manage:applications' ]
+    };
     next();
   };
   const auth0 = (req, res, next) => next();
 
   const app = express();
-  app.use('/connections', fakeApiClient, addUserToReq, connections(auth0));
+  app.use('/connections', addUserToReq, connections(fakeApiClient));
 
   describe('#Connections', () => {
     it('should return list of connections', (done) => {

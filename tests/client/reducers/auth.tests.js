@@ -84,7 +84,10 @@ describe('auth reducer', () => {
         payload: {
           user: { name: 'test' },
           token: 'test token',
-          issuer: 'roman-test.eu.auth0.com'
+          issuer: 'test-issuer',
+          decodedToken: {
+            iss: 'https://roman-test.eu.auth0.com/'
+          }
         }
       }).toJSON()
     ).toEqual(
@@ -92,9 +95,11 @@ describe('auth reducer', () => {
         error: null,
         isAuthenticated: true,
         isAuthenticating: false,
-        issuer: new URL('https://roman-test.eu.auth0.com/').hostname,
+        issuer: 'test-issuer',
         token: 'test token',
-        decodedToken: undefined,
+        decodedToken: {
+          iss: 'https://roman-test.eu.auth0.com/'
+        },
         user: { name: 'test' }
       }
     );

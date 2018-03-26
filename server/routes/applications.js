@@ -2,6 +2,7 @@ const _ = require('lodash');
 const uuid = require('uuid');
 const { Router } = require('express');
 
+const config = require('../lib/config');
 const { requireScope } = require('../lib/middlewares');
 const { saveApplication, deleteApplication } = require('../lib/applications');
 const { getGroupsForUser } = require('../lib/queries');
@@ -30,7 +31,7 @@ module.exports = (auth0, storage) => {
       })
       .then(() => storage.read())
       .then((data) => {
-        if (data.authorizationEnabled) {
+        if (config('ALLOW_AUTHZ') && data.authorizationEnabled) {
           return getGroupsForUser(req.user.sub);
         }
 
