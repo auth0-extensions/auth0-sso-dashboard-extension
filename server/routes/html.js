@@ -50,17 +50,17 @@ module.exports = () => {
       ALLOW_AUTHZ: config('ALLOW_AUTHZ'),
       BASE_URL: urlHelpers.getBaseUrl(req),
       BASE_PATH: urlHelpers.getBasePath(req),
-      TITLE: config('TITLE')
+      TITLE: config('TITLE'),
+      CLIENT_VERSION: config('CLIENT_VERSION'),
     };
 
     // Render from CDN.
-    const clientVersion = process.env.CLIENT_VERSION;
-    if (clientVersion) {
+    if (process.env.NODE_ENV === 'webtask') {
       return res.send(ejs.render(template, {
         config: settings,
         assets: {
           customCss: config('CUSTOM_CSS'),
-          version: clientVersion
+          version: settings.CLIENT_VERSION
         }
       }));
     }

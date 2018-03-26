@@ -9,3 +9,4 @@ npm-debug.log
 dist
 *.swp
 yarn-error.log
+secrets
