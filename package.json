@@ -99,7 +99,7 @@
     "xml2js": "0.4.8"
   },
   "devDependencies": {
-    "auth0-extensions-cli": "https://github.com/kusold/auth0-extensions-cli.git#uglify",
+    "auth0-extensions-cli": "^1.0.5",
     "autoprefixer": "^6.5.1",
     "babel": "^6.5.2",
     "babel-core": "^6.18.2",

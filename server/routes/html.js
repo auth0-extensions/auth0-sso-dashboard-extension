@@ -6,6 +6,8 @@ const { urlHelpers } = require('auth0-extension-express-tools');
 const config = require('../lib/config');
 
 module.exports = () => {
+  // const extenionsCDN = '//cdn.auth0.com/extensions/auth0-sso-dashboard';
+  const extensionsCDN = '//cdn.auth0.com/extensions/develop/auth0-sso-dashboard';
   const template = `
   <!DOCTYPE html>
   <html lang="en">
@@ -20,7 +22,7 @@ module.exports = () => {
     <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/manage/v0.3.1672/css/index.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/styleguide/4.6.13/index.min.css" />
     <% if (assets.style) { %><link rel="stylesheet" type="text/css" href="/app/<%= assets.style %>" /><% } %>
-    <% if (assets.version) { %><link rel="stylesheet" type="text/css" href="//cdn.auth0.com/extensions/auth0-sso-dashboard/assets/auth0-sso-dashboard.ui.<%= assets.version %>.css" /><% } %>
+    <% if (assets.version) { %><link rel="stylesheet" type="text/css" href="${extensionsCDN}/assets/auth0-sso-dashboard.ui.<%= assets.version %>.css" /><% } %>
     <% if (assets.customCss) { %><link rel="stylesheet" type="text/css" href="<%= assets.customCss %>" /><% } %>
   </head>
   <body>
@@ -31,8 +33,8 @@ module.exports = () => {
     <% if (assets.vendors) { %><script type="text/javascript" src="<%= assets.vendors %>"></script><% } %>
     <% if (assets.app) { %><script type="text/javascript" src="<%= assets.app %>"></script><% } %>
     <% if (assets.version) { %>
-    <script type="text/javascript" src="//cdn.auth0.com/extensions/auth0-sso-dashboard/assets/auth0-sso-dashboard.ui.vendors.<%= assets.version %>.js"></script>
-    <script type="text/javascript" src="//cdn.auth0.com/extensions/auth0-sso-dashboard/assets/auth0-sso-dashboard.ui.<%= assets.version %>.js"></script>
+    <script type="text/javascript" src="${extensionsCDN}/assets/auth0-sso-dashboard.ui.vendors.<%= assets.version %>.js"></script>
+    <script type="text/javascript" src="${extensionsCDN}/assets/auth0-sso-dashboard.ui.<%= assets.version %>.js"></script>
     <% } %>
   </body>
   </html>
@@ -51,7 +53,7 @@ module.exports = () => {
       BASE_URL: urlHelpers.getBaseUrl(req),
       BASE_PATH: urlHelpers.getBasePath(req),
       TITLE: config('TITLE'),
-      CLIENT_VERSION: config('CLIENT_VERSION'),
+      CLIENT_VERSION: config('CLIENT_VERSION')
     };
 
     // Render from CDN.
