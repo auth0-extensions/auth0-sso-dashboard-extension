@@ -9,7 +9,7 @@ const webAuth = new auth0.WebAuth({ // eslint-disable-line no-undef
   clientID: window.config.AUTH0_CLIENT_ID,
   responseType: 'id_token token',
   scope: 'openid name email nickname read:applications manage:applications',
-  audience: 'urn:auth0-sso-dashboard'
+  audience: window.config.API_AUDIENCE
 });
 
 export function login() {

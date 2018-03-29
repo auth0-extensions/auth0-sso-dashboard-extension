@@ -53,7 +53,8 @@ module.exports = () => {
       BASE_URL: urlHelpers.getBaseUrl(req),
       BASE_PATH: urlHelpers.getBasePath(req),
       TITLE: config('TITLE'),
-      CLIENT_VERSION: config('CLIENT_VERSION')
+      CLIENT_VERSION: config('CLIENT_VERSION'),
+      API_AUDIENCE: config('API_AUDIENCE')
     };
 
     // Render from CDN.
