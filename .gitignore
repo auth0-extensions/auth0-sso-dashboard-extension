@@ -10,3 +10,4 @@ dist
 *.swp
 yarn-error.log
 secrets
+.vscode
