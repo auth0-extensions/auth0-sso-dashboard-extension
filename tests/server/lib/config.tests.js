@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+const { expect } = require('chai'); // eslint-disable-line import/no-extraneous-dependencies
 const config = require('../../../server/lib/config');
 const { setProvider } = require('../../../server/lib/config');
 

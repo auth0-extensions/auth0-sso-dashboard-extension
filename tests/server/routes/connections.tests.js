@@ -1,6 +1,6 @@
 const expect = require('expect');
 const Promise = require('bluebird');
-const request = require('supertest');
+const request = require('supertest'); // eslint-disable-line import/no-extraneous-dependencies
 const express = require('express');
 
 const connections = require('../../../server/routes/connections');
@@ -33,7 +33,6 @@ describe('#connections router', () => {
     };
     next();
   };
-  const auth0 = (req, res, next) => next();
 
   const app = express();
   app.use('/connections', addUserToReq, connections(fakeApiClient));

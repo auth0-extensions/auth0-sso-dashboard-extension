@@ -1,6 +1,6 @@
 const expect = require('expect');
 const Promise = require('bluebird');
-const request = require('supertest');
+const request = require('supertest'); // eslint-disable-line import/no-extraneous-dependencies
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -77,7 +77,6 @@ describe('#applications router', () => {
       applications: defaultApps
     }
   };
-  const auth0 = (req, res, next) => next();
 
   const app = express();
 

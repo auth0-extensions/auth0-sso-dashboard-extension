@@ -9,6 +9,7 @@ const initialState = {
   requesting: false
 };
 
+// eslint-disable-next-line import/prefer-default-export
 export const updateApplication = createReducer(fromJS(initialState), {
   [constants.UPDATE_APPLICATION_PENDING]: (state) =>
     state.merge({
