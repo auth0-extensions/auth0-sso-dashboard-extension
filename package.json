@@ -18,8 +18,8 @@
     "test:clean": "rimraf ./coverage && rimraf ./.nyc_output",
     "test:pre": "npm run test:clean",
     "test:watch": "npm run test:pre && cross-env NODE_ENV=test mocha tests/mocha.js ./tests/**/*.tests.js --watch",
-    "test": "npm run test:pre && npm run test:client && npm run test:server",
-    "test:client": "cross-env NODE_ENV=test nyc mocha tests/client/mocha.js ./tests/client/**/*.tests.js",
+    "test": "npm run test:client && npm run test:server",
+    "test:client": "npm run test:pre && cross-env NODE_ENV=test nyc mocha tests/client/mocha.js ./tests/client/**/*.tests.js",
     "test:server": "npm run test:pre && cross-env NODE_ENV=test nyc mocha tests/server/mocha.js ./tests/server/**/*.tests.js"
   },
   "keywords": [
