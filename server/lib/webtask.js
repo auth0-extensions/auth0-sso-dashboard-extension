@@ -18,14 +18,13 @@ function createRouteNormalizationRx(claims) {
       : '';
 
   if (claims.url_format === USE_SHARED_DOMAIN) {
-    // eslint-disable-next-line no-useless-escape
+    /* eslint-disable no-useless-escape */
     return new RegExp(`^\/api/run/${container}/(?:${name}\/?)?`);
   } else if (claims.url_format === USE_CUSTOM_DOMAIN) {
-    // eslint-disable-next-line no-useless-escape
     return new RegExp(`^\/${container}/(?:${name}\/?)?`);
   } else if (claims.url_format === USE_WILDCARD_DOMAIN) {
-    // eslint-disable-next-line no-useless-escape
     return new RegExp(`^\/(?:${name}\/?)?`);
+    /* eslint-enable no-useless-escape */
   }
 
   throw new Error('Unsupported webtask URL format.');
