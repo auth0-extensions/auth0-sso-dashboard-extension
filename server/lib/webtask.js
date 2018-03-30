@@ -14,8 +14,8 @@ function createRouteNormalizationRx(claims) {
 
   const container = claims.container.replace(SANITIZE_RX, '\\$&');
   const name = claims.jtn
-      ? claims.jtn.replace(SANITIZE_RX, '\\$&')
-      : '';
+    ? claims.jtn.replace(SANITIZE_RX, '\\$&')
+    : '';
 
   if (claims.url_format === USE_SHARED_DOMAIN) {
     /* eslint-disable no-useless-escape */

@@ -10,15 +10,15 @@ const initialState = {
 };
 
 export const createApplication = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
-  [constants.REQUEST_APPLICATION_CREATE]: (state) =>
+  [constants.REQUEST_APPLICATION_CREATE]: state =>
     state.merge({
       requesting: true
     }),
-  [constants.CANCEL_APPLICATION_CREATE]: (state) =>
+  [constants.CANCEL_APPLICATION_CREATE]: state =>
     state.merge({
       requesting: false
     }),
-  [constants.CREATE_APPLICATION_PENDING]: (state) =>
+  [constants.CREATE_APPLICATION_PENDING]: state =>
     state.merge({
       loading: true,
       error: null
@@ -28,7 +28,7 @@ export const createApplication = createReducer(fromJS(initialState), { // eslint
       loading: false,
       error: `An error occured while creating the application: ${action.errorMessage}`
     }),
-  [constants.CREATE_APPLICATION_FULFILLED]: (state) =>
+  [constants.CREATE_APPLICATION_FULFILLED]: state =>
     state.merge({
       loading: false,
       error: null,

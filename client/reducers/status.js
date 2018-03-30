@@ -7,11 +7,11 @@ const initialState = {
 };
 
 export const status = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
-  [constants.FETCH_STATUS_PENDING]: (state) =>
+  [constants.FETCH_STATUS_PENDING]: state =>
     state.merge({
       isAdmin: false
     }),
-  [constants.FETCH_STATUS_REJECTED]: (state) =>
+  [constants.FETCH_STATUS_REJECTED]: state =>
     state.merge({
       isAdmin: false
     }),

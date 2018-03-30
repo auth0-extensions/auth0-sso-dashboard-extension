@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect';
 
-const getApps = (state) =>
+const getApps = state =>
   state.applications.get('records');
 
 const getConnection = (state, connectionName) =>
-connectionName && state.connections.get('records').find(conn => conn.get('name') === connectionName);
+  connectionName && state.connections.get('records').find(conn => conn.get('name') === connectionName);
 
 const getAppsForConnection = createSelector(
   [ getApps, getConnection ],

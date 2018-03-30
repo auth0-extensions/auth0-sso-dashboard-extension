@@ -16,12 +16,12 @@ export const deleteApplication = createReducer(fromJS(initialState), { // eslint
       requesting: true,
       appId: action.meta.appId
     }),
-  [constants.CANCEL_APPLICATION_DELETE]: (state) =>
+  [constants.CANCEL_APPLICATION_DELETE]: state =>
     state.merge({
       requesting: false,
       appId: null
     }),
-  [constants.DELETE_APPLICATION_PENDING]: (state) =>
+  [constants.DELETE_APPLICATION_PENDING]: state =>
     state.merge({
       loading: true,
       error: null
@@ -31,7 +31,7 @@ export const deleteApplication = createReducer(fromJS(initialState), { // eslint
       loading: false,
       error: `An error occured while loading the applications: ${action.errorMessage}`
     }),
-  [constants.DELETE_APPLICATION_FULFILLED]: (state) =>
+  [constants.DELETE_APPLICATION_FULFILLED]: state =>
     state.merge({
       loading: false,
       error: null,

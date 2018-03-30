@@ -88,7 +88,7 @@ const getGroups = () =>
       .catch(reject);
   });
 
-const getGroupsForUser = (userId) =>
+const getGroupsForUser = userId =>
   new Promise((resolve, reject) => {
     getAuthorizationTokenCached()
       .then((token) => {
@@ -110,7 +110,7 @@ const getGroupsForUser = (userId) =>
             }
 
             // eslint-disable-next-line no-underscore-dangle
-            const groupIDs = _.map(res.body || [], (item) => item._id);
+            const groupIDs = _.map(res.body || [], item => item._id);
 
             return resolve(groupIDs);
           });
@@ -148,7 +148,7 @@ const makeRequest = (req, path, method, payload) =>
         return resolve(res.body);
       });
   }),
-);
+  );
 
 const getResourceServer = (req, audience) =>
   makeRequest(req, 'resource-servers', 'GET')
@@ -197,7 +197,7 @@ const addGrant = req =>
 
 const removeGrant = req =>
   getGrantId(req)
-    .then(id => {
+    .then((id) => {
       if (id) {
         return makeRequest(req, `client-grants/${id}`, 'DELETE');
       }

@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export const updateAuthorization = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
-  [constants.UPDATE_AUTHORIZATION_STATUS_PENDING]: (state) =>
+  [constants.UPDATE_AUTHORIZATION_STATUS_PENDING]: state =>
     state.merge({
       loading: true,
       error: null,

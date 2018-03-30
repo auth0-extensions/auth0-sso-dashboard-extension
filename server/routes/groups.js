@@ -13,7 +13,7 @@ module.exports = (storage) => {
     }
 
     return storage.read()
-      .then(data => {
+      .then((data) => {
         if (data.authorizationEnabled) {
           return getGroups(req.params.appId)
             .then(groups => res.json(groups));

@@ -15,7 +15,7 @@ module.exports = (auth0, storage) => {
     req.auth0.clients.getAll({ fields: 'client_id,name,callbacks,global,app_type' })
       .then(clients => _.chain(clients)
         .filter(client => !client.global)
-        .sortBy((client) => client.name.toLowerCase())
+        .sortBy(client => client.name.toLowerCase())
         .value()
       )
       .then(clients => res.json(clients))
@@ -25,7 +25,7 @@ module.exports = (auth0, storage) => {
   api.get('/', requireScope('read:applications'), (req, res, next) => {
     let applications;
     storage.read()
-      .then(apps => {
+      .then((apps) => {
         applications = apps.applications || { };
         return null;
       })

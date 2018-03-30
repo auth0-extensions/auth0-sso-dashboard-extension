@@ -28,10 +28,10 @@ const saveApplication = (id, body, storage) => new Promise((resolve, reject) => 
 
   // Save.
   storage.read()
-    .then(originalData => {
-      originalData = originalData || {};  // eslint-disable-line no-param-reassign
+    .then((originalData) => {
+      originalData = originalData || {}; // eslint-disable-line no-param-reassign
       originalData.applications = originalData.applications || {}; // eslint-disable-line no-param-reassign
-      originalData.applications[id] = data;  // eslint-disable-line no-param-reassign
+      originalData.applications[id] = data; // eslint-disable-line no-param-reassign
 
       return storage.write(originalData)
         .then(resolve)
@@ -46,9 +46,9 @@ const saveApplication = (id, body, storage) => new Promise((resolve, reject) => 
 const deleteApplication = (id, storage) =>
   new Promise((resolve, reject) => {
     storage.read()
-      .then(originalData => {
-        originalData.applications[id] = null;  // eslint-disable-line no-param-reassign
-        delete originalData.applications[id];  // eslint-disable-line no-param-reassign
+      .then((originalData) => {
+        originalData.applications[id] = null; // eslint-disable-line no-param-reassign
+        delete originalData.applications[id]; // eslint-disable-line no-param-reassign
 
         return storage.write(originalData)
           .then(resolve)
