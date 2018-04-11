@@ -6,7 +6,9 @@ const { urlHelpers } = require('auth0-extension-express-tools');
 const config = require('../lib/config');
 
 module.exports = () => {
-  const extensionsCDN = '//cdn.auth0.com/extensions/auth0-sso-dashboard';
+  // TODO: Before merge, switch back
+  // const extensionsCDN = '//cdn.auth0.com/extensions/auth0-sso-dashboard';
+  const extensionsCDN = '//cdn.auth0.com/extensions/develop/auth0-sso-dashboard';
 
   const template = `
   <!DOCTYPE html>
