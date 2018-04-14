@@ -7,8 +7,10 @@ const config = require('../lib/config');
 
 module.exports = () => {
   // TODO: Before merge, switch back
-  // const extensionsCDN = '//cdn.auth0.com/extensions/auth0-sso-dashboard';
-  const extensionsCDN = '//cdn.auth0.com/extensions/develop/auth0-sso-dashboard';
+  // const extensionsCDN = '//cdn.auth0.com/extensions/auth0-sso-dashboard/assets';
+  // const bundlePrefix = 'auth0-sso-dashboard.ui';
+  const extensionsCDN = '//cdn.auth0.com/extensions/develop/kusold-sso-dashboard/assets';
+  const bundlePrefix = 'kusold-sso-dashboard.ui';
 
   const template = `
   <!DOCTYPE html>
@@ -24,7 +26,7 @@ module.exports = () => {
     <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/manage/v0.3.1672/css/index.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/styleguide/4.6.13/index.min.css" />
     <% if (assets.style) { %><link rel="stylesheet" type="text/css" href="/app/<%= assets.style %>" /><% } %>
-    <% if (assets.version) { %><link rel="stylesheet" type="text/css" href="${extensionsCDN}/assets/auth0-sso-dashboard.ui.<%= assets.version %>.css" /><% } %>
+    <% if (assets.version) { %><link rel="stylesheet" type="text/css" href="${extensionsCDN}/${bundlePrefix}.<%= assets.version %>.css" /><% } %>
     <% if (assets.customCss) { %><link rel="stylesheet" type="text/css" href="<%= assets.customCss %>" /><% } %>
   </head>
   <body>
@@ -35,8 +37,8 @@ module.exports = () => {
     <% if (assets.vendors) { %><script type="text/javascript" src="<%= assets.vendors %>"></script><% } %>
     <% if (assets.app) { %><script type="text/javascript" src="<%= assets.app %>"></script><% } %>
     <% if (assets.version) { %>
-    <script type="text/javascript" src="${extensionsCDN}/assets/auth0-sso-dashboard.ui.vendors.<%= assets.version %>.js"></script>
-    <script type="text/javascript" src="${extensionsCDN}/assets/auth0-sso-dashboard.ui.<%= assets.version %>.js"></script>
+    <script type="text/javascript" src="${extensionsCDN}/${bundlePrefix}.vendor.<%= assets.version %>.js"></script>
+    <script type="text/javascript" src="${extensionsCDN}/${bundlePrefix}.<%= assets.version %>.js"></script>
     <% } %>
   </body>
   </html>
@@ -55,17 +57,22 @@ module.exports = () => {
       BASE_URL: urlHelpers.getBaseUrl(req),
       BASE_PATH: urlHelpers.getBasePath(req),
       TITLE: config('TITLE'),
-      CLIENT_VERSION: config('CLIENT_VERSION'),
-      API_AUDIENCE: config('API_AUDIENCE')
+      API_AUDIENCE: 'urn:auth0-sso-dashboard',
     };
 
+    // TODO: Fix before merge.
+    // process.env.CLIENT_VERSION isn't populated when I "create extension" on manage
+    const clientVersion = '2.0.0'
+    console.log(process.env.NODE_ENV)
+
     // Render from CDN.
-    if (process.env.NODE_ENV === 'webtask') {
+    if (true) {
+      console.log('LOADING FROM CDN')
       return res.send(ejs.render(template, {
         config: settings,
         assets: {
           customCss: config('CUSTOM_CSS'),
-          version: settings.CLIENT_VERSION
+          version: clientVersion,
         }
       }));
     }

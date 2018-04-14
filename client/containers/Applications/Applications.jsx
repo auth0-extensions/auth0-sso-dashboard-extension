@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import filter from 'lodash/filter';
 import * as actions from '../../actions/application';
 import { fetchGroups } from '../../actions/groups';
 import { fetchAuthorizationStatus } from '../../actions/authorization';
@@ -29,7 +29,7 @@ class Applications extends Component {
 
   onChangeSearch = (query) => {
     if (query) {
-      const apps = _.filter(this.props.applications, (app) => app.name.toLowerCase().indexOf(query) > -1);
+      const apps = filter(this.props.applications, (app) => app.name.toLowerCase().indexOf(query) > -1);
       this.setState({ apps });
     } else {
       this.onReset();
