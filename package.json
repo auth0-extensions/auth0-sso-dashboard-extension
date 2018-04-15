@@ -2,8 +2,9 @@
   "name": "kusold-sso-dashboard",
   "version": "2.0.0",
   "description": "This extension provides your users with a dashboard for all of their applications.",
+  "repository": "https://github.com/auth0-extensions/auth0-sso-dashboard-extension",
   "engines": {
-    "node": ">=6.x"
+    "node": ">=8.x"
   },
   "main": "server.js",
   "scripts": {
