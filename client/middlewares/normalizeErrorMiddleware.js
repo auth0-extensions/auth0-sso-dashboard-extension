@@ -1,5 +1,5 @@
 export default function normalizeErrorMiddleware() {
-  return () => next => action => {
+  return () => next => (action) => {
     if (action && action.type.endsWith('_REJECTED') && action.payload) {
       let error = 'Unknown Server Error';
       if (action.payload.code === 'ECONNABORTED') {

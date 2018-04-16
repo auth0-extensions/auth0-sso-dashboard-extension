@@ -8,12 +8,12 @@ const initialState = {
 };
 
 export const authorization = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
-  [constants.FETCH_AUTHORIZATION_STATUS_PENDING]: (state) =>
+  [constants.FETCH_AUTHORIZATION_STATUS_PENDING]: state =>
     state.merge({
       authorizationEnabled: false,
       authorizationApiAvailable: false
     }),
-  [constants.FETCH_AUTHORIZATION_STATUS_REJECTED]: (state) =>
+  [constants.FETCH_AUTHORIZATION_STATUS_REJECTED]: state =>
     state.merge({
       authorizationEnabled: false,
       authorizationApiAvailable: false

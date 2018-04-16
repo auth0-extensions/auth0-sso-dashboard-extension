@@ -1,10 +1,10 @@
-import { Router } from 'express';
+const { Router } = require('express');
 
-import config from '../lib/config';
-import { getGroups } from '../lib/queries';
-import { requireScope } from '../lib/middlewares';
+const config = require('../lib/config');
+const { getGroups } = require('../lib/queries');
+const { requireScope } = require('../lib/middlewares');
 
-export default (storage) => {
+module.exports = (storage) => {
   const api = Router();
 
   api.get('/', requireScope('manage:applications'), (req, res, next) => {
@@ -12,8 +12,8 @@ export default (storage) => {
       return res.json([]);
     }
 
-    storage.read()
-      .then(data => {
+    return storage.read()
+      .then((data) => {
         if (data.authorizationEnabled) {
           return getGroups(req.params.appId)
             .then(groups => res.json(groups));

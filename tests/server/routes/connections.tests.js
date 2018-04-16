@@ -1,11 +1,11 @@
-import expect from 'expect';
-import Promise from 'bluebird';
-import request from 'supertest';
-import express from 'express';
+const expect = require('expect');
+const Promise = require('bluebird');
+const request = require('supertest'); // eslint-disable-line import/no-extraneous-dependencies
+const express = require('express');
 
-import connections from '../../../server/routes/connections';
+const connections = require('../../../server/routes/connections');
 
-describe.skip('#connections router', () => {
+describe('#connections router', () => {
   const defaultConnections = [
     {
       name: 'connection-a'
@@ -16,6 +16,7 @@ describe.skip('#connections router', () => {
   ];
 
   const fakeApiClient = (req, res, next) => {
+    // eslint-disable-next-line no-param-reassign
     req.auth0 = {
       connections: {
         getAll: () => Promise.resolve(defaultConnections)
@@ -26,6 +27,7 @@ describe.skip('#connections router', () => {
   };
 
   const addUserToReq = (req, res, next) => {
+    // eslint-disable-next-line no-param-reassign
     req.user = {
       scope: [ 'manage:applications' ]
     };

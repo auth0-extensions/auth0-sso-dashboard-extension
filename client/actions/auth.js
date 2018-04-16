@@ -9,7 +9,7 @@ const webAuth = new auth0.WebAuth({ // eslint-disable-line no-undef
   clientID: window.config.AUTH0_CLIENT_ID,
   responseType: 'id_token token',
   scope: 'openid name email nickname read:applications manage:applications',
-  audience: 'urn:auth0-sso-dashboard'
+  audience: window.config.API_AUDIENCE
 });
 
 export function login() {
@@ -23,7 +23,7 @@ export function login() {
 }
 
 function tokenExpired(expTime) {
-  return parseInt(expTime) < (new Date().getTime() + (5 * 60000));
+  return parseInt(expTime, 10) < (new Date().getTime() + (5 * 60000));
 }
 
 function isExpired(decodedToken) {
@@ -72,7 +72,7 @@ function loadForUser() {
 
     return {
       token: accessToken,
-      user: user,
+      user,
       issuer: user.name || user.username || user.nickname || user.email
     };
   }
@@ -115,17 +115,17 @@ export function loadCredentials() {
     }
 
     if (window.location.hash) {
-      webAuth.parseHash(window.location.hash, function(parseErr, hash) {
+      webAuth.parseHash(window.location.hash, (parseErr, hash) => {
         if (parseErr) {
           return dispatch({
             type: constants.LOGIN_FAILED,
             payload: {
-              error: infoErr
+              error: parseErr
             }
           });
         }
 
-        webAuth.client.userInfo(hash.accessToken, function(infoErr, user) {
+        return webAuth.client.userInfo(hash.accessToken, (infoErr, user) => {
           if (infoErr) {
             return dispatch({
               type: constants.LOGIN_FAILED,
@@ -141,7 +141,7 @@ export function loadCredentials() {
 
           axios.defaults.headers.common.Authorization = `Bearer ${hash.accessToken}`;
 
-          dispatch({
+          return dispatch({
             type: constants.LOGIN_SUCCESS,
             payload: {
               token: hash.accessToken,

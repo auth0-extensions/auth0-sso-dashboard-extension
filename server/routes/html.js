@@ -1,11 +1,17 @@
-import fs from 'fs';
-import ejs from 'ejs';
-import path from 'path';
-import { urlHelpers } from 'auth0-extension-express-tools';
+const fs = require('fs');
+const ejs = require('ejs');
+const path = require('path');
+const { urlHelpers } = require('auth0-extension-express-tools');
 
-import config from '../lib/config';
+const config = require('../lib/config');
 
-export default () => {
+module.exports = () => {
+  // TODO: Before merge, switch back
+  // const extensionsCDN = '//cdn.auth0.com/extensions/auth0-sso-dashboard/assets';
+  // const bundlePrefix = 'auth0-sso-dashboard.ui';
+  const extensionsCDN = '//cdn.auth0.com/extensions/develop/kusold-sso-dashboard/assets';
+  const bundlePrefix = 'kusold-sso-dashboard.ui';
+
   const template = `
   <!DOCTYPE html>
   <html lang="en">
@@ -20,7 +26,7 @@ export default () => {
     <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/manage/v0.3.1672/css/index.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/styleguide/4.6.13/index.min.css" />
     <% if (assets.style) { %><link rel="stylesheet" type="text/css" href="/app/<%= assets.style %>" /><% } %>
-    <% if (assets.version) { %><link rel="stylesheet" type="text/css" href="//cdn.auth0.com/extensions/auth0-sso-dashboard/assets/auth0-sso-dashboard.ui.<%= assets.version %>.css" /><% } %>
+    <% if (assets.version) { %><link rel="stylesheet" type="text/css" href="${extensionsCDN}/${bundlePrefix}.<%= assets.version %>.css" /><% } %>
     <% if (assets.customCss) { %><link rel="stylesheet" type="text/css" href="<%= assets.customCss %>" /><% } %>
   </head>
   <body>
@@ -31,8 +37,8 @@ export default () => {
     <% if (assets.vendors) { %><script type="text/javascript" src="<%= assets.vendors %>"></script><% } %>
     <% if (assets.app) { %><script type="text/javascript" src="<%= assets.app %>"></script><% } %>
     <% if (assets.version) { %>
-    <script type="text/javascript" src="//cdn.auth0.com/extensions/auth0-sso-dashboard/assets/auth0-sso-dashboard.ui.vendors.<%= assets.version %>.js"></script>
-    <script type="text/javascript" src="//cdn.auth0.com/extensions/auth0-sso-dashboard/assets/auth0-sso-dashboard.ui.<%= assets.version %>.js"></script>
+    <script type="text/javascript" src="${extensionsCDN}/${bundlePrefix}.vendor.<%= assets.version %>.js"></script>
+    <script type="text/javascript" src="${extensionsCDN}/${bundlePrefix}.<%= assets.version %>.js"></script>
     <% } %>
   </body>
   </html>
@@ -50,12 +56,16 @@ export default () => {
       ALLOW_AUTHZ: config('ALLOW_AUTHZ'),
       BASE_URL: urlHelpers.getBaseUrl(req),
       BASE_PATH: urlHelpers.getBasePath(req),
-      TITLE: config('TITLE')
+      TITLE: config('TITLE'),
+      API_AUDIENCE: 'urn:auth0-sso-dashboard'
     };
 
+    // TODO: Fix before merge.
+    // process.env.CLIENT_VERSION isn't populated when I "create extension" on manage
+    const clientVersion = '2.0.0';
+
     // Render from CDN.
-    const clientVersion = process.env.CLIENT_VERSION;
-    if (clientVersion) {
+    if (process.env.CLIENT_VERSION) {
       return res.send(ejs.render(template, {
         config: settings,
         assets: {

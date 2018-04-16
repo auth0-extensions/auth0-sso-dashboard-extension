@@ -80,7 +80,7 @@ describe('create application reducer', () => {
         type: constants.CREATE_APPLICATION_FULFILLED
       }).toJSON()
     ).toEqual(
-        initialState
+      initialState
     );
   });
 });

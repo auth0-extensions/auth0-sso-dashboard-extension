@@ -1,17 +1,17 @@
-import path from 'path';
-import morgan from 'morgan';
-import Express from 'express';
-import bodyParser from 'body-parser';
-import * as tools from 'auth0-extension-tools';
-import { middlewares, routes } from 'auth0-extension-express-tools';
+const path = require('path');
+const morgan = require('morgan');
+const Express = require('express');
+const bodyParser = require('body-parser');
+const tools = require('auth0-extension-tools');
+const { middlewares, routes } = require('auth0-extension-express-tools');
 
-import api from './routes/api';
-import meta from './routes/meta';
-import hooks from './routes/hooks';
+const api = require('./routes/api');
+const meta = require('./routes/meta');
+const hooks = require('./routes/hooks');
 
-import logger from './lib/logger';
-import config from './lib/config';
-import htmlRoute from './routes/html';
+const logger = require('./lib/logger');
+const config = require('./lib/config');
+const htmlRoute = require('./routes/html');
 
 module.exports = (configProvider, storageProvider) => {
   config.setProvider(configProvider);

@@ -1,4 +1,4 @@
-export App from './App.jsx';
+export App from './App';
 export Login from './Login';
 export RequireAuthentication from './RequireAuthentication';
 export Authorization from './Authorization';

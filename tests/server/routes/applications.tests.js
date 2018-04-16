@@ -1,10 +1,10 @@
-import expect from 'expect';
-import Promise from 'bluebird';
-import request from 'supertest';
-import express from 'express';
-import bodyParser from 'body-parser';
+const expect = require('expect');
+const Promise = require('bluebird');
+const request = require('supertest'); // eslint-disable-line import/no-extraneous-dependencies
+const express = require('express');
+const bodyParser = require('body-parser');
 
-import applications from '../../../server/routes/applications';
+const applications = require('../../../server/routes/applications');
 
 describe('#applications router', () => {
   const defaultClients = [
@@ -49,6 +49,7 @@ describe('#applications router', () => {
   };
 
   const fakeApiClient = (req, res, next) => {
+    // eslint-disable-next-line no-param-reassign
     req.auth0 = {
       clients: {
         getAll: () => Promise.resolve(defaultClients)
@@ -59,6 +60,7 @@ describe('#applications router', () => {
   };
 
   const addUserToReq = (req, res, next) => {
+    // eslint-disable-next-line no-param-reassign
     req.user = {
       scope: [ 'read:applications', 'manage:applications' ]
     };

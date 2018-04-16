@@ -1,10 +1,10 @@
-import Promise from 'bluebird';
-import authenticationUrl from './authenticationUrl';
+const Promise = require('bluebird');
+const authenticationUrl = require('./authenticationUrl');
 
 /*
  * Save the application to webtask storage.
  */
-export const saveApplication = (id, body, storage) => new Promise((resolve, reject) => {
+const saveApplication = (id, body, storage) => new Promise((resolve, reject) => {
   const data = {
     name: body.name,
     client: body.client,
@@ -28,10 +28,10 @@ export const saveApplication = (id, body, storage) => new Promise((resolve, reje
 
   // Save.
   storage.read()
-    .then(originalData => {
-      originalData = originalData || {};  // eslint-disable-line no-param-reassign
+    .then((originalData) => {
+      originalData = originalData || {}; // eslint-disable-line no-param-reassign
       originalData.applications = originalData.applications || {}; // eslint-disable-line no-param-reassign
-      originalData.applications[id] = data;  // eslint-disable-line no-param-reassign
+      originalData.applications[id] = data; // eslint-disable-line no-param-reassign
 
       return storage.write(originalData)
         .then(resolve)
@@ -43,12 +43,12 @@ export const saveApplication = (id, body, storage) => new Promise((resolve, reje
 /*
  * Delete the application from webtask storage.
  */
-export const deleteApplication = (id, storage) =>
+const deleteApplication = (id, storage) =>
   new Promise((resolve, reject) => {
     storage.read()
-      .then(originalData => {
-        originalData.applications[id] = null;  // eslint-disable-line no-param-reassign
-        delete originalData.applications[id];  // eslint-disable-line no-param-reassign
+      .then((originalData) => {
+        originalData.applications[id] = null; // eslint-disable-line no-param-reassign
+        delete originalData.applications[id]; // eslint-disable-line no-param-reassign
 
         return storage.write(originalData)
           .then(resolve)
@@ -56,3 +56,9 @@ export const deleteApplication = (id, storage) =>
       })
       .catch(reject);
   });
+
+module.exports = {
+  saveApplication,
+  deleteApplication
+};
+

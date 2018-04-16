@@ -11,7 +11,7 @@ const initialState = {
 };
 
 export const groups = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
-  [constants.FETCH_GROUPS_PENDING]: (state) =>
+  [constants.FETCH_GROUPS_PENDING]: state =>
     state.merge({
       loading: true,
       error: null

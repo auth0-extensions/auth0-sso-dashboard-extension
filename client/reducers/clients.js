@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export const clients = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
-  [constants.FETCH_CLIENTS_PENDING]: (state) =>
+  [constants.FETCH_CLIENTS_PENDING]: state =>
     state.merge({
       loading: true,
       error: null

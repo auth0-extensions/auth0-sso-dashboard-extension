@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { InputCombo, InputText, InputCheckBox, Error } from '../Dashboard';
-import _ from 'lodash';
+import find from 'lodash/find';
 
 import createForm from '../../utils/createForm';
 
@@ -85,7 +85,7 @@ export default createForm('application', class extends Component {
     }
   }
 
-  getClientById = (id) => _.find(this.props.clients, (client) => client.client_id == id)
+  getClientById = (id) => find(this.props.clients, (client) => client.client_id == id)
 
   getCallbacks = (app) => {
     let callbacks = [];

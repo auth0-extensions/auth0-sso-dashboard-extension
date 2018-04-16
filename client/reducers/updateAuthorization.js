@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export const updateAuthorization = createReducer(fromJS(initialState), { // eslint-disable-line import/prefer-default-export
-  [constants.UPDATE_AUTHORIZATION_STATUS_PENDING]: (state) =>
+  [constants.UPDATE_AUTHORIZATION_STATUS_PENDING]: state =>
     state.merge({
       loading: true,
       error: null,
@@ -22,11 +22,9 @@ export const updateAuthorization = createReducer(fromJS(initialState), { // esli
       error: `An error occurred while updating authorization status: ${action.errorMessage}`,
       status: null
     }),
-  [constants.UPDATE_AUTHORIZATION_STATUS_FULFILLED]: (state, action) => {
-    return state.merge({
-      loading: false,
-      error: null,
-      status: action.payload && action.payload.data && action.payload.data.enabled
-    });
-  }
+  [constants.UPDATE_AUTHORIZATION_STATUS_FULFILLED]: (state, action) => state.merge({
+    loading: false,
+    error: null,
+    status: action.payload && action.payload.data && action.payload.data.enabled
+  })
 });

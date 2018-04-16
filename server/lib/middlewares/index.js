@@ -1,1 +1,5 @@
-export requireScope from './requireScope';
+const requireScope = require('./requireScope');
+
+module.exports = {
+  requireScope
+};

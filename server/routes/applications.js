@@ -1,21 +1,21 @@
-import _ from 'lodash';
-import uuid from 'uuid';
-import { Router } from 'express';
+const _ = require('lodash');
+const uuid = require('uuid');
+const { Router } = require('express');
 
-import config from '../lib/config';
-import { requireScope } from '../lib/middlewares';
-import { saveApplication, deleteApplication } from '../lib/applications';
-import { getGroupsForUser } from '../lib/queries';
-import { hasGroup } from '../lib/user';
+const config = require('../lib/config');
+const { requireScope } = require('../lib/middlewares');
+const { saveApplication, deleteApplication } = require('../lib/applications');
+const { getGroupsForUser } = require('../lib/queries');
+const { hasGroup } = require('../lib/user');
 
 
-export default (auth0, storage) => {
+module.exports = (auth0, storage) => {
   const api = Router();
   api.get('/clients', auth0, requireScope('manage:applications'), (req, res, next) => {
     req.auth0.clients.getAll({ fields: 'client_id,name,callbacks,global,app_type' })
       .then(clients => _.chain(clients)
         .filter(client => !client.global)
-        .sortBy((client) => client.name.toLowerCase())
+        .sortBy(client => client.name.toLowerCase())
         .value()
       )
       .then(clients => res.json(clients))
@@ -25,7 +25,7 @@ export default (auth0, storage) => {
   api.get('/', requireScope('read:applications'), (req, res, next) => {
     let applications;
     storage.read()
-      .then(apps => {
+      .then((apps) => {
         applications = apps.applications || { };
         return null;
       })

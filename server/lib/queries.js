@@ -1,11 +1,11 @@
-import _ from 'lodash';
-import Promise from 'bluebird';
-import request from 'superagent';
-import memoizer from 'lru-memoizer';
-import { managementApi, ValidationError } from 'auth0-extension-tools';
+const _ = require('lodash');
+const Promise = require('bluebird');
+const request = require('superagent');
+const memoizer = require('lru-memoizer');
+const { managementApi, ValidationError } = require('auth0-extension-tools');
 
-import config from './config';
-import logger from './logger';
+const config = require('./config');
+const logger = require('./logger');
 
 
 const getAuthorizationApiUrl = () => {
@@ -13,7 +13,7 @@ const getAuthorizationApiUrl = () => {
     return config('AUTHZ_API_DEV_URL');
   }
 
-  let publicUrl = config('PUBLIC_WT_URL');
+  const publicUrl = config('PUBLIC_WT_URL');
 
   if (publicUrl[publicUrl.length - 1] === '/') {
     publicUrl[publicUrl.length - 1] = '';
@@ -54,18 +54,18 @@ const getAuthorizationToken = () =>
 
 const getAuthorizationTokenCached = Promise.promisify(
   memoizer({
-      load: (callback) => {
-        getAuthorizationToken()
-          .then(accessToken => callback(null, accessToken))
-          .catch(err => callback(err));
-      },
-      hash: () => 'auth0-authz-apiToken',
-      max: 100,
-      maxAge: 60 * 60000
-    }
+    load: (callback) => {
+      getAuthorizationToken()
+        .then(accessToken => callback(null, accessToken))
+        .catch(err => callback(err));
+    },
+    hash: () => 'auth0-authz-apiToken',
+    max: 100,
+    maxAge: 60 * 60000
+  }
   ));
 
-export const getGroups = () =>
+const getGroups = () =>
   new Promise((resolve, reject) => {
     getAuthorizationTokenCached()
       .then((token) => {
@@ -73,7 +73,7 @@ export const getGroups = () =>
           return resolve(null);
         }
 
-        request('GET', `${getAuthorizationApiUrl()}/groups`)
+        return request('GET', `${getAuthorizationApiUrl()}/groups`)
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`)
           .end((err, res) => {
@@ -88,7 +88,7 @@ export const getGroups = () =>
       .catch(reject);
   });
 
-export const getGroupsForUser = (userId) =>
+const getGroupsForUser = userId =>
   new Promise((resolve, reject) => {
     getAuthorizationTokenCached()
       .then((token) => {
@@ -100,7 +100,7 @@ export const getGroupsForUser = (userId) =>
           return reject(new ValidationError('User ID is required.'));
         }
 
-        request('GET', `${getAuthorizationApiUrl()}/users/${userId}/groups/calculate`)
+        return request('GET', `${getAuthorizationApiUrl()}/users/${userId}/groups/calculate`)
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`)
           .end((err, res) => {
@@ -109,7 +109,8 @@ export const getGroupsForUser = (userId) =>
               return reject(err);
             }
 
-            const groupIDs = _.map(res.body || [], (item) => item._id);
+            // eslint-disable-next-line no-underscore-dangle
+            const groupIDs = _.map(res.body || [], item => item._id);
 
             return resolve(groupIDs);
           });
@@ -147,16 +148,16 @@ const makeRequest = (req, path, method, payload) =>
         return resolve(res.body);
       });
   }),
-);
+  );
 
-export const getResourceServer = (req, audience) =>
+const getResourceServer = (req, audience) =>
   makeRequest(req, 'resource-servers', 'GET')
     .then((apis) => {
       const api = apis.filter(item => item.identifier === audience);
       return api.length && api[0];
     });
 
-export const createResourceServer = (req) => {
+const createResourceServer = (req) => {
   const payload = {
     name: config('API_NAME') || 'SSO Dashboard API',
     identifier: config('API_AUDIENCE') || 'urn:auth0-sso-dashboard',
@@ -171,7 +172,7 @@ export const createResourceServer = (req) => {
   return makeRequest(req, 'resource-servers', 'POST', payload);
 };
 
-export const deleteResourceServer = req =>
+const deleteResourceServer = req =>
   getResourceServer(req, 'urn:auth0-sso-dashboard')
     .then((api) => {
       if (api.id) {
@@ -187,19 +188,29 @@ const getGrantId = req =>
     .then(grants => grants[0] && grants[0].id);
 
 
-export const addGrant = req =>
+const addGrant = req =>
   makeRequest(req, 'client-grants', 'POST', {
     client_id: config('AUTH0_CLIENT_ID'),
     audience: 'urn:auth0-authz-api',
     scope: [ 'read:users', 'read:groups' ]
   });
 
-export const removeGrant = req =>
+const removeGrant = req =>
   getGrantId(req)
-    .then(id => {
+    .then((id) => {
       if (id) {
         return makeRequest(req, `client-grants/${id}`, 'DELETE');
       }
 
       return Promise.resolve();
     });
+
+module.exports = {
+  getGroups,
+  getGroupsForUser,
+  getResourceServer,
+  createResourceServer,
+  deleteResourceServer,
+  addGrant,
+  removeGrant
+};

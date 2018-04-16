@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-const defaultMapStateToProps = (state) => state;
+const defaultMapStateToProps = state => state;
 const defaultMapActionsToProps = { };
 
 export default function connectContainer(container) {
