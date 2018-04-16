@@ -57,22 +57,20 @@ module.exports = () => {
       BASE_URL: urlHelpers.getBaseUrl(req),
       BASE_PATH: urlHelpers.getBasePath(req),
       TITLE: config('TITLE'),
-      API_AUDIENCE: 'urn:auth0-sso-dashboard',
+      API_AUDIENCE: 'urn:auth0-sso-dashboard'
     };
 
     // TODO: Fix before merge.
     // process.env.CLIENT_VERSION isn't populated when I "create extension" on manage
-    const clientVersion = '2.0.0'
-    console.log(process.env.NODE_ENV)
+    const clientVersion = '2.0.0';
 
     // Render from CDN.
-    if (true) {
-      console.log('LOADING FROM CDN')
+    if (process.env.CLIENT_VERSION) {
       return res.send(ejs.render(template, {
         config: settings,
         assets: {
           customCss: config('CUSTOM_CSS'),
-          version: clientVersion,
+          version: clientVersion
         }
       }));
     }
