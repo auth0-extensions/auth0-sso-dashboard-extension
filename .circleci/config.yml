@@ -17,7 +17,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - node-8-dependencies-
 
-      - run: yarn --ignore-engines install
+      - run: yarn install
 
       - save_cache:
           paths:
@@ -25,9 +25,9 @@ jobs:
           key: node-8-dependencies-{{ checksum "yarn.lock" }}
 
       # run tests!
-      - run: yarn --ignore-engines run lint:js
-      - run: yarn --ignore-engines test
-      - run: yarn --ignore-engines run build
+      - run: yarn run lint:js
+      - run: yarn test
+      - run: yarn run build
 
   node4:
     docker:
@@ -42,7 +42,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - node-4-dependencies-
 
-      - run: yarn --ignore-engines install --ignore-engines
+      - run: yarn install
 
       - save_cache:
           paths:
@@ -50,9 +50,8 @@ jobs:
           key: node-4-dependencies-{{ checksum "yarn.lock" }}
 
       # run tests!
-      - run: yarn --ignore-engines run lint:js
-      - run: yarn --ignore-engines test
-      - run: yarn --ignore-engines run build
+      - run: yarn run lint:js
+      - run: yarn test
 
 workflows:
   version: 2
