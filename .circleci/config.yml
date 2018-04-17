@@ -1,0 +1,62 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  node8:
+    docker:
+      - image: node:carbon
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - node-8-dependencies-{{ checksum "yarn.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - node-8-dependencies-
+
+      - run: yarn --ignore-engines install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: node-8-dependencies-{{ checksum "yarn.lock" }}
+
+      # run tests!
+      - run: yarn --ignore-engines run lint:js
+      - run: yarn --ignore-engines test
+      - run: yarn --ignore-engines run build
+
+  node4:
+    docker:
+      - image: node:argon
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - node-4-dependencies-{{ checksum "yarn.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - node-4-dependencies-
+
+      - run: yarn --ignore-engines install --ignore-engines
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: node-4-dependencies-{{ checksum "yarn.lock" }}
+
+      # run tests!
+      - run: yarn --ignore-engines run lint:js
+      - run: yarn --ignore-engines test
+      - run: yarn --ignore-engines run build
+
+workflows:
+  version: 2
+  test-supported-node-versions:
+    jobs:
+      - node8
+      - node4
