@@ -109,6 +109,7 @@ export const getGroupsForUser = (userId) =>
               return reject(err);
             }
 
+            // eslint-disable-next-line no-underscore-dangle
             const groupIDs = _.map(res.body || [], (item) => item._id);
 
             return resolve(groupIDs);
