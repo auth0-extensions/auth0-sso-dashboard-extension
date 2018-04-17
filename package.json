@@ -3,7 +3,7 @@
   "version": "1.1.5",
   "description": "This extension provides your users with a dashboard for all of their applications.",
   "engines": {
-    "node": "6.x"
+    "node": ">=4.x"
   },
   "main": "server.js",
   "scripts": {
