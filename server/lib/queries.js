@@ -13,7 +13,7 @@ const getAuthorizationApiUrl = () => {
     return config('AUTHZ_API_DEV_URL');
   }
 
-  let publicUrl = config('PUBLIC_WT_URL');
+  const publicUrl = config('PUBLIC_WT_URL');
 
   if (publicUrl[publicUrl.length - 1] === '/') {
     publicUrl[publicUrl.length - 1] = '';
@@ -54,15 +54,15 @@ const getAuthorizationToken = () =>
 
 const getAuthorizationTokenCached = Promise.promisify(
   memoizer({
-      load: (callback) => {
-        getAuthorizationToken()
+    load: (callback) => {
+      getAuthorizationToken()
           .then(accessToken => callback(null, accessToken))
           .catch(err => callback(err));
-      },
-      hash: () => 'auth0-authz-apiToken',
-      max: 100,
-      maxAge: 60 * 60000
-    }
+    },
+    hash: () => 'auth0-authz-apiToken',
+    max: 100,
+    maxAge: 60 * 60000
+  }
   ));
 
 export const getGroups = () =>

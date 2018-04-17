@@ -72,7 +72,7 @@ function loadForUser() {
 
     return {
       token: accessToken,
-      user: user,
+      user,
       issuer: user.name || user.username || user.nickname || user.email
     };
   }
@@ -115,7 +115,7 @@ export function loadCredentials() {
     }
 
     if (window.location.hash) {
-      webAuth.parseHash(window.location.hash, function(parseErr, hash) {
+      webAuth.parseHash(window.location.hash, (parseErr, hash) => {
         if (parseErr) {
           return dispatch({
             type: constants.LOGIN_FAILED,
@@ -125,7 +125,7 @@ export function loadCredentials() {
           });
         }
 
-        webAuth.client.userInfo(hash.accessToken, function(infoErr, user) {
+        webAuth.client.userInfo(hash.accessToken, (infoErr, user) => {
           if (infoErr) {
             return dispatch({
               type: constants.LOGIN_FAILED,

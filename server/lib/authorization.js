@@ -50,5 +50,5 @@ export const disable = (req, storage) =>
         .then(() => {
           data.authorizationEnabled = false;
           return storage.write(data);
-        })
+        });
     });

@@ -21,9 +21,8 @@ function createRouteNormalizationRx(claims) {
     return new RegExp(`^\/${container}/(?:${name}\/?)?`);
   } else if (claims.url_format === USE_WILDCARD_DOMAIN) {
     return new RegExp(`^\/(?:${name}\/?)?`);
-  } else {
-    throw new Error('Unsupported webtask URL format.');
   }
+  throw new Error('Unsupported webtask URL format.');
 }
 
 module.exports.getUrl = (req) => {
