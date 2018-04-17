@@ -23,7 +23,7 @@ export function login() {
 }
 
 function tokenExpired(expTime) {
-  return parseInt(expTime) < (new Date().getTime() + (5 * 60000));
+  return parseInt(expTime, 10) < (new Date().getTime() + (5 * 60000));
 }
 
 function isExpired(decodedToken) {
