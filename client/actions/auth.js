@@ -125,7 +125,7 @@ export function loadCredentials() {
           });
         }
 
-        webAuth.client.userInfo(hash.accessToken, (infoErr, user) => {
+        return webAuth.client.userInfo(hash.accessToken, (infoErr, user) => {
           if (infoErr) {
             return dispatch({
               type: constants.LOGIN_FAILED,
@@ -141,7 +141,7 @@ export function loadCredentials() {
 
           axios.defaults.headers.common.Authorization = `Bearer ${hash.accessToken}`;
 
-          dispatch({
+          return dispatch({
             type: constants.LOGIN_SUCCESS,
             payload: {
               token: hash.accessToken,

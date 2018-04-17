@@ -66,14 +66,14 @@ const getAuthorizationTokenCached = Promise.promisify(
   ));
 
 export const getGroups = () =>
-  new Promise((resolve, reject) => {
+  new Promise((resolve, reject) =>
     getAuthorizationTokenCached()
       .then((token) => {
         if (!token) {
           return resolve(null);
         }
 
-        request('GET', `${getAuthorizationApiUrl()}/groups`)
+        return request('GET', `${getAuthorizationApiUrl()}/groups`)
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`)
           .end((err, res) => {
@@ -85,11 +85,11 @@ export const getGroups = () =>
             return resolve(res.body.groups || []);
           });
       })
-      .catch(reject);
-  });
+      .catch(reject)
+  );
 
 export const getGroupsForUser = (userId) =>
-  new Promise((resolve, reject) => {
+  new Promise((resolve, reject) =>
     getAuthorizationTokenCached()
       .then((token) => {
         if (!token) {
@@ -100,7 +100,7 @@ export const getGroupsForUser = (userId) =>
           return reject(new ValidationError('User ID is required.'));
         }
 
-        request('GET', `${getAuthorizationApiUrl()}/users/${userId}/groups/calculate`)
+        return request('GET', `${getAuthorizationApiUrl()}/users/${userId}/groups/calculate`)
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`)
           .end((err, res) => {
@@ -114,8 +114,8 @@ export const getGroupsForUser = (userId) =>
             return resolve(groupIDs);
           });
       })
-      .catch(reject);
-  });
+      .catch(reject)
+  );
 
 
 const getToken = (req) => {

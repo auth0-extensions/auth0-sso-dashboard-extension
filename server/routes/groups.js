@@ -12,7 +12,7 @@ export default (storage) => {
       return res.json([]);
     }
 
-    storage.read()
+    return storage.read()
       .then(data => {
         if (data.authorizationEnabled) {
           return getGroups(req.params.appId)
