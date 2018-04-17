@@ -10,7 +10,7 @@
     "build": "npm run clean && npm run client:build && npm run extension:build",
     "clean": "rimraf dist",
     "client:build": "npm run clean && cross-env NODE_ENV=production webpack --config ./build/webpack/config.js --colors -p",
-    "extension:build": "a0-ext build:server ./webtask.js ./dist && cp ./dist/auth0-sso-dashboard.extension.$npm_package_version.js ./build/bundle.js",
+    "extension:build": "a0-ext build:server ./webtask.js ./dist && cp ./dist/$npm_package_name.extension.$npm_package_version.js ./build/bundle.js",
     "lint:js": "eslint --ignore-path .gitignore --ignore-pattern build --ignore-pattern webpack .",
     "serve:dev": "cross-env NODE_ENV=development gulp run --gulpfile ./build/gulpfile.js",
     "serve:prod": "cross-env NODE_ENV=production node index.js",
@@ -18,7 +18,7 @@
     "test:clean": "rimraf ./coverage && rimraf ./.nyc_output",
     "test:pre": "npm run test:clean",
     "test:watch": "npm run test:pre && cross-env NODE_ENV=test mocha tests/mocha.js ./tests/**/*.tests.js --watch",
-    "test": "npm run test:pre && cross-env NODE_ENV=test nyc mocha tests/mocha.js ./tests/**/*.tests.js"
+    "test": "npm run test:pre && cross-env NODE_ENV=test mocha tests/mocha.js ./tests/**/*.tests.js"
   },
   "keywords": [
     "auth0"
@@ -61,6 +61,8 @@
       "mime-types@2.0.12",
       "webtask-tools"
     ],
+    "nodeTarget": "4.2.0",
+    "bundleModules": true,
     "settings": {
       "AUTHZ_API_URL": "adf6e2f2b84784b57522e3b19dfc9201/api"
     }
@@ -122,11 +124,13 @@
     "@babel/plugin-transform-runtime": "^7.0.0-beta.44",
     "@babel/preset-env": "^7.0.0-beta.44",
     "@babel/preset-react": "^7.0.0-beta.44",
+    "@babel/register": "7.0.0-beta.44",
     "@babel/runtime": "^7.0.0-beta.44",
-    "auth0-extensions-cli": "^1.0.5",
+    "auth0-extensions-cli": "https://github.com/kusold/auth0-extensions-cli.git#ecma-8",
     "autoprefixer": "^6.5.1",
     "babel-eslint": "7.1.1",
     "babel-loader": "^8.0.0-beta",
+    "babel-polyfill": "6.26.0",
     "babel-preset-react": "^6.16.0",
     "babel-preset-react-hmre": "^1.1.1",
     "chai": "^3.5.0",
