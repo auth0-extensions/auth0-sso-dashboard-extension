@@ -3,6 +3,7 @@ const url = require('url');
 const USE_WILDCARD_DOMAIN = 3;
 const USE_CUSTOM_DOMAIN = 2;
 const USE_SHARED_DOMAIN = 1;
+// eslint-disable-next-line no-useless-escape
 const SANITIZE_RX = /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g;
 
 function createRouteNormalizationRx(claims) {
@@ -16,11 +17,13 @@ function createRouteNormalizationRx(claims) {
       : '';
 
   if (claims.url_format === USE_SHARED_DOMAIN) {
+    /* eslint-disable no-useless-escape */
     return new RegExp(`^\/api/run/${container}/(?:${name}\/?)?`);
   } else if (claims.url_format === USE_CUSTOM_DOMAIN) {
     return new RegExp(`^\/${container}/(?:${name}\/?)?`);
   } else if (claims.url_format === USE_WILDCARD_DOMAIN) {
     return new RegExp(`^\/(?:${name}\/?)?`);
+    /* eslint-enable no-useless-escape */
   }
   throw new Error('Unsupported webtask URL format.');
 }
