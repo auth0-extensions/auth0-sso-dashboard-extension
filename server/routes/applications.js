@@ -7,14 +7,14 @@ import { requireScope } from '../lib/middlewares';
 import { saveApplication, deleteApplication } from '../lib/applications';
 import { getGroupsForUser } from '../lib/queries';
 import { hasGroup } from '../lib/user';
+import multipartRequest from '../lib/multipartRequest';
 
 
 export default (auth0, storage) => {
   const api = Router();
   api.get('/clients', auth0, requireScope('manage:applications'), (req, res, next) => {
-    req.auth0.clients.getAll({ fields: 'client_id,name,callbacks,global,app_type' })
+    multipartRequest(req.auth0, 'clients', { is_global: false, fields: 'client_id,name,callbacks,app_type' })
       .then(clients => _.chain(clients)
-        .filter(client => !client.global)
         .sortBy((client) => client.name.toLowerCase())
         .value()
       )
