@@ -120,7 +120,7 @@ export function loadCredentials() {
           return dispatch({
             type: constants.LOGIN_FAILED,
             payload: {
-              error: infoErr
+              error: parseErr
             }
           });
         }
