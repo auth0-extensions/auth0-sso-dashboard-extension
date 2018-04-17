@@ -23,8 +23,11 @@ module.exports = (app) => {
   }
 
   if (app.connection) {
-    loginUrl += (loginUrl.indexOf('?') > 0) ? ((authProtocol === 'wsfed') ? '&whr=' : '&connection=') : ((authProtocol === 'wsfed') ? '?whr=' : '?connection=');
-    loginUrl += app.connection;
+    if (loginUrl.indexOf('?') > 0) {
+      loginUrl += (authProtocol === 'wsfed') ? '&whr=' : '&connection=';
+    } else {
+      loginUrl += (authProtocol === 'wsfed') ? '?whr=' : '?connection=';
+    }
   }
 
   return loginUrl;
