@@ -23,8 +23,9 @@ module.exports = (app) => {
   }
 
   if (app.connection) {
-    loginUrl += (loginUrl.indexOf('?') >0) ? ((authProtocol === 'wsfed') ? '&whr=' : '&connection=') : ((authProtocol === 'wsfed') ? '?whr=' : '?connection=')
-    loginUrl += app.connection;
+    const sep = loginUrl.indexOf('?') > 0 ? '?' : '&';
+    const type = authProtocol === 'wsfed' ? 'whr' : 'connection';
+    loginUrl += `${sep}${type}=${app.connection}`;
   }
 
   return loginUrl;

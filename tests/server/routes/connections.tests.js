@@ -16,6 +16,7 @@ describe.skip('#connections router', () => {
   ];
 
   const fakeApiClient = (req, res, next) => {
+    // eslint-disable-next-line no-param-reassign
     req.auth0 = {
       connections: {
         getAll: () => Promise.resolve(defaultConnections)
@@ -26,6 +27,7 @@ describe.skip('#connections router', () => {
   };
 
   const addUserToReq = (req, res, next) => {
+    // eslint-disable-next-line no-param-reassign
     req.user = {
       scope: [ 'manage:applications' ]
     };

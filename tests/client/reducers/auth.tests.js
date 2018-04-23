@@ -1,4 +1,3 @@
-import url from 'url';
 import expect from 'expect';
 import { auth } from '../../../client/reducers/auth';
 import * as constants from '../../../client/constants';

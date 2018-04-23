@@ -12,7 +12,7 @@ export default (storage) => {
       return res.json({ authorizationApiAvailable: false });
     }
 
-    authorization.getStatus(req, storage)
+    return authorization.getStatus(req, storage)
       .then(status => res.json(status))
       .catch(next);
   });
@@ -22,7 +22,7 @@ export default (storage) => {
       return next();
     }
 
-    authorization.enable(req, storage)
+    return authorization.enable(req, storage)
       .then(() => res.json({ enabled: true }))
       .catch(next);
   });
@@ -32,7 +32,7 @@ export default (storage) => {
       return next();
     }
 
-    authorization.disable(req, storage)
+    return authorization.disable(req, storage)
       .then(() => res.json({ enabled: false }))
       .catch(next);
   });
