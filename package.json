@@ -127,7 +127,7 @@
     "@babel/preset-react": "^7.0.0-beta.44",
     "@babel/register": "7.0.0-beta.44",
     "@babel/runtime": "^7.0.0-beta.44",
-    "auth0-extensions-cli": "https://github.com/kusold/auth0-extensions-cli.git#ecma-8",
+    "auth0-extensions-cli": "1.1.0",
     "autoprefixer": "^6.5.1",
     "babel-eslint": "7.1.1",
     "babel-loader": "^8.0.0-beta",

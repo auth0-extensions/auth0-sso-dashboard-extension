@@ -1056,9 +1056,9 @@ auth0-extension-ui@^1.0.1:
     path "^0.12.7"
     stylus-loader "^2.3.1"
 
-"auth0-extensions-cli@https://github.com/kusold/auth0-extensions-cli.git#ecma-8":
-  version "1.0.5"
-  resolved "https://github.com/kusold/auth0-extensions-cli.git#36a6271e24d3a99e8990de45dd190810823f8855"
+auth0-extensions-cli@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/auth0-extensions-cli/-/auth0-extensions-cli-1.1.0.tgz#22fd31971ffccff32645036c192ee9ef04d22f73"
   dependencies:
     "@babel/core" "^7.0.0-beta.44"
     "@babel/plugin-proposal-class-properties" "7.0.0-beta.44"
