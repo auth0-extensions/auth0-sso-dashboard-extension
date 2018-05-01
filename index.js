@@ -2,12 +2,24 @@ const path = require('path');
 const nconf = require('nconf');
 const logger = require('./server/lib/logger');
 
-// Initialize babel.
-require('babel-core/register')({
-  ignore: /node_modules/,
-  sourceMaps: !(process.env.NODE_ENV === 'production')
+// eslint-disable-next-line import/no-extraneous-dependencies
+require('@babel/register')({
+  ignore: [ /node_modules/ ],
+  sourceMaps: !(process.env.NODE_ENV === 'production'),
+  plugins: [
+    '@babel/plugin-proposal-export-default-from',
+    '@babel/plugin-proposal-object-rest-spread'
+  ],
+  presets: [
+    [ '@babel/env', {
+      targets: {
+        node: 'current'
+      }
+    } ]
+  ]
 });
-require('babel-polyfill');
+// eslint-disable-next-line import/no-extraneous-dependencies
+require('@babel/polyfill');
 
 // Handle uncaught.
 process.on('uncaughtException', (err) => {
