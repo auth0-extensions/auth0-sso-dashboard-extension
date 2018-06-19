@@ -124,7 +124,7 @@ let config = {
         vendors: {
           test: /node_modules/,
           chunks: "all",
-          name: "vendor",
+          name: "vendors",
           priority: 10,
           enforce: true
         }

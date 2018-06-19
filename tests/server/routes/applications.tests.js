@@ -92,7 +92,7 @@ describe('#applications router', () => {
         .expect(200)
         .end((err, res) => {
           if (err) throw err;
-          expect(res.body).toEqual(defaultClients.slice(0, 2));
+          expect(res.body).toEqual(defaultClients.slice(0, 3));
           done();
         });
     });

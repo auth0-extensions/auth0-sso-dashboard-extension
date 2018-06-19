@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 
-const config = require('./config.dev.js');
+const config = require('./config.js');
 const logger = require('../../server/lib/logger');
 
 const options = {
