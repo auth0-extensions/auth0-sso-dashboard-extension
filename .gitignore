@@ -6,5 +6,4 @@ server/config.json
 server/data.json
 node_modules
 npm-debug.log
-dist
 *.swp
