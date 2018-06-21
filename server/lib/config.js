@@ -1,16 +1,24 @@
 const settings = { };
 let currentProvider = null;
 
+const boolify = (item) => {
+  if (item === 'true' || item === 'false') {
+    return item === 'true';
+  }
+
+  return item;
+};
+
 const config = (key) => {
   if (settings && settings[key]) {
-    return settings[key];
+    return boolify(settings[key]);
   }
 
   if (!currentProvider) {
     throw new Error('A configuration provider has not been set');
   }
 
-  return currentProvider(key);
+  return boolify(currentProvider(key));
 };
 
 config.setProvider = (providerFunction) => {

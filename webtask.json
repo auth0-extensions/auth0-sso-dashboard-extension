@@ -1,7 +1,7 @@
 {
   "title": "SSO Dashboard",
   "name": "auth0-sso-dashboard",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "preVersion": "1.1.6",
   "author": "Auth0",
   "useHashName": false,
@@ -36,6 +36,22 @@
       "description": "A CSS file containing custom styles for the extension",
       "example": "https://cdn.fabrikam.com/static/extensions/theme/fabrikam.css",
       "required": false
+    },
+    "ALLOW_AUTHZ": {
+      "description": "This setting allow to enable Authorization Extension integration (Deprecated)",
+      "type": "select",
+      "allowMultiple": false,
+      "default": "false",
+      "options": [
+        {
+          "value": "false",
+          "text": "No"
+        },
+        {
+          "value": "true",
+          "text": "Yes"
+        }
+      ]
     }
   }
 }
