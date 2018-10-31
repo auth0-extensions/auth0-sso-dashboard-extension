@@ -1,7 +1,9 @@
 const settings = { };
 let currentProvider = null;
 
+
 const boolify = (item) => {
+  // as we're trying to "boolify" every secret, we need to make sure we're processing only boolean secrets
   if (item === 'true' || item === 'false') {
     return item === 'true';
   }
