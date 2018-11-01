@@ -3,59 +3,129 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+
+references:
+  workspace_root: &workspace_root
+    ~/repo
+
+  node_container: &node_container
+    docker:
+      - image: circleci/node:8.9
+
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
+
 jobs:
-  node8:
-    docker:
-      - image: node:carbon
+  build_and_test:
+    working_directory: *workspace_root
+    <<: *node_container
+
     steps:
       - checkout
 
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - node-8-dependencies-{{ checksum "yarn.lock" }}
+          - npm-dependencies-{{ checksum "package-lock.json" }}
           # fallback to using the latest cache if no exact match is found
-          - node-8-dependencies-
+          - npm-dependencies-
 
-      - run: yarn install
+      - run:
+          name: Install Code Climate Test Reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+
+      - run: npm install
+
+      # code climate requires before-build and after-build to be executed around test
+      - run:
+          name: Run Tests
+          command: |
+            ./cc-test-reporter before-build
+            yarn test
+            ./cc-test-reporter after-build --exit-code $?
+
+      - run: npm run build
+
+      - store_artifacts:
+          path: ./dist
 
       - save_cache:
+          name: Save npm packages to cache
+          key: npm-dependencies-{{ checksum "package-lock.json" }}
           paths:
-            - node_modules
-          key: node-8-dependencies-{{ checksum "yarn.lock" }}
+            - ./node_modules
 
-      # run tests!
-      - run: yarn run lint:js
-      - run: yarn test
-      - run: yarn run build
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - dist/*
+            - ./CHANGELOG.md
 
-  node4:
+  deploy:
+    working_directory: *workspace_root
     docker:
-      - image: node:argon
+      - image: cibuilds/github:0.12
+        environment:
+          RUBY_VERSION: 2.5
+          BUNDLE_SILENCE_ROOT_WARNING: true
+
     steps:
       - checkout
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - node-4-dependencies-{{ checksum "yarn.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - node-4-dependencies-
+      - *attach_workspace
 
-      - run: yarn install --ignore-engines
+      - run:
+          name: Setup dependencies
+          command: apk add --update --no-cache ruby ruby-irb ruby-rdoc
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: node-4-dependencies-{{ checksum "yarn.lock" }}
+      # Install Chandler for pulling release notes from changelogs: https://github.com/mattbrictson/chandler
+      - run:
+          name: Install Chandler
+          command: gem install chandler
 
-      # run tests!
-      - run: yarn run lint:js
-      - run: yarn test
+      - run:
+          name: Simulate Deploy
+          command: ls ./dist
+
+      - run:
+          name: Compress files
+          command: tar -zcvf assets.tar.gz dist/
+
+      # Get version from package.json using jq (comes with cibuilds/base)
+      # Create a github release using the CHANGELOG.md that matches the version number as the content
+      # Uploads the asset to the release
+      - run:
+          name: Create Github Release
+          command: |
+            VERSION=v$(cat dist/webtask.json | jq .version -r)
+            chandler push ${VERSION}
+            ghr -t ${CHANDLER_GITHUB_API_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} ${VERSION} ./assets.tar.gz
 
 workflows:
   version: 2
-  test-supported-node-versions:
+  build_and_test:
     jobs:
-      - node8
-      - node4
+      - build_and_test:
+          filters:
+            branches:
+                ignore: master
+  build_test_and_deploy:
+    jobs:
+      - build_and_test:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+                only: master
+      - deploy:
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
+
