@@ -1,4 +1,7 @@
 # Auth0 SSO Dashboard Extension
+[![CircleCI](https://circleci.com/gh/auth0-extensions/auth0-sso-dashboard-extension.svg?style=svg)](https://circleci.com/gh/auth0-extensions/auth0-sso-dashboard-extension)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c011cabbc344c1bec383/maintainability)](https://codeclimate.com/github/auth0-extensions/auth0-sso-dashboard-extension/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/c011cabbc344c1bec383/test_coverage)](https://codeclimate.com/github/auth0-extensions/auth0-sso-dashboard-extension/test_coverage)
 
 ## Running in Production
 

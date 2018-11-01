@@ -10,15 +10,15 @@
     "build": "npm run clean && npm run client:build && npm run extension:build",
     "clean": "rimraf dist",
     "client:build": "npm run clean && cross-env NODE_ENV=production webpack --config ./build/webpack/config.js --colors -p",
-    "extension:build": "a0-ext build:server ./webtask.js ./dist && cp ./dist/$npm_package_name.extension.$npm_package_version.js ./build/bundle.js",
+    "extension:build": "a0-ext build:server ./webtask.js ./dist && cp ./dist/$npm_package_name.extension.$npm_package_version.js ./build/bundle.js && cp ./webtask.json ./dist/webtask.json",
     "lint:js": "eslint --ignore-path .gitignore --ignore-pattern build --ignore-pattern webpack .",
     "serve:dev": "cross-env NODE_ENV=development gulp run --gulpfile ./build/gulpfile.js",
     "serve:prod": "cross-env NODE_ENV=production node index.js",
     "tag": "git tag $npm_package_version && git push --tags",
     "test:clean": "rimraf ./coverage && rimraf ./.nyc_output",
-    "test:pre": "npm run test:clean",
-    "test:watch": "npm run test:pre && cross-env NODE_ENV=test mocha tests/mocha.js ./tests/**/*.tests.js --watch",
-    "test": "npm run test:pre && cross-env NODE_ENV=test mocha tests/mocha.js ./tests/**/*.tests.js"
+    "test:pre": "npm run test:clean && npm run lint:js",
+    "test:watch": "npm run test:pre && cross-env NODE_ENV=test mocha --require ignore-styles tests/mocha.js ./tests/**/*.tests.js --watch",
+    "test": "cross-env NODE_ENV=test nyc --reporter=lcov mocha --require ignore-styles tests/mocha.js ./tests/**/*.tests.js"
   },
   "keywords": [
     "auth0"
@@ -145,6 +145,7 @@
     "gulp": "^3.9.1",
     "gulp-nodemon": "^2.2.1",
     "gulp-util": "^3.0.7",
+    "ignore-styles": "^5.0.1",
     "imports-loader": "0.7.0",
     "json-loader": "^0.5.4",
     "mini-css-extract-plugin": "0.4.0",
@@ -152,7 +153,7 @@
     "ngrok": "2.2.4",
     "nock": "^9.0.2",
     "nodemon": "^1.11.0",
-    "nyc": "10.0.0",
+    "nyc": "^13.1.0",
     "open": "^0.0.5",
     "postcss-focus": "^3.0.0",
     "postcss-loader": "^2.1.3",
