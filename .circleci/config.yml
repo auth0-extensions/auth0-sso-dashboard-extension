@@ -18,8 +18,8 @@ references:
 
 jobs:
   build_and_test:
-      environment:
-        CC_TEST_REPORTER_ID: ccf0ac1963ca952a2d4d12abf42af5cd6a57a9632797458e9ffabb5dc7ee6323
+    environment:
+      CC_TEST_REPORTER_ID: ccf0ac1963ca952a2d4d12abf42af5cd6a57a9632797458e9ffabb5dc7ee6323
 
     working_directory: *workspace_root
     <<: *node_container
