@@ -36,6 +36,22 @@
       "description": "A CSS file containing custom styles for the extension",
       "example": "https://cdn.fabrikam.com/static/extensions/theme/fabrikam.css",
       "required": false
+    },
+    "ALLOW_AUTHZ": {
+      "description": "Allow enabling of Authorization Extension integration (Deprecated)",
+      "type": "select",
+      "allowMultiple": false,
+      "default": "false",
+      "options": [
+        {
+          "value": "false",
+          "text": "No"
+        },
+        {
+          "value": "true",
+          "text": "Yes"
+        }
+      ]
     }
   }
 }
