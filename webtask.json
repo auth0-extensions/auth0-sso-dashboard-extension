@@ -1,7 +1,7 @@
 {
   "title": "SSO Dashboard",
   "name": "auth0-sso-dashboard",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "preVersion": "1.1.6",
   "author": "Auth0",
   "useHashName": false,
