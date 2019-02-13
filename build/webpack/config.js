@@ -162,9 +162,9 @@ switch(mode) {
         filename: 'manifest.json',
         transform: function transformData(data) {
           const chunks = {
-            app: data.assetsByChunkName.app[0],
-            style: data.assetsByChunkName.app[1],
-            vendors: data.assetsByChunkName.vendor
+            app: data.assetsByChunkName.app[1],
+            style: data.assetsByChunkName.app[0],
+            vendors: data.assetsByChunkName.vendors
           };
           return JSON.stringify(chunks);
         }

@@ -1,0 +1,10 @@
+{
+  "EXTENSION_SECRET": "random string",
+  "AUTH0_RTA": "auth0.auth0.com",
+  "WT_URL": "http://localhost:3000",
+  "PUBLIC_WT_URL": "http://localhost:3000",
+  "AUTH0_DOMAIN": "tenant.region.auth0.com",
+  "EXTENSION_CLIENT_ID": "spa_client_id",
+  "AUTH0_CLIENT_ID": "m2m_client_id_see_scopes_in_webtask_json",
+  "AUTH0_CLIENT_SECRET": "m2m_client_secret"
+}
