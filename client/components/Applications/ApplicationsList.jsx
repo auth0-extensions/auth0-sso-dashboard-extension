@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import varstring from 'varstring';
 
 export default class ApplicationsList extends Component {
@@ -24,7 +23,7 @@ export default class ApplicationsList extends Component {
           const logo = (app.logo) ? app.logo : 'https://cdn.auth0.com/manage/v0.3.1866/img/badge-grey.svg';
           const name = app.name || key;
 
-          const link = app.customURLEnabled ? varstring(app.customURL, {
+          const link = app.customURLEnabled ? varstring(app.customURL || '', {
             domain: window.config.AUTH0_DOMAIN,
             connection: app.connection,
             client_id: app.client,
