@@ -1,15 +1,11 @@
+import './ApplicationTable.css';
 import React, { Component } from 'react';
 
 import {
   Confirm,
-  TableActionCell,
   Table,
   TableCell,
-  TableRouteCell,
   TableBody,
-  TableTextCell,
-  TableHeader,
-  TableColumn,
   TableRow
 } from '../Dashboard';
 import { Link } from 'react-router';
@@ -21,6 +17,7 @@ export default class ApplicationsTable extends Component {
       React.PropTypes.array
     ]).isRequired,
     loading: React.PropTypes.bool.isRequired,
+    moveApplication: React.PropTypes.func.isRequired,
     deleteApplication: React.PropTypes.func.isRequired,
     updateApplication: React.PropTypes.func.isRequired,
     fetchApplications: React.PropTypes.func.isRequired,
@@ -43,8 +40,28 @@ export default class ApplicationsTable extends Component {
     }
   }
 
+  renderMoveButton(id, direction, row, total) {
+    const icon = direction === 'up' ? 'icon-budicon-462' : 'icon-budicon-460';
+    const enabled = (direction === 'up' && row > 1) || (direction === 'down' && row < total);
+    return (
+      <li title={direction} data-toggle="tooltip">
+        <a
+          href="#" onClick={(e) => {
+            if (enabled) {
+              this.props.moveApplication(id, direction === 'up');
+            }
+          }} className={`move-app ${!enabled ? 'disabled' : ''}`}
+        >
+          <i className={icon} />
+        </a>
+      </li>
+    );
+  }
+
   render() {
-    const { applications, renderActions, appId } = this.props;
+    const { applications, appId } = this.props;
+    const rowsTotal = Object.keys(applications).length;
+    let rowIndex = 0;
     return (
       <div>
         <Confirm
@@ -63,12 +80,12 @@ export default class ApplicationsTable extends Component {
               const application = applications[key];
               const logo = application.logo || 'https://cdn.auth0.com/manage/v0.3.1866/img/badge-grey.svg';
               const type = application.type;
-              const callback = application.callback;
               const enabled = application.enabled;
               const appClassName = `btn btn-publish-app ${enabled ? 'btn-transparent' : 'btn-success'}`;
               const appButtonText = enabled ? 'UNPUBLISH' : 'PUBLISH';
               const name = application.name || application.client;
               const loginUrl = application.loginUrl;
+              rowIndex++;
               return (
                 <TableRow key={key}>
                   <TableCell>
@@ -97,6 +114,8 @@ export default class ApplicationsTable extends Component {
                           <i className="icon-budicon-187" />
                         </a>
                       </li>
+                      {this.renderMoveButton(key, 'up', rowIndex, rowsTotal)}
+                      {this.renderMoveButton(key, 'down', rowIndex, rowsTotal)}
                       <li title="Edit" data-toggle="tooltip">
                         <Link to={`/applications/${key}`}>
                           <i className="icon-budicon-329" />

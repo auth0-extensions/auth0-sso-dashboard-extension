@@ -30,6 +30,7 @@ export default () => {
     <script type="text/javascript">window.config = <%- JSON.stringify(config) %>;</script>
     <% if (assets.vendors) { %><script type="text/javascript" src="/app/<%= assets.vendors %>"></script><% } %>
     <% if (assets.app) { %><script type="text/javascript" src="/app/<%= assets.app %>"></script><% } %>
+    <% if (assets.bundle) { %><script type="text/javascript" src="<%= assets.bundle %>"></script><% } %>
     <% if (assets.version) { %>
     <script type="text/javascript" src="//cdn.auth0.com/extensions/auth0-sso-dashboard/assets/auth0-sso-dashboard.ui.vendors.<%= assets.version %>.js"></script>
     <script type="text/javascript" src="//cdn.auth0.com/extensions/auth0-sso-dashboard/assets/auth0-sso-dashboard.ui.<%= assets.version %>.js"></script>
@@ -71,7 +72,7 @@ export default () => {
         config: settings,
         assets: {
           customCss: config('CUSTOM_CSS'),
-          app: 'http://localhost:3000/app/bundle.js'
+          bundle: 'http://localhost:3000/app/bundle.js'
         }
       };
 

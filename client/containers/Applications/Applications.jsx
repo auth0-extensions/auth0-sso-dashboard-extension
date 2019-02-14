@@ -69,6 +69,7 @@ class Applications extends Component {
           error={error}
           applications={apps}
           loading={loading}
+          moveApplication={this.props.moveApplication}
           deleteApplication={this.props.deleteApplication}
           updateApplication={this.props.updateApplication}
           requestDeleteApplication={this.props.requestDeleteApplication}

@@ -80,8 +80,7 @@ let config = {
       {
         test: /\.css$/,
         use: [
-//          'style-loader',
-          'css-loader',
+          (mode === developmentMode ? 'style-loader' : 'css-loader'),
           {
             loader: 'postcss-loader',
             options: {
@@ -171,10 +170,16 @@ switch(mode) {
       })
     );
 
-
     config = extractCSS(config);
     break;
   case developmentMode:
+    config.optimization = {};
+    config.output = {
+      path: path.join(process.cwd(), './dist'),
+      filename: 'bundle.js',
+      publicPath: 'http://localhost:3000/app/'
+    };
+
     break;
 }
 

@@ -10,6 +10,7 @@ export default class ApplicationOverview extends React.Component {
     onReset: React.PropTypes.func.isRequired,
     onChangeSearch: React.PropTypes.func.isRequired,
     fetchApplications: React.PropTypes.func.isRequired,
+    moveApplication: React.PropTypes.func.isRequired,
     deleteApplication: React.PropTypes.func.isRequired,
     updateApplication: React.PropTypes.func.isRequired,
     requestDeleteApplication: React.PropTypes.func.isRequired,
@@ -48,6 +49,7 @@ export default class ApplicationOverview extends React.Component {
               <ApplicationsTable
                 loading={loading}
                 applications={applications}
+                moveApplication={this.props.moveApplication}
                 deleteApplication={this.props.deleteApplication}
                 fetchApplications={this.props.fetchApplications}
                 updateApplication={this.props.updateApplication}

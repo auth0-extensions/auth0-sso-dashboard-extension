@@ -4,7 +4,7 @@ import { Router } from 'express';
 
 import config from '../lib/config';
 import { requireScope } from '../lib/middlewares';
-import { saveApplication, deleteApplication } from '../lib/applications';
+import { moveApplication, saveApplication, deleteApplication } from '../lib/applications';
 import { getGroupsForUser } from '../lib/queries';
 import { hasGroup } from '../lib/user';
 import multipartRequest from '../lib/multipartRequest';
@@ -77,6 +77,15 @@ export default (auth0, storage) => {
    */
   api.put('/:id', requireScope('manage:applications'), (req, res, next) => {
     saveApplication(req.params.id, req.body, storage)
+      .then(() => res.status(204).send())
+      .catch(next);
+  });
+
+  /*
+   * move application.
+   */
+  api.patch('/:id', requireScope('manage:applications'), (req, res, next) => {
+    moveApplication(req.params.id, req.query.direction, storage)
       .then(() => res.status(204).send())
       .catch(next);
   });

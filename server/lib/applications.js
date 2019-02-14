@@ -41,6 +41,34 @@ export const saveApplication = (id, body, storage) => new Promise((resolve, reje
 });
 
 /*
+ * Move application to rearrange order.
+ */
+export const moveApplication = (id, direction, storage) =>
+  storage.read()
+    .then(data => {
+      data.applications = data.applications || {}; // eslint-disable-line no-param-reassign
+
+      const ids = Object.keys(data.applications);
+      const currentPosition = ids.indexOf(id);
+      const newPosition = direction === 'up' ? currentPosition - 1 : currentPosition + 1;
+
+      if (newPosition >= 0 && newPosition < ids.length) {
+        const reordered = {};
+        ids.splice(newPosition, 0, ids.splice(currentPosition, 1)[0]);
+
+        ids.forEach((key) => {
+          reordered[key] = data.applications[key];
+        });
+
+        data.applications = reordered; // eslint-disable-line no-param-reassign
+
+        return storage.write(data);
+      }
+
+      return null;
+    });
+
+/*
  * Delete the application from webtask storage.
  */
 export const deleteApplication = (id, storage) =>
