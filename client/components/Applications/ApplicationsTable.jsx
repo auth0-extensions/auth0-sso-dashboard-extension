@@ -48,7 +48,7 @@ export default class ApplicationsTable extends Component {
         <a
           href="#" onClick={(e) => {
             if (enabled) {
-              this.props.moveApplication(id, direction === 'up');
+              this.props.moveApplication(id, direction);
             }
           }} className={`move-app ${!enabled ? 'disabled' : ''}`}
         >
