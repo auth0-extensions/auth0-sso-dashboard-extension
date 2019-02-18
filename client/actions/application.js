@@ -160,6 +160,28 @@ export function cancelDeleteApplication() {
   };
 }
 
+export function moveApplication(appId, direction, onSuccess) {
+  const moveTo = direction === 'up' ? -1 : 1;
+  return (dispatch) => {
+    dispatch({
+      type: constants.MOVE_APPLICATION,
+      meta: {
+        onSuccess: () => {
+          if (onSuccess) {
+            onSuccess();
+          }
+          dispatch(fetchApplicationsAll());
+        }
+      },
+      payload: {
+        promise: axios.patch(`/api/applications/${appId}/${moveTo}`, {
+          responseType: 'json'
+        })
+      }
+    });
+  };
+}
+
 export function deleteApplication(appId, onSuccess) {
   return (dispatch) => {
     dispatch({
