@@ -161,6 +161,7 @@ export function cancelDeleteApplication() {
 }
 
 export function moveApplication(appId, direction, onSuccess) {
+  const moveTo = direction === 'up' ? -1 : 1;
   return (dispatch) => {
     dispatch({
       type: constants.MOVE_APPLICATION,
@@ -173,7 +174,7 @@ export function moveApplication(appId, direction, onSuccess) {
         }
       },
       payload: {
-        promise: axios.patch(`/api/applications/${appId}?direction=${direction}`, {
+        promise: axios.patch(`/api/applications/${appId}/${moveTo}`, {
           responseType: 'json'
         })
       }

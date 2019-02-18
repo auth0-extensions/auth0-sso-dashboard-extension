@@ -84,8 +84,8 @@ export default (auth0, storage) => {
   /*
    * move application.
    */
-  api.patch('/:id', requireScope('manage:applications'), (req, res, next) => {
-    moveApplication(req.params.id, req.query.direction, storage)
+  api.patch('/:id/:direction(-[0-9]*|[0-9]*)', requireScope('manage:applications'), (req, res, next) => {
+    moveApplication(req.params.id, parseInt(req.params.direction, 10), storage)
       .then(() => res.status(204).send())
       .catch(next);
   });

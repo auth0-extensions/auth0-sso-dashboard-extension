@@ -26,7 +26,7 @@ const storage = {
 
 describe('applications', () => {
   it('should move application UP', (done) => {
-    moveApplication('app3', 'up', storage)
+    moveApplication('app3', -1, storage)
       .then(() => {
         expect(Object.keys(storageData.applications)[0]).to.equal('app1');
         expect(Object.keys(storageData.applications)[1]).to.equal('app3');
@@ -36,7 +36,7 @@ describe('applications', () => {
   });
 
   it('should move application DOWN', (done) => {
-    moveApplication('app1', 'down', storage)
+    moveApplication('app1', 1, storage)
       .then(() => {
         expect(Object.keys(storageData.applications)[0]).to.equal('app3');
         expect(Object.keys(storageData.applications)[1]).to.equal('app1');
@@ -45,8 +45,18 @@ describe('applications', () => {
       });
   });
 
-  it('should NOT move FIRST application UP', (done) => {
-    moveApplication('app3', 'up', storage)
+  it('should move application UP to two positions', (done) => {
+    moveApplication('app2', -2, storage)
+      .then(() => {
+        expect(Object.keys(storageData.applications)[0]).to.equal('app2');
+        expect(Object.keys(storageData.applications)[1]).to.equal('app3');
+        expect(Object.keys(storageData.applications)[2]).to.equal('app1');
+        done();
+      });
+  });
+
+  it('should move application DOWN to two positions', (done) => {
+    moveApplication('app2', 2, storage)
       .then(() => {
         expect(Object.keys(storageData.applications)[0]).to.equal('app3');
         expect(Object.keys(storageData.applications)[1]).to.equal('app1');
@@ -55,12 +65,18 @@ describe('applications', () => {
       });
   });
 
-  it('should NOT move LAST application DOWN', (done) => {
-    moveApplication('app2', 'down', storage)
-      .then(() => {
-        expect(Object.keys(storageData.applications)[0]).to.equal('app3');
-        expect(Object.keys(storageData.applications)[1]).to.equal('app1');
-        expect(Object.keys(storageData.applications)[2]).to.equal('app2');
+  it('should return error when trying to move non-existing app', (done) => {
+    moveApplication('app4', 1, storage)
+      .catch((err) => {
+        expect(err.message).to.equal('Application "app4" not found.');
+        done();
+      });
+  });
+
+  it('should return error when trying to move app beyond the limits', (done) => {
+    moveApplication('app3', -3, storage)
+      .catch((err) => {
+        expect(err.message).to.equal('Application "app3" cannot be moved to "-3" position.');
         done();
       });
   });

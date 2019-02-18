@@ -1,4 +1,6 @@
 import Promise from 'bluebird';
+import { ArgumentError, NotFoundError } from 'auth0-extension-tools';
+
 import authenticationUrl from './authenticationUrl';
 
 /*
@@ -50,7 +52,11 @@ export const moveApplication = (id, direction, storage) =>
 
       const ids = Object.keys(data.applications);
       const currentPosition = ids.indexOf(id);
-      const newPosition = direction === 'up' ? currentPosition - 1 : currentPosition + 1;
+      const newPosition = currentPosition + direction;
+
+      if (currentPosition < 0) {
+        return Promise.reject(new NotFoundError(`Application "${id}" not found.`));
+      }
 
       if (newPosition >= 0 && newPosition < ids.length) {
         const reordered = {};
@@ -65,7 +71,7 @@ export const moveApplication = (id, direction, storage) =>
         return storage.write(data);
       }
 
-      return null;
+      return Promise.reject(new ArgumentError(`Application "${id}" cannot be moved to "${newPosition}" position.`));
     });
 
 /*
