@@ -1,6 +1,6 @@
 {
   "name": "auth0-sso-dashboard",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "This extension provides your users with a dashboard for all of their applications.",
   "engines": {
     "node": ">=4.x"
