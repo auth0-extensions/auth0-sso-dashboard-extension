@@ -1,7 +1,7 @@
 {
   "title": "SSO Dashboard",
   "name": "auth0-sso-dashboard",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "preVersion": "1.1.6",
   "author": "Auth0",
   "useHashName": false,
@@ -35,6 +35,11 @@
     "CUSTOM_CSS": {
       "description": "A CSS file containing custom styles for the extension",
       "example": "https://cdn.fabrikam.com/static/extensions/theme/fabrikam.css",
+      "required": false
+    },
+    "AUTH0_ISSUER_DOMAIN": {
+      "description": "Custom domain",
+      "example": "https://example.com",
       "required": false
     },
     "ALLOW_AUTHZ": {

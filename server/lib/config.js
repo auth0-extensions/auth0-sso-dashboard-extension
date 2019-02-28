@@ -20,6 +20,10 @@ const config = (key) => {
     throw new Error('A configuration provider has not been set');
   }
 
+  if (key === 'AUTH0_ISSUER_DOMAIN') {
+    return currentProvider('AUTH0_ISSUER_DOMAIN') || currentProvider('AUTH0_DOMAIN');
+  }
+
   return boolify(currentProvider(key));
 };
 
