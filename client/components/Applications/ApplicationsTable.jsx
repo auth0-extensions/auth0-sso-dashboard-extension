@@ -78,6 +78,7 @@ export default class ApplicationsTable extends Component {
           <TableBody>
             {Object.keys(applications).map((key) => {
               const application = applications[key];
+              const applicationId = applications[key].id;
               const logo = application.logo || 'https://cdn.auth0.com/manage/v0.3.1866/img/badge-grey.svg';
               const type = application.type;
               const enabled = application.enabled;
@@ -87,14 +88,14 @@ export default class ApplicationsTable extends Component {
               const loginUrl = application.loginUrl;
               rowIndex++;
               return (
-                <TableRow key={key}>
+                <TableRow key={applicationId}>
                   <TableCell>
                     <div>
                       <div className="logoBlockImage">
                         <img src={logo} alt={name} />
                       </div>
                       <div className="logoBlockInfo">
-                        <Link to={`/applications/${key}`}>
+                        <Link to={`/applications/${applicationId}`}>
                           <span className="application-name">{name}</span>
                         </Link>
                         <span className="application-type">{type}</span>
@@ -105,26 +106,26 @@ export default class ApplicationsTable extends Component {
                     <ul className="list-inline list-inline-apps">
                       <div
                         className={appClassName}
-                        onClick={() => this.enableDisableApp(key, application, enabled)}
+                        onClick={() => this.enableDisableApp(applicationId, application, enabled)}
                       >
                         {appButtonText}
                       </div>
                       <li title="Login" data-toggle="tooltip">
-                        <a href={loginUrl} target="_blank" key={key}>
+                        <a href={loginUrl} target="_blank" key={applicationId}>
                           <i className="icon-budicon-187" />
                         </a>
                       </li>
-                      {this.renderMoveButton(key, 'up', rowIndex, rowsTotal)}
-                      {this.renderMoveButton(key, 'down', rowIndex, rowsTotal)}
+                      {this.renderMoveButton(applicationId, 'up', rowIndex, rowsTotal)}
+                      {this.renderMoveButton(applicationId, 'down', rowIndex, rowsTotal)}
                       <li title="Edit" data-toggle="tooltip">
-                        <Link to={`/applications/${key}`}>
+                        <Link to={`/applications/${applicationId}`}>
                           <i className="icon-budicon-329" />
                         </Link>
                       </li>
                       <li title="Remove" data-toggle="tooltip">
                         <a
                           href="#" onClick={(e) => {
-                            this.props.requestDeleteApplication(key);
+                            this.props.requestDeleteApplication(applicationId);
                           }} className="remove-rule"
                         >
                           <i className="icon-budicon-471" />
