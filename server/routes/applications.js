@@ -50,11 +50,7 @@ export default (auth0, storage) => {
 
         return result;
       })
-      .then(apps => {
-        const result = [];
-        _.each(apps, (app, id) => result.push({ ...app, id }));
-        return res.json(result);
-      })
+      .then(apps => res.json(_.map(apps, (app, id) => ({ ...app, id }))))
       .catch(next);
   });
 
@@ -63,11 +59,7 @@ export default (auth0, storage) => {
    */
   api.get('/all', requireScope('manage:applications'), (req, res, next) => {
     storage.read()
-      .then(apps => {
-        const applications = [];
-        _.each(apps.applications || {}, (app, id) => applications.push({ ...app, id }));
-        return res.json(applications);
-      })
+      .then(apps => res.json(_.map(apps.applications || {}, (app, id) => ({ ...app, id }))))
       .catch(next);
   });
 

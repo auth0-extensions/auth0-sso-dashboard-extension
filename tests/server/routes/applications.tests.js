@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import expect from 'expect';
 import Promise from 'bluebird';
 import request from 'supertest';
@@ -104,7 +105,7 @@ describe('#applications router', () => {
         .expect(200)
         .end((err, res) => {
           if (err) throw err;
-          expect(res.body).toEqual(defaultApps);
+          expect(res.body).toEqual(_.map(defaultApps, (item, id) => ({ ...item, id })));
           done();
         });
     });
@@ -116,7 +117,7 @@ describe('#applications router', () => {
         .expect(200)
         .end((err, res) => {
           if (err) throw err;
-          expect(res.body).toEqual({ appOne: defaultApps.appOne });
+          expect(res.body).toEqual([ { ...defaultApps.appOne, id: 'appOne' } ]);
           done();
         });
     });
