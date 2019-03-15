@@ -19,6 +19,8 @@ Update the configuration file under `./server/config.json`:
 {
   "EXTENSION_CLIENT_ID": "client id of my app",
   "WT_URL": "http://localhost:3000/",
+  "PUBLIC_WT_URL": "https://localhost:3000/",
+  "AUTH0_RTA": "https://auth0.auth0.com",
   "AUTH0_DOMAIN": "me.auth0.com",
   "AUTH0_CLIENT_ID": "client id of my api client",
   "AUTH0_CLIENT_SECRET": "client secret of my api client"
@@ -42,7 +44,7 @@ Customers can choose to implement their custom style, to do so the following set
 ```json
 {
   "TITLE": "Fabrikam SSO Dashboard",
-  "CUSTOM_CSS": "https://cdn.jsdelivr.net/gh/auth0-extensions/auth0-delegated-administration-extension@master/docs/theme/fabrikam.css"
+  "CUSTOM_CSS": "https://cdn.jsdelivr.net/gh/auth0-extensions/auth0-sso-dashboard-extension@master/docs/theme/fabrikam.css"
 }
 ```
 

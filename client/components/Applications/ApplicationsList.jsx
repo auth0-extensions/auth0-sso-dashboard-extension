@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import varstring from 'varstring';
 
 export default class ApplicationsList extends Component {
@@ -21,10 +20,11 @@ export default class ApplicationsList extends Component {
       <div>
         {Object.keys(applications).map((key) => {
           const app = applications[key];
+          const appId = applications[key].id || key;
           const logo = (app.logo) ? app.logo : 'https://cdn.auth0.com/manage/v0.3.1866/img/badge-grey.svg';
-          const name = app.name || key;
+          const name = app.name || appId;
 
-          const link = app.customURLEnabled ? varstring(app.customURL, {
+          const link = app.customURLEnabled ? varstring(app.customURL || '', {
             domain: window.config.AUTH0_DOMAIN,
             connection: app.connection,
             client_id: app.client,
@@ -32,7 +32,7 @@ export default class ApplicationsList extends Component {
           }) : app.loginUrl;
 
           return (
-            <a href={link} rel="noopener noreferrer" target="_blank" key={key}>
+            <a href={link} rel="noopener noreferrer" target="_blank" key={appId}>
               <div className="user-app">
                 <div className="image-container">
                   <img className="img-circle" src={logo} alt={name} width="32" />

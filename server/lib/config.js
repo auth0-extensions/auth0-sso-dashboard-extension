@@ -1,16 +1,30 @@
 const settings = { };
 let currentProvider = null;
 
+
+const boolify = (item) => {
+  // as we're trying to "boolify" every secret, we need to make sure we're processing only boolean secrets
+  if (item === 'true' || item === 'false') {
+    return item === 'true';
+  }
+
+  return item;
+};
+
 const config = (key) => {
   if (settings && settings[key]) {
-    return settings[key];
+    return boolify(settings[key]);
   }
 
   if (!currentProvider) {
     throw new Error('A configuration provider has not been set');
   }
 
-  return currentProvider(key);
+  if (key === 'AUTH0_ISSUER_DOMAIN') {
+    return currentProvider('AUTH0_ISSUER_DOMAIN') || currentProvider('AUTH0_DOMAIN');
+  }
+
+  return boolify(currentProvider(key));
 };
 
 config.setProvider = (providerFunction) => {

@@ -1,4 +1,6 @@
 import Promise from 'bluebird';
+import { ArgumentError, NotFoundError } from 'auth0-extension-tools';
+
 import authenticationUrl from './authenticationUrl';
 
 /*
@@ -39,6 +41,38 @@ export const saveApplication = (id, body, storage) => new Promise((resolve, reje
     })
     .catch(reject);
 });
+
+/*
+ * Move application to rearrange order.
+ */
+export const moveApplication = (id, direction, storage) =>
+  storage.read()
+    .then(data => {
+      data.applications = data.applications || {}; // eslint-disable-line no-param-reassign
+
+      const ids = Object.keys(data.applications);
+      const currentPosition = ids.indexOf(id);
+      const newPosition = currentPosition + direction;
+
+      if (currentPosition < 0) {
+        return Promise.reject(new NotFoundError(`Application "${id}" not found.`));
+      }
+
+      if (newPosition >= 0 && newPosition < ids.length) {
+        const reordered = {};
+        ids.splice(newPosition, 0, ids.splice(currentPosition, 1)[0]);
+
+        ids.forEach((key) => {
+          reordered[key] = data.applications[key];
+        });
+
+        data.applications = reordered; // eslint-disable-line no-param-reassign
+
+        return storage.write(data);
+      }
+
+      return Promise.reject(new ArgumentError(`Application "${id}" cannot be moved to "${newPosition}" position.`));
+    });
 
 /*
  * Delete the application from webtask storage.

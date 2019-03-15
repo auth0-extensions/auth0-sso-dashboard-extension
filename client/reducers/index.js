@@ -14,6 +14,7 @@ import { updateAuthorization } from './updateAuthorization';
 import { createApplication } from './createApplication';
 import { updateApplication } from './updateApplication';
 import { deleteApplication } from './deleteApplication';
+import { moveApplication } from './moveApplication';
 
 export default combineReducers({
   routing: routerReducer,
@@ -29,5 +30,6 @@ export default combineReducers({
   createApplication,
   updateApplication,
   deleteApplication,
+  moveApplication,
   form: formReducer
 });
