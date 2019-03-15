@@ -44,7 +44,7 @@ Customers can choose to implement their custom style, to do so the following set
 ```json
 {
   "TITLE": "Fabrikam SSO Dashboard",
-  "CUSTOM_CSS": "https://rawgit.com/auth0-extensions/auth0-sso-dashboard-extension/master/docs/theme/fabrikam.css"
+  "CUSTOM_CSS": "https://cdn.jsdelivr.net/gh/auth0-extensions/auth0-sso-dashboard-extension@master/docs/theme/fabrikam.css"
 }
 ```
 

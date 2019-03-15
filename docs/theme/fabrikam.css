@@ -9,5 +9,5 @@ header.dashboard-header {
 
 header.dashboard-header nav #header {
   background-size: 50px 40px !important;
-  background-image: url("https://rawgit.com/auth0-extensions/auth0-delegated-administration-extension/master/docs/theme/fabrikam.svg") !important;
+  background-image: url("https://cdn.jsdelivr.net/gh/auth0-extensions/auth0-delegated-administration-extension@master/docs/theme/fabrikam.svg") !important;
 }
