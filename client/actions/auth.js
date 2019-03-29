@@ -4,13 +4,22 @@ import jwtDecode from 'jwt-decode';
 
 import * as constants from '../constants';
 
-const webAuth = new auth0.WebAuth({ // eslint-disable-line no-undef
-  domain: window.config.AUTH0_DOMAIN,
+const webAuthOptions = {
+  domain: window.config.AUTH0_CUSTOM_DOMAIN,
   clientID: window.config.AUTH0_CLIENT_ID,
   responseType: 'id_token token',
   scope: 'openid name email nickname read:applications',
   audience: 'urn:auth0-sso-dashboard'
-});
+};
+
+if (window.config.IS_APPLIANCE) {
+  webAuthOptions.overrides = {
+    __tenant: window.config.AUTH0_DOMAIN.split('.')[0],
+    __token_issuer: `https://${window.config.AUTH0_DOMAIN}/`
+  };
+}
+
+const webAuth = new auth0.WebAuth(webAuthOptions); // eslint-disable-line no-undef
 
 export function login() {
   if (!window.location.hash) {

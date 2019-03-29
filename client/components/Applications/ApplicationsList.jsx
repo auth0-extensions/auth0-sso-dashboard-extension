@@ -25,7 +25,7 @@ export default class ApplicationsList extends Component {
           const name = app.name || appId;
 
           const link = app.customURLEnabled ? varstring(app.customURL || '', {
-            domain: window.config.AUTH0_DOMAIN,
+            domain: window.config.AUTH0_CUSTOM_DOMAIN,
             connection: app.connection,
             client_id: app.client,
             callback: app.callback

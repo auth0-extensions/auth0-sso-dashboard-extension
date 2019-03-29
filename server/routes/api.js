@@ -13,7 +13,7 @@ export default (storage) => {
 
   // Allow end users to authenticate.
   api.use(middlewares.authenticateUsers.optional({
-    domain: config('AUTH0_ISSUER_DOMAIN'),
+    domain: config('IS_APPLIANCE') ? config('AUTH0_DOMAIN') : config('AUTH0_ISSUER_DOMAIN'),
     audience: config('API_AUDIENCE') || 'urn:auth0-sso-dashboard',
     credentialsRequired: false,
     onLoginSuccess: (req, res, next) => {
