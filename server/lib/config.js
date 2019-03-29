@@ -24,6 +24,10 @@ const config = (key) => {
     return currentProvider('AUTH0_ISSUER_DOMAIN') || currentProvider('AUTH0_DOMAIN');
   }
 
+  if (key === 'IS_APPLIANCE') {
+    return config('AUTH0_RTA') && config('AUTH0_RTA').replace('https://', '') !== 'auth0.auth0.com';
+  }
+
   return boolify(currentProvider(key));
 };
 
