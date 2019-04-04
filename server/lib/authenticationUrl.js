@@ -1,6 +1,6 @@
 import config from './config';
 
-module.exports = (app) => {
+export default (app) => {
   const authProtocol = app.type;
   const callback = app.callback || '';
   const domain = config('AUTH0_ISSUER_DOMAIN');

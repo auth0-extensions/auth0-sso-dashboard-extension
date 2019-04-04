@@ -1,6 +1,6 @@
 {
   "name": "auth0-sso-dashboard",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "This extension provides your users with a dashboard for all of their applications.",
   "engines": {
     "node": ">=4.x"
@@ -114,23 +114,8 @@
     "winston": "^2.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.44",
-    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.44",
-    "@babel/plugin-proposal-export-default-from": "^7.0.0-beta.44",
-    "@babel/plugin-proposal-export-namespace-from": "^7.0.0-beta.44",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.44",
-    "@babel/plugin-syntax-dynamic-import": "7.0.0-beta.44",
-    "@babel/plugin-transform-runtime": "^7.0.0-beta.44",
-    "@babel/polyfill": "7.0.0-beta.44",
-    "@babel/preset-env": "^7.0.0-beta.44",
-    "@babel/preset-react": "^7.0.0-beta.44",
-    "@babel/register": "7.0.0-beta.44",
-    "@babel/runtime": "^7.0.0-beta.44",
-    "auth0-extensions-cli": "^1.1.0",
+    "auth0-extensions-cli": "^1.4.0",
     "autoprefixer": "^6.5.1",
-    "babel-eslint": "7.1.1",
-    "babel-loader": "^8.0.0-beta",
-    "babel-polyfill": "^6.26.0",
     "chai": "^3.5.0",
     "classnames": "^2.2.5",
     "cross-env": "^3.1.3",

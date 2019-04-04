@@ -1,7 +1,7 @@
 const url = require('url');
 const tools = require('auth0-extension-express-tools');
 
-const expressApp = require('./server');
+const expressApp = require('./server').default;
 const config = require('./server/lib/config');
 const logger = require('./server/lib/logger');
 const webtask = require('./server/lib/webtask');

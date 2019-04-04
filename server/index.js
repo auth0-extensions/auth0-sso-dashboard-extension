@@ -13,7 +13,7 @@ import logger from './lib/logger';
 import config from './lib/config';
 import htmlRoute from './routes/html';
 
-module.exports = (configProvider, storageProvider) => {
+export default (configProvider, storageProvider) => {
   config.setProvider(configProvider);
 
   const storage = storageProvider

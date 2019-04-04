@@ -40,7 +40,7 @@ nconf
   });
 
 // Start the server.
-const app = require('./server')((key) => nconf.get(key), null);
+const app = require('./server').default((key) => nconf.get(key), null);
 
 app.listen(nconf.get('PORT'), (error) => {
   if (error) {

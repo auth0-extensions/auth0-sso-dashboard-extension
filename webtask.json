@@ -1,7 +1,7 @@
 {
   "title": "SSO Dashboard",
   "name": "auth0-sso-dashboard",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "preVersion": "2.1.1",
   "author": "Auth0",
   "useHashName": false,
@@ -39,7 +39,7 @@
     },
     "AUTH0_ISSUER_DOMAIN": {
       "description": "Custom domain",
-      "example": "https://example.com",
+      "example": "example.com",
       "required": false
     },
     "ALLOW_AUTHZ": {
