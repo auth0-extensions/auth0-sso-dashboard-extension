@@ -37,7 +37,7 @@
       "example": "https://cdn.fabrikam.com/static/extensions/theme/fabrikam.css",
       "required": false
     },
-    "AUTH0_ISSUER_DOMAIN": {
+    "AUTH0_CUSTOM_DOMAIN": {
       "description": "Custom domain",
       "example": "example.com",
       "required": false
