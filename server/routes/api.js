@@ -11,15 +11,9 @@ import authorization from './authorization';
 export default (storage) => {
   const api = Router();
 
-
-  let domain = config('AUTH0_CUSTOM_DOMAIN') || config('AUTH0_ISSUER_DOMAIN');
-  if (config('IS_APPLIANCE')) {
-    domain = config('AUTH0_DOMAIN');
-  }
-
   // Allow end users to authenticate.
   api.use(middlewares.authenticateUsers.optional({
-    domain,
+    domain: config('IS_APPLIANCE') ? config('AUTH0_DOMAIN') : config('AUTH0_CUSTOM_DOMAIN'),
     audience: config('API_AUDIENCE') || 'urn:auth0-sso-dashboard',
     credentialsRequired: false,
     onLoginSuccess: (req, res, next) => {

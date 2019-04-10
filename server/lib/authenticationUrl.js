@@ -3,7 +3,7 @@ import config from './config';
 export default (app) => {
   const authProtocol = app.type;
   const callback = app.callback || '';
-  const domain = config('AUTH0_CUSTOM_DOMAIN') || config('AUTH0_ISSUER_DOMAIN');
+  const domain = config('AUTH0_CUSTOM_DOMAIN');
   const clientId = app.client;
   const responseType = app.response_type || 'code';
   const scope = app.scope || 'openid';

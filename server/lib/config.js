@@ -21,7 +21,7 @@ const config = (key) => {
   }
 
   if (key === 'AUTH0_CUSTOM_DOMAIN') {
-    return currentProvider('AUTH0_CUSTOM_DOMAIN') || currentProvider('AUTH0_ISSUER_DOMAIN') || currentProvider('AUTH0_DOMAIN');
+    return currentProvider('AUTH0_CUSTOM_DOMAIN') || currentProvider('AUTH0_DOMAIN');
   }
 
   if (key === 'IS_APPLIANCE') {
