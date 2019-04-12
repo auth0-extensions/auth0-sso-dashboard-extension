@@ -5,7 +5,7 @@ import express from 'express';
 
 import connections from '../../../server/routes/connections';
 
-describe.skip('#connections router', () => {
+describe('#connections router', () => {
   const defaultConnections = [
     {
       name: 'connection-a'
