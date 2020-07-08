@@ -135,8 +135,16 @@ const getToken = (req) => {
 
 const makeRequest = (req, path, method, payload) =>
   new Promise((resolve, reject) => getToken(req).then((token) => {
-    request(method, `https://${config('AUTH0_DOMAIN')}/api/v2/${path}`)
-      .send(payload || {})
+    let request = request(method, `https://${config('AUTH0_DOMAIN')}/api/v2/${path}`);
+    if (method === 'GET') {
+      if (payload) {
+        request = request.query(payload);
+      }
+    } else {
+      request = request.send(payload || {})
+    }
+
+    request
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${token}`)
       .end((err, res) => {
@@ -183,7 +191,7 @@ export const deleteResourceServer = req =>
     });
 
 const getGrantId = req =>
-  makeRequest(req, 'client-grants', 'GET')
+  makeRequest(req, 'client-grants', 'GET', { client_id: config('AUTH0_CLIENT_ID'), audience: 'urn:auth0-authz-api' })
     .then(grants => grants.filter(item => (item.client_id === config('AUTH0_CLIENT_ID') && item.audience === 'urn:auth0-authz-api')))
     .then(grants => grants[0] && grants[0].id);
 
