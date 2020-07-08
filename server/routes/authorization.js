@@ -4,10 +4,10 @@ import config from '../lib/config';
 import * as authorization from '../lib/authorization';
 import { requireScope } from '../lib/middlewares';
 
-export default (storage) => {
+export default (auth0, storage) => {
   const api = Router();
 
-  api.get('/', requireScope('manage:authorization'), (req, res, next) => {
+  api.get('/', auth0, requireScope('manage:authorization'), (req, res, next) => {
     if (!config('ALLOW_AUTHZ')) {
       return res.json({ authorizationApiAvailable: false });
     }
@@ -17,7 +17,7 @@ export default (storage) => {
       .catch(next);
   });
 
-  api.post('/', requireScope('manage:authorization'), (req, res, next) => {
+  api.post('/', auth0, requireScope('manage:authorization'), (req, res, next) => {
     if (!config('ALLOW_AUTHZ')) {
       return next();
     }
@@ -27,7 +27,7 @@ export default (storage) => {
       .catch(next);
   });
 
-  api.delete('/', requireScope('manage:authorization'), (req, res, next) => {
+  api.delete('/', auth0, requireScope('manage:authorization'), (req, res, next) => {
     if (!config('ALLOW_AUTHZ')) {
       return next();
     }

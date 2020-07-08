@@ -6,6 +6,7 @@ import { managementApi, ValidationError } from 'auth0-extension-tools';
 
 import config from './config';
 import logger from './logger';
+import multipartRequest from './multipartRequest';
 
 
 const getAuthorizationApiUrl = () => {
@@ -135,21 +136,17 @@ const getToken = (req) => {
 
 const makeRequest = (req, path, method, payload) =>
   new Promise((resolve, reject) => getToken(req).then((token) => {
-    let request = request(method, `https://${config('AUTH0_DOMAIN')}/api/v2/${path}`);
-    if (method === 'GET') {
-      if (payload) {
-        request = request.query(payload);
-      }
-    } else {
-      request = request.send(payload || {})
-    }
-
-    request
+    request(method, `https://${config('AUTH0_DOMAIN')}/api/v2/${path}`)
+      .query(method === 'GET' ? payload : {})
+      .send(method === 'GET' ? null : payload || {})
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${token}`)
       .end((err, res) => {
         if (err) {
-          logger.error(res.body);
+          if (res && res.body) {
+            logger.error(res.body);
+          }
+
           return reject(err);
         }
 
@@ -159,7 +156,7 @@ const makeRequest = (req, path, method, payload) =>
 );
 
 export const getResourceServer = (req, audience) =>
-  makeRequest(req, 'resource-servers', 'GET')
+  multipartRequest(req.auth0, 'resourceServers')
     .then((apis) => {
       const api = apis.filter(item => item.identifier === audience);
       return api.length && api[0];
