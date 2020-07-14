@@ -1,3 +1,4 @@
+import { snakeCase } from 'lodash';
 import Promise from 'bluebird';
 import { ArgumentError } from 'auth0-extension-tools';
 
@@ -21,7 +22,7 @@ export default function (client, entity, opts = {}, perPage = 100, concurrency =
       .then((response) => {
         total = response.total || 0;
         pageCount = Math.ceil(total / perPage);
-        const data = response[entity] || response || [];
+        const data = response[entity] || response[snakeCase(entity)] || response || [];
         data.forEach(item => result.push(item));
         return null;
       });

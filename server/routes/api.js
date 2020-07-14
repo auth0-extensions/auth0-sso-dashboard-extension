@@ -43,7 +43,7 @@ export default (storage) => {
   });
   api.use('/applications', applications(auth0, storage));
   api.use('/groups', groups(storage));
-  api.use('/authorization', authorization(storage));
+  api.use('/authorization', authorization(auth0, storage));
   api.use('/connections', connections(auth0));
   api.get('/status', (req, res) => {
     res.json({ isAdmin: (req.user.scope && req.user.scope.indexOf('manage:applications') > -1) });
