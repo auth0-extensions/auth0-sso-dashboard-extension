@@ -80,7 +80,7 @@
     "immutable": "^3.8.1",
     "jwt-decode": "^2.0.1",
     "lodash": "^4.17.19",
-    "lru-memoizer": "1.10.0",
+    "lru-memoizer": "1.11.2",
     "morgan": "^1.7.0",
     "nconf": "^0.8.4",
     "react": "^0.14.8",
