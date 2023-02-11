@@ -144,7 +144,7 @@
     "url-loader": "^1.0.1",
     "webpack": "^4.5.0",
     "webpack-bundle-analyzer": "^2.11.1",
-    "webpack-cli": "^2.0.14",
+    "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^3.1.4",
     "webpack-serve": "^0.3.1",
     "webpack-stats-plugin": "^0.2.1"
