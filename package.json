@@ -100,7 +100,7 @@
     "winston": "^2.2.0"
   },
   "devDependencies": {
-    "auth0-extensions-cli": "^1.4.0",
+    "auth0-extensions-cli": "^4.0.4",
     "autoprefixer": "^6.5.1",
     "chai": "^3.5.0",
     "classnames": "^2.2.5",
