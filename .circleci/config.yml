@@ -10,7 +10,7 @@ references:
 
   node_container: &node_container
     docker:
-      - image: circleci/node:8.9
+      - image: cimg/node:18.17.1
 
   attach_workspace: &attach_workspace
     attach_workspace:
@@ -40,7 +40,7 @@ jobs:
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             chmod +x ./cc-test-reporter
 
-      - run: npm install
+      - run: npm install --legacy-peer-deps
 
       # code climate requires before-build and after-build to be executed around test
       - run:

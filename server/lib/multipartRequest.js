@@ -11,7 +11,7 @@ export default function (client, entity, opts = {}, perPage = 100, concurrency =
     throw new ArgumentError('Must provide a valid entity for auth0 client.');
   }
 
-  const getter = client[entity].getAll;
+  const getter = client[entity].getAll.bind(client[entity]);
   const options = { ...opts, per_page: perPage };
   const result = [];
   let total = 0;
