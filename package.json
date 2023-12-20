@@ -93,10 +93,10 @@
     "redux-promise-middleware": "^4.1.0",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
-    "superagent": "^3.5.2",
+    "superagent": "^7.0.2",
     "uuid": "^2.0.3",
     "varstring": "^0.2.0",
-    "webtask-tools": "^3.1.1",
+    "webtask-tools": "^3.4.1",
     "winston": "^2.2.0"
   },
   "devDependencies": {
