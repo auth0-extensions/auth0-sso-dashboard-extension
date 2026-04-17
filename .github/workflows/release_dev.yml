@@ -1,6 +1,6 @@
 name: Release Develop
 on: 
-  workflow_dispatch
+  workflow_dispatch:
   push:
         branches:
           - rework_ci
