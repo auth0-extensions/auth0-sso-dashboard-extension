@@ -1,0 +1,63 @@
+{
+  "title": "SSO Dashboard",
+  "name": "auth0-sso-dashboard",
+  "version": "2.4.2",
+  "preVersion": "2.2.1",
+  "author": "Auth0",
+  "useHashName": false,
+  "description": "This extension provides your users with a dashboard for all of their applications.",
+  "type": "application",
+  "category": "end_user",
+  "logoUrl": "https://cdn.auth0.com/extensions/auth0-sso-dashboard/assets/logo.svg",
+  "initialUrlPath": "/admins/login",
+  "repository": "https://github.com/auth0-extensions/auth0-sso-dashboard-extension",
+  "keywords": [
+    "auth0",
+    "extension"
+  ],
+  "auth0": {
+    "createClient": true,
+    "onUninstallPath": "/.extensions/on-uninstall",
+    "onInstallPath": "/.extensions/on-install",
+    "onUpdatePath": "/.extensions/on-update",
+    "scopes": "read:clients delete:clients read:connections read:resource_servers create:resource_servers read:client_grants create:client_grants delete:client_grants"
+  },
+  "secrets": {
+    "EXTENSION_CLIENT_ID": {
+      "description": "Client ID of the application you created in the Auth0 Management Dashboard",
+      "required": true
+    },
+    "TITLE": {
+      "description": "Custom title for the dashboard",
+      "example": "Fabrikam SSO Dashboard",
+      "required": false
+    },
+    "CUSTOM_CSS": {
+      "description": "A CSS file containing custom styles for the extension",
+      "example": "https://cdn.fabrikam.com/static/extensions/theme/fabrikam.css",
+      "required": false
+    },
+    "AUTH0_CUSTOM_DOMAIN": {
+      "description": "Custom domain",
+      "example": "example.com",
+      "required": false,
+      "former": "AUTH0_ISSUER_DOMAIN"
+    },
+    "ALLOW_AUTHZ": {
+      "description": "Allow enabling of Authorization Extension integration (Deprecated)",
+      "type": "select",
+      "allowMultiple": false,
+      "default": "false",
+      "options": [
+        {
+          "value": "false",
+          "text": "No"
+        },
+        {
+          "value": "true",
+          "text": "Yes"
+        }
+      ]
+    }
+  }
+}
