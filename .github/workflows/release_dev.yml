@@ -1,0 +1,9 @@
+name: Release Develop
+on: workflow_dispatch
+jobs:
+  call-cdn-upload:
+    uses: ./.github/workflows/cdn-upload.yml
+    secrets:
+      aws_role: ${{ secrets.awsIAMS3UploadDevRole }}
+    with:
+      target: "dev"
