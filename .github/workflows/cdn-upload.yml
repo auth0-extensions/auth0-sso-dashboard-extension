@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  workflow_call:
+    secrets:
+      aws_role:
+        required: true
+    inputs:
+      target:
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502 # v4 on 2025-01-06
+        with:
+          role-to-assume: ${{ secrets.aws_role }}
+          role-session-name: github-action-sso-dashboard-extension-deployer
+          aws-region: us-west-1
+
+      - name: Upload to CND
+        run: tools/cdn.sh ${{ inputs.target }}
