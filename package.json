@@ -73,7 +73,7 @@
     "axios": "^0.31.0",
     "bluebird": "^3.4.0",
     "body-parser": "^1.15.1",
-    "ejs": "^2.4.2",
+    "ejs": "^3.1.10",
     "express": "^4.17.0",
     "history": "^2.1.2",
     "immutable": "^3.8.1",
