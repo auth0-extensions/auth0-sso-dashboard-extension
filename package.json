@@ -3,14 +3,14 @@
   "version": "2.5.0",
   "description": "This extension provides your users with a dashboard for all of their applications.",
   "engines": {
-    "node": ">=4.x"
+    "node": ">=22"
   },
   "main": "server.js",
   "scripts": {
     "build": "npm run clean && npm run client:build && npm run extension:build",
     "clean": "rimraf dist",
-    "client:build": "npm run clean && cross-env NODE_ENV=production webpack --config ./build/webpack/config.js --colors -p",
-    "extension:build": "a0-ext build:server ./webtask.js ./dist && cp ./dist/$npm_package_name.extension.$npm_package_version.js ./build/bundle.js && cp ./webtask.json ./dist/webtask.json",
+    "client:build": "npm run clean && cross-env NODE_ENV=production NODE_OPTIONS=--openssl-legacy-provider webpack --config ./build/webpack/config.js --colors -p",
+    "extension:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider a0-ext build:server ./webtask.js ./dist && cp ./dist/$npm_package_name.extension.$npm_package_version.js ./build/bundle.js && cp ./webtask.json ./dist/webtask.json",
     "lint:js": "eslint --ignore-path .gitignore --ignore-pattern build --ignore-pattern webpack .",
     "serve:prod": "cross-env NODE_ENV=production node index.js",
     "tag": "git tag $npm_package_version && git push --tags",
@@ -103,7 +103,7 @@
     "json-loader": "^0.5.4",
     "mini-css-extract-plugin": "0.4.0",
     "mocha": "3.2.0",
-    "nock": "^9.0.2",
+    "nock": "^13.5.6",
     "nyc": "^13.1.0",
     "postcss-focus": "^3.0.0",
     "postcss-loader": "^2.1.3",
