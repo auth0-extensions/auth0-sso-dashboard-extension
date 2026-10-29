@@ -11,7 +11,8 @@ export default function (client, entity, opts = {}, perPage = 100, concurrency =
     throw new ArgumentError('Must provide a valid entity for auth0 client.');
   }
 
-  const getter = client[entity].getAll;
+  // Call through the manager: newer SDK versions define getAll as a method that relies on `this`.
+  const getter = params => client[entity].getAll(params);
   const options = { ...opts, per_page: perPage };
   const result = [];
   let total = 0;
